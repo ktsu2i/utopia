@@ -6,7 +6,7 @@ import axios from 'axios';
 const useTest = () => {
   const [data, setData] = useState(null);
   const [error, setError] = useState<Error | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -16,14 +16,14 @@ const useTest = () => {
       } catch (error) {
         setError(error as Error);
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     };
 
     fetchData();
   }, []);
 
-  return { data, error, loading };
+  return { data, error, isLoading };
 };
 
 export default useTest;
