@@ -1,9 +1,9 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-# import pymysql
+import pymysql
 
-DATABASE_URL = "mysql://admin:admin@localhost:3306/utopia_dev"
+DATABASE_URL = "mysql+pymysql://admin:admin@localhost:3306/utopia_dev"
 
 Engine = create_engine(DATABASE_URL, encoding="utf-8", echo=True)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=Engine)
