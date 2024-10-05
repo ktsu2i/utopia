@@ -1,9 +1,5 @@
-import useTest from "@/hooks/useTest";
-
-export default async function Home() {
-  const { data } = useTest();
-
+export default function Home() {
   return (
-    <h1>{data}</h1>
+    <h1>Home</h1>
   );
 }
