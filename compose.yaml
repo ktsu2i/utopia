@@ -19,9 +19,9 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     ports:
-      - "8080:8080"
+      - "1323:1323"
     volumes:
-      - ./backend/app:/code/app
+      - ./backend:/code
     depends_on:
       - db
     networks:
@@ -38,6 +38,11 @@ services:
       - MYSQL_DATABASE=utopia_dev
       - MYSQL_USER=admin
       - MYSQL_PASSWORD=admin
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
     networks:
       - utopia-network
 
