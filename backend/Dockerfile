@@ -1,11 +1,13 @@
-FROM python:3.11.10-bookworm
+FROM golang:1.23-bookworm
 
 WORKDIR /code
 
-COPY ./requirements.txt /code/requirements.txt
+RUN go install github.com/air-verse/air@latest
 
-RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+COPY go.mod go.sum /code/
+RUN go mod download
 
-COPY ./app /code/app
+COPY . /code
+COPY .air.toml /code/.air.toml
 
-CMD ["uvicorn", "app.main:app", "--port", "8080", "--reload"]
+CMD ["air", "-c", ".air.toml"]
