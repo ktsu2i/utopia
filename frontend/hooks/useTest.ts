@@ -2,9 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { TestType } from '@/lib/types';
 
 const useTest = () => {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState<TestType | null>(null);
   const [error, setError] = useState<Error | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 

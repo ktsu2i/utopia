@@ -6,5 +6,5 @@ export default function Test() {
   const { data } = useTest();
   console.log(data);
 
-  return <div>test</div>
+  return <div>{data?.message}</div>
 }
