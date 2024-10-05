@@ -1,18 +1,7 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import useTest from "@/hooks/useTest";
 
 export default async function Home() {
-  const [data, setData] = useState();
-
-  useEffect(() => {
-    axios.get("./api/test")
-      .then((res) => {
-        setData(res.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      })
-  }, []);
+  const { data } = useTest();
 
   return (
     <h1>{data}</h1>
