@@ -33,7 +33,7 @@ services:
       - db_data:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=mysql
+      - MYSQL_DATABASE=utopia_dev
       - MYSQL_USER=admin
       - MYSQL_PASSWORD=admin
     networks:
