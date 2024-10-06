@@ -2,7 +2,6 @@ package main
 
 import (
 	"backend/db"
-	"backend/routes"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -11,14 +10,15 @@ import (
 func main() {
 	db.Init()
 	e := echo.New()
-	routes.RegisterRoutes(e)
+
+	// CORS settings
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		AllowOrigins: []string{"http://localhost:3000"},
 	}))
-	// e.GET("/", func(c echo.Context) error {
-	// 	return c.JSON(http.StatusOK, map[string]string{
-	// 		"message": "Hello, World!",
-	// 	})
-	// })
+
+	// API routes
+	route(e)
+
+	// Run server
 	e.Logger.Fatal(e.Start(":1323"))
 }
