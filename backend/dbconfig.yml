@@ -1,0 +1,4 @@
+development:
+  dialect: mysql
+  datasource: admin:admin@tcp(utopia_db:3306)/utopia_dev?parseTime=true
+  dir: ./migrations/ 
