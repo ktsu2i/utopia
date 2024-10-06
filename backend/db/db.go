@@ -1,6 +1,8 @@
 package db
 
 import (
+	"log"
+
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -14,6 +16,8 @@ func Init() {
 	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
 	if err != nil {
-		panic("Failed to connect to database")
+		log.Fatal("Failed to connect to database")
 	}
+
+	log.Println("Successfully connected to database with gorm!")
 }
