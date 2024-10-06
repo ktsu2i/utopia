@@ -21,7 +21,7 @@ services:
       dockerfile: Dockerfile
     container_name: utopia_backend
     ports:
-      - "1323:1323"
+      - "8080:8080"
     volumes:
       - ./backend:/code
     depends_on:
