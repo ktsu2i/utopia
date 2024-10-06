@@ -17,8 +17,10 @@ In today's society, many people use social media daily, often leading to negativ
 - Backend:
   - Golang
   - Echo
+  - Air
+  - Gorm
   - MySQL
-  - groq for LLM API (model: Llama 3 Groq 70B)
+  - Groq for LLM API (model: Llama 3 Groq 70B)
 
 - Infrastructure
   - Docker
