@@ -10,4 +10,5 @@ func route(e *echo.Echo) {
 	api := e.Group("/api")
 	api.GET("/users", handlers.GetAllUsers)
 	api.GET("/users/:id", handlers.GetUserById)
+	api.POST("/sign-up", handlers.CreateUser)
 }
