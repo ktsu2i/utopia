@@ -17,6 +17,11 @@ type SignUpParams struct {
 	Password string `json:"password"`
 }
 
+type LoginParams struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
 // DB
 type User struct {
 	ID             string    `json:"id"`
@@ -59,4 +64,12 @@ func SignUp(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
 	}
 	return c.JSON(http.StatusOK, map[string]string{"message": "successfully registered"})
+}
+
+func Login(c echo.Context) error {
+	u := LoginParams{}
+	if err := c.Bind(&u); err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{"message": err.Error()})
+	}
+	return c.JSON(http.StatusOK, map[string]string{"message": "successfully logged in"})
 }
