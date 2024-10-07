@@ -18,7 +18,7 @@ func hash(password string) (string, error) {
 	return string(hashed), nil
 }
 
-func CreateUser(c echo.Context) error {
+func SignUp(c echo.Context) error {
 	var req models.UserParams
 	if err := c.Bind(&req); err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
