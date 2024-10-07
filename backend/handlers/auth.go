@@ -136,3 +136,13 @@ func Login(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, map[string]string{"message": "successfully logged in"})
 }
+
+func Logout(c echo.Context) error {
+	cookie := &http.Cookie{
+		Name:    "token",
+		Value:   "",
+		Expires: time.Unix(0, 0),
+	}
+	c.SetCookie(cookie)
+	return c.JSON(http.StatusOK, map[string]string{"message": "successfully logged out"})
+}
