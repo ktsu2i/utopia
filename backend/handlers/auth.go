@@ -49,6 +49,20 @@ func hash(password string) (string, error) {
 	return string(hashed), nil
 }
 
+func ValidateToken(c echo.Context) error {
+	token, ok := c.Get("user").(*jwt.Token)
+	if !ok {
+		return c.JSON(http.StatusUnauthorized, map[string]string{"message": "Unauthorized"})
+	}
+
+	claims, ok := token.Claims.(*AccountClaims)
+	if !ok {
+		return c.JSON(http.StatusUnauthorized, map[string]string{"message": "Unauthorized"})
+	}
+
+	return c.JSON(http.StatusOK, map[string]string{"id": claims.ID})
+}
+
 func SignUp(c echo.Context) error {
 	var req SignUpParams
 	if err := c.Bind(&req); err != nil {
