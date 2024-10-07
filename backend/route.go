@@ -8,7 +8,8 @@ import (
 
 func route(e *echo.Echo) {
 	api := e.Group("/api")
+	api.POST("/sign-up", handlers.SignUp)
+	api.POST("/login", handlers.Login)
 	api.GET("/users", handlers.GetAllUsers)
 	api.GET("/users/:id", handlers.GetUserById)
-	api.POST("/sign-up", handlers.SignUp)
 }
