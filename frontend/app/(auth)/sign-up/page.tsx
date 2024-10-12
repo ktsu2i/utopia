@@ -3,15 +3,16 @@
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import Link from "next/link";
+
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 const isStrongPassword = (password: string): boolean => {
   const regex = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/;
@@ -138,6 +139,10 @@ export default function SignUp() {
             <Button variant="utopia" size="lg" className="w-full">Sign up</Button>
           </form>
         </Form>
+        <div className="flex justify-center space-x-2">
+          <p className="text-center">Already have an account?</p>
+          <Link href="/login" className="text-blue-500">Login</Link>
+        </div>
       </div>
     </div>
   );
