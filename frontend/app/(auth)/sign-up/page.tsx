@@ -11,6 +11,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 const isStrongPassword = (password: string): boolean => {
   const regex = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/;
@@ -63,17 +64,19 @@ export default function SignUp() {
 
   const onSubmit = (data: z.infer<typeof SignUpSchema>) => {
     try {
-      axios.post("http://localhost:8080/api/sign-up", data);
+      // eslint-disable-next-line
+      const res = axios.post("http://localhost:8080/api/sign-up", data);
       router.push("/");
+      toast.success("Welcome to Utopia!");
     } catch {
-      // error handling
+      toast.error("Something went wrong.");
     }
   }
 
   return (
     <div className="h-full flex justify-center items-center">
       <div className="flex flex-col w-1/3 space-y-4">
-        <h1 className="text-2xl font-bold">Sign up</h1>
+        <h1 className="text-2xl font-bold">Welcome to Utopia!</h1>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
