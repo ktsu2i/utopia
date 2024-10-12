@@ -9,6 +9,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const isStrongPassword = (password: string): boolean => {
   const regex = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/;
@@ -48,6 +50,7 @@ const SignUpSchema = z.object({
 
 export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof SignUpSchema>>({
     resolver: zodResolver(SignUpSchema),
@@ -59,7 +62,12 @@ export default function SignUp() {
   })
 
   const onSubmit = (data: z.infer<typeof SignUpSchema>) => {
-    return data;
+    try {
+      axios.post("http://localhost:8080/api/sign-up", data);
+      router.push("/");
+    } catch {
+      // error handling
+    }
   }
 
   return (
