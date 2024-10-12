@@ -76,7 +76,7 @@ export default function SignUp() {
   return (
     <div className="h-full flex justify-center items-center">
       <div className="flex flex-col w-1/3 space-y-4">
-        <h1 className="text-2xl font-bold">Sign up</h1>
+        <h1 className="text-2xl font-bold">Welcome to Utopia!</h1>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
