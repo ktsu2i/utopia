@@ -7,11 +7,12 @@ import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import Link from "next/link";
 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import toast from "react-hot-toast";
 
 const isStrongPassword = (password: string): boolean => {
   const regex = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/;
@@ -118,6 +119,10 @@ export default function Login() {
             <Button variant="utopia" size="lg" className="w-full">Login</Button>
           </form>
         </Form>
+        <div className="flex justify-center space-x-2">
+          <p className="text-center">Don&apos;t have an account?</p>
+          <Link href="/sign-up" className="text-blue-500">Sign up</Link>
+        </div>
       </div>
     </div>
   );
