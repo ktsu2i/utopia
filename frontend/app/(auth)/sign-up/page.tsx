@@ -10,6 +10,12 @@ import { Button } from "@/components/ui/button";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 
+const isStrongPassword = (password: string): boolean => {
+  const regex = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/;
+  
+  return regex.test(password);
+}
+
 const SignUpSchema = z.object({
   username: z
     .string()
@@ -34,6 +40,9 @@ const SignUpSchema = z.object({
     .trim()
     .min(8, {
       message: "Password must be at least 8 characters."
+    })
+    .refine(isStrongPassword, {
+      message: "Password must contain a-z, A-Z, 0-9, and !@#$%^&*.",
     })
 });
 
