@@ -12,7 +12,7 @@ const useTest = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/");
+        const response = await axios.get("http://localhost:8080/api/users");
         setData(response.data);
       } catch (error) {
         setError(error as Error);
