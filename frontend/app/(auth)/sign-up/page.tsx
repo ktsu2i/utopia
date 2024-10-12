@@ -104,7 +104,10 @@ export default function SignUp() {
                           className="absolute right-0 top-1/2 transform -translate-y-1/2"
                           onClick={() => setShowPassword(!showPassword)}
                         >
-                          {showPassword ? <Eye color="gray" /> : <EyeOff color="gray" />}
+                          {showPassword ?
+                            <Eye color="gray" className="h-5 w-5" /> :
+                            <EyeOff color="gray" className="h-5 w-5" />
+                          }
                         </Button>
                       </div>
                     </FormControl>
