@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import toast from "react-hot-toast";
 
 const isStrongPassword = (password: string): boolean => {
   const regex = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/;
@@ -58,8 +59,9 @@ export default function Login() {
     try {
       axios.post("http://localhost:8080/api/login", data);
       router.push("/");
+      toast.success("You're successfully logged in!");
     } catch {
-      // error handling
+      toast.error("Something went wrong");
     }
   }
 
