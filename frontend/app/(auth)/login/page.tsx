@@ -55,11 +55,15 @@ export default function Login() {
     }
   })
 
-  const onSubmit = (data: z.infer<typeof LoginSchema>) => {
+  const onSubmit = async (data: z.infer<typeof LoginSchema>) => {
     try {
-      axios.post("http://localhost:8080/api/login", data);
-      router.push("/");
-      toast.success("You're successfully logged in!");
+      const res = await axios.post("http://localhost:8080/api/login", data);
+      if (res.status === 200) {
+        toast.success("You're successfully logged in!");
+        router.push("/");
+      } else {
+        toast.error("Failed to login.");
+      }
     } catch {
       toast.error("Something went wrong");
     }
