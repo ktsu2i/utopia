@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"backend/db"
+	"fmt"
 	"net/http"
 	"time"
 
@@ -50,8 +51,17 @@ func hash(password string) (string, error) {
 }
 
 func ValidateToken(c echo.Context) error {
+	// fmt.Println("validating...")
+	// cookie, err := c.Cookie("token")
+	// if err != nil {
+	// 	return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
+	// }
+	// fmt.Println(cookie.Value)
+	cookie, _ := c.Cookie("token")
+	fmt.Println(cookie)
+
 	token, ok := c.Get("user").(*jwt.Token)
-	if !ok {
+	if !ok || !token.Valid {
 		return c.JSON(http.StatusUnauthorized, map[string]string{"message": "Unauthorized"})
 	}
 
@@ -105,6 +115,11 @@ func SignUp(c echo.Context) error {
 		Name:     "token",
 		Value:    t,
 		HttpOnly: true,
+		Secure:   false, // c.Scheme() == "https"
+		MaxAge:   3600,  // 1 hour
+		Path:     "/",
+		Domain:   "localhost",
+		SameSite: http.SameSiteStrictMode,
 	}
 	c.SetCookie(cookie)
 
@@ -145,6 +160,11 @@ func Login(c echo.Context) error {
 		Name:     "token",
 		Value:    t,
 		HttpOnly: true,
+		Secure:   false, // c.Scheme() == "https"
+		// MaxAge:   3600,  // 1 hour
+		Expires:  time.Now().Add(time.Hour * 1),
+		Path:     "/",
+		SameSite: http.SameSiteLaxMode,
 	}
 	c.SetCookie(cookie)
 
@@ -153,9 +173,13 @@ func Login(c echo.Context) error {
 
 func Logout(c echo.Context) error {
 	cookie := &http.Cookie{
-		Name:    "token",
-		Value:   "",
-		Expires: time.Unix(0, 0),
+		Name:     "token",
+		Value:    "",
+		HttpOnly: true,
+		Secure:   false,
+		Expires:  time.Unix(0, 0),
+		Path:     "/",
+		SameSite: http.SameSiteLaxMode,
 	}
 	c.SetCookie(cookie)
 	return c.JSON(http.StatusOK, map[string]string{"message": "successfully logged out"})

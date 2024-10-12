@@ -33,7 +33,7 @@ func main() {
 		},
 		Skipper: func(c echo.Context) bool {
 			path := c.Path()
-			return path == "/api/sign-up" || path == "/api/login"
+			return path == "/api/sign-up" || path == "/api/login" || path == "/api/logout"
 		},
 	}))
 
