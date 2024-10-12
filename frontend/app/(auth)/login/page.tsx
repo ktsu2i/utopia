@@ -57,13 +57,10 @@ export default function Login() {
 
   const onSubmit = async (data: z.infer<typeof LoginSchema>) => {
     try {
+      // eslint-disable-next-line
       const res = await axios.post("http://localhost:8080/api/login", data);
-      if (res.status === 200) {
-        toast.success("You're successfully logged in!");
-        router.push("/");
-      } else {
-        toast.error("Failed to login.");
-      }
+      toast.success("You're successfully logged in!");
+      router.push("/");
     } catch {
       toast.error("Something went wrong");
     }
