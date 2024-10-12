@@ -67,7 +67,7 @@ export default function SignUp() {
       // eslint-disable-next-line
       const res = axios.post("http://localhost:8080/api/sign-up", data);
       router.push("/");
-      toast.success("Welcome to Utopia!!");
+      toast.success("Welcome to Utopia!");
     } catch {
       toast.error("Something went wrong.");
     }
