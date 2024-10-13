@@ -18,4 +18,5 @@ func route(e *echo.Echo) {
 	api.GET("/validate-token", handlers.ValidateToken)
 	api.GET("/users", handlers.GetAllUsers)
 	api.GET("/users/:id", handlers.GetUserById)
+	api.DELETE("/users/:id", handlers.DeleteUserById)
 }

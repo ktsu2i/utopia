@@ -23,3 +23,12 @@ func GetUserById(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, u)
 }
+
+func DeleteUserById(c echo.Context) error {
+	id := c.Param("id")
+	err := models.DeleteUserById(id)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
+	}
+	return c.JSON(http.StatusOK, map[string]string{"message": "User deleted successfully"})
+}
