@@ -59,7 +59,7 @@ export default function Login() {
   const onSubmit = async (data: z.infer<typeof LoginSchema>) => {
     try {
       // eslint-disable-next-line
-      const res = await axios.post("http://localhost:8080/api/login", data);
+      const res = await axios.post("http://localhost:8080/api/login", data, { withCredentials: true });
       toast.success("You're successfully logged in!");
       router.push("/");
     } catch {

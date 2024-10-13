@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"backend/db"
+	"fmt"
 	"net/http"
 	"time"
 
@@ -50,13 +51,23 @@ func hash(password string) (string, error) {
 }
 
 func ValidateToken(c echo.Context) error {
-	token, ok := c.Get("user").(*jwt.Token)
-	if !ok {
+	cookie, err := c.Cookie("token")
+	if err != nil {
+		return c.JSON(http.StatusUnauthorized, map[string]string{"message": "Unauthorized"})
+	}
+
+	token, err := jwt.ParseWithClaims(cookie.Value, &AccountClaims{}, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
+		}
+		return []byte("secret"), nil
+	})
+	if err != nil {
 		return c.JSON(http.StatusUnauthorized, map[string]string{"message": "Unauthorized"})
 	}
 
 	claims, ok := token.Claims.(*AccountClaims)
-	if !ok {
+	if !ok || !token.Valid {
 		return c.JSON(http.StatusUnauthorized, map[string]string{"message": "Unauthorized"})
 	}
 
@@ -105,6 +116,11 @@ func SignUp(c echo.Context) error {
 		Name:     "token",
 		Value:    t,
 		HttpOnly: true,
+		Secure:   c.Scheme() == "https",
+		MaxAge:   3600, // 1 hour
+		Path:     "/",
+		Domain:   "localhost",
+		SameSite: http.SameSiteStrictMode,
 	}
 	c.SetCookie(cookie)
 
@@ -145,6 +161,10 @@ func Login(c echo.Context) error {
 		Name:     "token",
 		Value:    t,
 		HttpOnly: true,
+		Secure:   c.Scheme() == "https",
+		MaxAge:   3600, // 1 hour
+		Path:     "/",
+		SameSite: http.SameSiteLaxMode,
 	}
 	c.SetCookie(cookie)
 
@@ -153,9 +173,13 @@ func Login(c echo.Context) error {
 
 func Logout(c echo.Context) error {
 	cookie := &http.Cookie{
-		Name:    "token",
-		Value:   "",
-		Expires: time.Unix(0, 0),
+		Name:     "token",
+		Value:    "",
+		HttpOnly: true,
+		Secure:   false,
+		Expires:  time.Unix(0, 0),
+		Path:     "/",
+		SameSite: http.SameSiteLaxMode,
 	}
 	c.SetCookie(cookie)
 	return c.JSON(http.StatusOK, map[string]string{"message": "successfully logged out"})
