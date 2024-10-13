@@ -116,8 +116,8 @@ func SignUp(c echo.Context) error {
 		Name:     "token",
 		Value:    t,
 		HttpOnly: true,
-		Secure:   false, // c.Scheme() == "https"
-		MaxAge:   3600,  // 1 hour
+		Secure:   c.Scheme() == "https",
+		MaxAge:   3600, // 1 hour
 		Path:     "/",
 		Domain:   "localhost",
 		SameSite: http.SameSiteStrictMode,
@@ -161,9 +161,8 @@ func Login(c echo.Context) error {
 		Name:     "token",
 		Value:    t,
 		HttpOnly: true,
-		Secure:   false, // c.Scheme() == "https"
-		// MaxAge:   3600,  // 1 hour
-		Expires:  time.Now().Add(time.Hour * 1),
+		Secure:   c.Scheme() == "https",
+		MaxAge:   3600, // 1 hour
 		Path:     "/",
 		SameSite: http.SameSiteLaxMode,
 	}
