@@ -1,28 +1,21 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import axios from "axios";
-import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
+import useAuth from "@/hooks/useAuth";
 
 export default function Demo() {
-  const router = useRouter();
+  const { isAuthenticated, logout } = useAuth();
 
-  const onSubmit = async () => {
-    try {
-      // eslint-disable-next-line
-      const res = await axios.post("http://localhost:8080/api/logout", null, { withCredentials: true });
-      router.push("/login");
-      toast.success("See you later!");
-    } catch {
-      toast.error("Something went wrong.");
-    }
+  if (isAuthenticated === null) {
+    return <div>Loading...</div>
   }
+
+  if (!isAuthenticated) return null;
 
   return (
     <>
       <h1>Demo page</h1>
-      <Button onClick={onSubmit}>Logout</Button>
+      <Button onClick={logout}>Logout</Button>
     </>
   )
 }

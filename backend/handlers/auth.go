@@ -51,22 +51,23 @@ func hash(password string) (string, error) {
 }
 
 func ValidateToken(c echo.Context) error {
-	// fmt.Println("validating...")
-	// cookie, err := c.Cookie("token")
-	// if err != nil {
-	// 	return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
-	// }
-	// fmt.Println(cookie.Value)
-	cookie, _ := c.Cookie("token")
-	fmt.Println(cookie)
+	cookie, err := c.Cookie("token")
+	if err != nil {
+		return c.JSON(http.StatusUnauthorized, map[string]string{"message": "Unauthorized"})
+	}
 
-	token, ok := c.Get("user").(*jwt.Token)
-	if !ok || !token.Valid {
+	token, err := jwt.ParseWithClaims(cookie.Value, &AccountClaims{}, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
+		}
+		return []byte("secret"), nil
+	})
+	if err != nil {
 		return c.JSON(http.StatusUnauthorized, map[string]string{"message": "Unauthorized"})
 	}
 
 	claims, ok := token.Claims.(*AccountClaims)
-	if !ok {
+	if !ok || !token.Valid {
 		return c.JSON(http.StatusUnauthorized, map[string]string{"message": "Unauthorized"})
 	}
 
