@@ -20,7 +20,7 @@ export default function useAuth() {
     }
 
     checkAuth();
-  }, [isAuthenticated, router]);
+  }, [router]);
 
   const logout = async () => {
     try {
