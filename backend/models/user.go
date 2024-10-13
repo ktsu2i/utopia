@@ -78,3 +78,10 @@ func GetUserById(id string) (*UserResult, error) {
 	}
 	return &res, nil
 }
+
+func DeleteUserById(id string) error {
+	if db.DB.Where("id = ?", id).Delete(&User{}).RowsAffected == 0 {
+		return echo.ErrNotFound
+	}
+	return nil
+}
