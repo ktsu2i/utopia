@@ -22,30 +22,6 @@ func hash(password string) (string, error) {
 	return string(hashed), nil
 }
 
-func ValidateToken(c echo.Context) error {
-	cookie, err := c.Cookie("token")
-	if err != nil {
-		return refreshToken(c)
-	}
-
-	token, err := jwt.ParseWithClaims(cookie.Value, &models.AccountClaims{}, func(token *jwt.Token) (interface{}, error) {
-		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
-		}
-		return []byte(os.Getenv("JWT_SECRET")), nil
-	})
-	if err != nil || !token.Valid {
-		return refreshToken(c)
-	}
-
-	claims, ok := token.Claims.(*models.AccountClaims)
-	if !ok {
-		return refreshToken(c)
-	}
-
-	return c.JSON(http.StatusOK, map[string]string{"id": claims.ID})
-}
-
 func refreshToken(c echo.Context) error {
 	cookie, err := c.Cookie("refresh_token")
 	if err != nil {
@@ -93,6 +69,30 @@ func refreshToken(c echo.Context) error {
 	c.SetCookie(cookie)
 
 	return c.JSON(http.StatusOK, map[string]string{"id": newClaims.ID})
+}
+
+func ValidateToken(c echo.Context) error {
+	cookie, err := c.Cookie("token")
+	if err != nil {
+		return refreshToken(c)
+	}
+
+	token, err := jwt.ParseWithClaims(cookie.Value, &models.AccountClaims{}, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
+		}
+		return []byte(os.Getenv("JWT_SECRET")), nil
+	})
+	if err != nil || !token.Valid {
+		return refreshToken(c)
+	}
+
+	claims, ok := token.Claims.(*models.AccountClaims)
+	if !ok {
+		return refreshToken(c)
+	}
+
+	return c.JSON(http.StatusOK, map[string]string{"id": claims.ID})
 }
 
 func SignUp(c echo.Context) error {
