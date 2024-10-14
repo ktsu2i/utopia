@@ -225,5 +225,17 @@ func Logout(c echo.Context) error {
 		SameSite: http.SameSiteLaxMode,
 	}
 	c.SetCookie(cookie)
+
+	refreshCookie := &http.Cookie{
+		Name:     "refresh_token",
+		Value:    "",
+		HttpOnly: true,
+		Secure:   c.Scheme() == "https",
+		Expires:  time.Unix(0, 0),
+		Path:     "/",
+		SameSite: http.SameSiteLaxMode,
+	}
+	c.SetCookie(refreshCookie)
+
 	return c.JSON(http.StatusOK, map[string]string{"message": "successfully logged out"})
 }
