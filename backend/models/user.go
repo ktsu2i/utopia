@@ -39,24 +39,6 @@ type UserResult struct {
 	UpdatedAt time.Time `json:"updatedAt"`
 }
 
-func GetUserById(id string) (*UserResult, error) {
-	u := User{}
-	if db.DB.Where("id = ?", id).First(&u).Error != nil {
-		return nil, echo.ErrNotFound
-	}
-
-	res := UserResult{
-		ID:        u.ID,
-		FirstName: u.FirstName,
-		LastName:  u.LastName,
-		Username:  u.Username,
-		Email:     u.Email,
-		CreatedAt: u.CreatedAt,
-		UpdatedAt: u.UpdatedAt,
-	}
-	return &res, nil
-}
-
 func DeleteUserById(id string) error {
 	if db.DB.Where("id = ?", id).Delete(&User{}).RowsAffected == 0 {
 		return echo.ErrNotFound

@@ -9,7 +9,6 @@ import (
 )
 
 func GetAllUsers(c echo.Context) error {
-	// us, err := models.GetAllUsers()
 	us := []models.User{}
 	if db.DB.Find(&us).Error != nil {
 		return c.JSON(http.StatusNotFound, map[string]string{"message": "Users not found"})
@@ -33,11 +32,21 @@ func GetAllUsers(c echo.Context) error {
 
 func GetUserById(c echo.Context) error {
 	id := c.Param("id")
-	u, err := models.GetUserById(id)
-	if err != nil {
-		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
+	u := models.User{}
+	if db.DB.Where("id = ?", id).First(&u).Error != nil {
+		return c.JSON(http.StatusNotFound, map[string]string{"message": "User not found"})
 	}
-	return c.JSON(http.StatusOK, u)
+
+	res := models.UserResult{
+		ID:        u.ID,
+		FirstName: u.FirstName,
+		LastName:  u.LastName,
+		Username:  u.Username,
+		Email:     u.Email,
+		CreatedAt: u.CreatedAt,
+		UpdatedAt: u.UpdatedAt,
+	}
+	return c.JSON(http.StatusOK, res)
 }
 
 func DeleteUserById(c echo.Context) error {
