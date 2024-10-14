@@ -1,10 +1,7 @@
 package models
 
 import (
-	"backend/db"
 	"time"
-
-	"github.com/labstack/echo/v4"
 )
 
 // Request
@@ -37,51 +34,4 @@ type UserResult struct {
 	Email     string    `json:"email"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
-}
-
-func GetAllUsers() ([]UserResult, error) {
-	us := []User{}
-	if db.DB.Find(&us).Error != nil {
-		return nil, echo.ErrNotFound
-	}
-
-	res := []UserResult{}
-	for _, u := range us {
-		r := UserResult{
-			ID:        u.ID,
-			FirstName: u.FirstName,
-			LastName:  u.LastName,
-			Username:  u.Username,
-			Email:     u.Email,
-			CreatedAt: u.CreatedAt,
-			UpdatedAt: u.UpdatedAt,
-		}
-		res = append(res, r)
-	}
-	return res, nil
-}
-
-func GetUserById(id string) (*UserResult, error) {
-	u := User{}
-	if db.DB.Where("id = ?", id).First(&u).Error != nil {
-		return nil, echo.ErrNotFound
-	}
-
-	res := UserResult{
-		ID:        u.ID,
-		FirstName: u.FirstName,
-		LastName:  u.LastName,
-		Username:  u.Username,
-		Email:     u.Email,
-		CreatedAt: u.CreatedAt,
-		UpdatedAt: u.UpdatedAt,
-	}
-	return &res, nil
-}
-
-func DeleteUserById(id string) error {
-	if db.DB.Where("id = ?", id).Delete(&User{}).RowsAffected == 0 {
-		return echo.ErrNotFound
-	}
-	return nil
 }
