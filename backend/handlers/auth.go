@@ -46,6 +46,55 @@ func ValidateToken(c echo.Context) error {
 	return c.JSON(http.StatusOK, map[string]string{"id": claims.ID})
 }
 
+func refreshToken(c echo.Context) error {
+	cookie, err := c.Cookie("refresh_token")
+	if err != nil {
+		return c.JSON(http.StatusUnauthorized, map[string]string{"message": "Unauthorized"})
+	}
+
+	token, err := jwt.ParseWithClaims(cookie.Value, &models.AccountClaims{}, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
+		}
+		return []byte(os.Getenv("JWT_SECRET")), nil
+	})
+	if err != nil {
+		return c.JSON(http.StatusUnauthorized, map[string]string{"message": "Unauthorized"})
+	}
+
+	claims, ok := token.Claims.(*models.AccountClaims)
+	if !ok || !token.Valid {
+		return c.JSON(http.StatusUnauthorized, map[string]string{"message": "Unauthorized"})
+	}
+
+	newClaims := &models.AccountClaims{
+		ID: claims.ID,
+		RegisteredClaims: jwt.RegisteredClaims{
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour * 1)),
+		},
+	}
+
+	// Create new JWT
+	token = jwt.NewWithClaims(jwt.SigningMethodHS256, newClaims)
+	t, err := token.SignedString([]byte(os.Getenv("JWT_SECRET")))
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
+	}
+
+	// Set new JWT to HTTP-Only cookie
+	cookie = &http.Cookie{
+		Name:     "token",
+		Value:    t,
+		HttpOnly: true,
+		Secure:   c.Scheme() == "https",
+		Path:     "/",
+		SameSite: http.SameSiteLaxMode,
+	}
+	c.SetCookie(cookie)
+
+	return c.JSON(http.StatusOK, map[string]string{"message": "Successfully refreshed token"})
+}
+
 func SignUp(c echo.Context) error {
 	var req models.SignUpParams
 	if err := c.Bind(&req); err != nil {
