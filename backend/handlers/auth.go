@@ -89,7 +89,6 @@ func SignUp(c echo.Context) error {
 		Value:    t,
 		HttpOnly: true,
 		Secure:   c.Scheme() == "https",
-		MaxAge:   3600, // 1 hour
 		Path:     "/",
 		Domain:   "localhost",
 		SameSite: http.SameSiteStrictMode,
@@ -134,7 +133,6 @@ func Login(c echo.Context) error {
 		Value:    t,
 		HttpOnly: true,
 		Secure:   c.Scheme() == "https",
-		MaxAge:   3600, // 1 hour
 		Path:     "/",
 		SameSite: http.SameSiteLaxMode,
 	}
