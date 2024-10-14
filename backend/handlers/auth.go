@@ -25,7 +25,7 @@ func hash(password string) (string, error) {
 func ValidateToken(c echo.Context) error {
 	cookie, err := c.Cookie("token")
 	if err != nil {
-		return c.JSON(http.StatusUnauthorized, map[string]string{"message": "Unauthorized"})
+		return refreshToken(c)
 	}
 
 	token, err := jwt.ParseWithClaims(cookie.Value, &models.AccountClaims{}, func(token *jwt.Token) (interface{}, error) {
@@ -34,13 +34,13 @@ func ValidateToken(c echo.Context) error {
 		}
 		return []byte(os.Getenv("JWT_SECRET")), nil
 	})
-	if err != nil {
-		return c.JSON(http.StatusUnauthorized, map[string]string{"message": "Unauthorized"})
+	if err != nil || !token.Valid {
+		return refreshToken(c)
 	}
 
 	claims, ok := token.Claims.(*models.AccountClaims)
-	if !ok || !token.Valid {
-		return c.JSON(http.StatusUnauthorized, map[string]string{"message": "Unauthorized"})
+	if !ok {
+		return refreshToken(c)
 	}
 
 	return c.JSON(http.StatusOK, map[string]string{"id": claims.ID})
@@ -92,7 +92,7 @@ func refreshToken(c echo.Context) error {
 	}
 	c.SetCookie(cookie)
 
-	return c.JSON(http.StatusOK, map[string]string{"message": "Successfully refreshed token"})
+	return c.JSON(http.StatusOK, map[string]string{"id": newClaims.ID})
 }
 
 func SignUp(c echo.Context) error {
@@ -140,7 +140,7 @@ func SignUp(c echo.Context) error {
 		Secure:   c.Scheme() == "https",
 		Path:     "/",
 		Domain:   "localhost",
-		SameSite: http.SameSiteStrictMode,
+		SameSite: http.SameSiteLaxMode,
 	}
 	c.SetCookie(cookie)
 
@@ -165,7 +165,7 @@ func Login(c echo.Context) error {
 	claims := &models.AccountClaims{
 		ID: u.ID,
 		RegisteredClaims: jwt.RegisteredClaims{
-			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour * 1)),
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Minute * 1)),
 		},
 	}
 
@@ -186,6 +186,30 @@ func Login(c echo.Context) error {
 		SameSite: http.SameSiteLaxMode,
 	}
 	c.SetCookie(cookie)
+
+	// Create refresh token
+	refreshClaims := &models.AccountClaims{
+		ID: u.ID,
+		RegisteredClaims: jwt.RegisteredClaims{
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour * 24 * 7)),
+		},
+	}
+	newToken := jwt.NewWithClaims(jwt.SigningMethodHS256, refreshClaims)
+	rt, err := newToken.SignedString([]byte(os.Getenv("JWT_SECRET")))
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
+	}
+
+	// Set refresh token to HTTP-Only Cookie
+	refreshCookie := &http.Cookie{
+		Name:     "refresh_token",
+		Value:    rt,
+		HttpOnly: true,
+		Secure:   c.Scheme() == "https",
+		Path:     "/",
+		SameSite: http.SameSiteLaxMode,
+	}
+	c.SetCookie(refreshCookie)
 
 	return c.JSON(http.StatusOK, map[string]string{"message": "successfully logged in"})
 }
