@@ -51,9 +51,8 @@ func GetUserById(c echo.Context) error {
 
 func DeleteUserById(c echo.Context) error {
 	id := c.Param("id")
-	err := models.DeleteUserById(id)
-	if err != nil {
-		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
+	if db.DB.Where("id = ?", id).Delete(&models.User{}).RowsAffected == 0 {
+		return c.JSON(http.StatusNotFound, map[string]string{"message": "User not found"})
 	}
 	return c.JSON(http.StatusOK, map[string]string{"message": "User deleted successfully"})
 }

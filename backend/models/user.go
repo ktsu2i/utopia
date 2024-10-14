@@ -1,10 +1,7 @@
 package models
 
 import (
-	"backend/db"
 	"time"
-
-	"github.com/labstack/echo/v4"
 )
 
 // Request
@@ -37,11 +34,4 @@ type UserResult struct {
 	Email     string    `json:"email"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
-}
-
-func DeleteUserById(id string) error {
-	if db.DB.Where("id = ?", id).Delete(&User{}).RowsAffected == 0 {
-		return echo.ErrNotFound
-	}
-	return nil
 }
