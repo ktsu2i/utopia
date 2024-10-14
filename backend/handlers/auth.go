@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"backend/db"
+	"backend/models"
 	"fmt"
 	"net/http"
 	"os"
@@ -12,36 +13,6 @@ import (
 	"github.com/labstack/echo/v4"
 	"golang.org/x/crypto/bcrypt"
 )
-
-// Request
-type SignUpParams struct {
-	Username string `json:"username"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
-}
-
-type LoginParams struct {
-	Email    string `json:"email"`
-	Password string `json:"password"`
-}
-
-// JWT claims
-type AccountClaims struct {
-	ID string `json:"id"`
-	jwt.RegisteredClaims
-}
-
-// DB
-type User struct {
-	ID             string    `json:"id"`
-	FirstName      string    `json:"firstName"`
-	LastName       string    `json:"lastName"`
-	Username       string    `json:"username"`
-	Email          string    `json:"email"`
-	HashedPassword string    `json:"hashed_password"`
-	CreatedAt      time.Time `json:"createdAt"`
-	UpdatedAt      time.Time `json:"updatedAt"`
-}
 
 func hash(password string) (string, error) {
 	hashed, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
@@ -57,7 +28,7 @@ func ValidateToken(c echo.Context) error {
 		return c.JSON(http.StatusUnauthorized, map[string]string{"message": "Unauthorized"})
 	}
 
-	token, err := jwt.ParseWithClaims(cookie.Value, &AccountClaims{}, func(token *jwt.Token) (interface{}, error) {
+	token, err := jwt.ParseWithClaims(cookie.Value, &models.AccountClaims{}, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 		}
@@ -67,7 +38,7 @@ func ValidateToken(c echo.Context) error {
 		return c.JSON(http.StatusUnauthorized, map[string]string{"message": "Unauthorized"})
 	}
 
-	claims, ok := token.Claims.(*AccountClaims)
+	claims, ok := token.Claims.(*models.AccountClaims)
 	if !ok || !token.Valid {
 		return c.JSON(http.StatusUnauthorized, map[string]string{"message": "Unauthorized"})
 	}
@@ -76,7 +47,7 @@ func ValidateToken(c echo.Context) error {
 }
 
 func SignUp(c echo.Context) error {
-	var req SignUpParams
+	var req models.SignUpParams
 	if err := c.Bind(&req); err != nil {
 		return c.JSON(http.StatusBadRequest, map[string]string{"message": err.Error()})
 	}
@@ -86,7 +57,7 @@ func SignUp(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
 	}
 
-	u := User{
+	u := models.User{
 		ID:             uuid.NewString(),
 		Username:       req.Username,
 		Email:          req.Email,
@@ -98,7 +69,7 @@ func SignUp(c echo.Context) error {
 	}
 
 	// Create JWT claims
-	claims := &AccountClaims{
+	claims := &models.AccountClaims{
 		ID: u.ID,
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour * 1)),
@@ -129,12 +100,12 @@ func SignUp(c echo.Context) error {
 }
 
 func Login(c echo.Context) error {
-	var req LoginParams
+	var req models.LoginParams
 	if err := c.Bind(&req); err != nil {
 		return c.JSON(http.StatusBadRequest, map[string]string{"message": err.Error()})
 	}
 
-	var u User
+	var u models.User
 	if err := db.DB.Where("email = ?", req.Email).First(&u).Error; err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"message": "No user found"})
 	}
@@ -143,7 +114,7 @@ func Login(c echo.Context) error {
 	}
 
 	// Create JWT claims
-	claims := &AccountClaims{
+	claims := &models.AccountClaims{
 		ID: u.ID,
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour * 1)),
