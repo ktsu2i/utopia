@@ -146,7 +146,7 @@ func Logout(c echo.Context) error {
 		Name:     "token",
 		Value:    "",
 		HttpOnly: true,
-		Secure:   false,
+		Secure:   c.Scheme() == "https",
 		Expires:  time.Unix(0, 0),
 		Path:     "/",
 		SameSite: http.SameSiteLaxMode,
