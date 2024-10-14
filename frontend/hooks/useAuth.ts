@@ -1,10 +1,11 @@
 "use client";
 
 import axios from "axios";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function useAuth() {
+  const pathname = usePathname();
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const router = useRouter();
 
@@ -15,12 +16,14 @@ export default function useAuth() {
         setIsAuthenticated(true);
       } catch {
         setIsAuthenticated(false);
-        router.push("/login");
+        if (pathname !== "/home") {
+          router.push("/login");
+        }
       }
     }
 
     checkAuth();
-  }, [router]);
+  }, [pathname, router]);
 
   const logout = async () => {
     try {
@@ -28,7 +31,9 @@ export default function useAuth() {
         withCredentials: true,
       });
       setIsAuthenticated(false);
-      router.push("/login");
+      if (pathname !== "/home") {
+        router.push("/login");
+      }
     } catch (error) {
       console.log(error);
     }
