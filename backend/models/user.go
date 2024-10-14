@@ -39,28 +39,6 @@ type UserResult struct {
 	UpdatedAt time.Time `json:"updatedAt"`
 }
 
-func GetAllUsers() ([]UserResult, error) {
-	us := []User{}
-	if db.DB.Find(&us).Error != nil {
-		return nil, echo.ErrNotFound
-	}
-
-	res := []UserResult{}
-	for _, u := range us {
-		r := UserResult{
-			ID:        u.ID,
-			FirstName: u.FirstName,
-			LastName:  u.LastName,
-			Username:  u.Username,
-			Email:     u.Email,
-			CreatedAt: u.CreatedAt,
-			UpdatedAt: u.UpdatedAt,
-		}
-		res = append(res, r)
-	}
-	return res, nil
-}
-
 func GetUserById(id string) (*UserResult, error) {
 	u := User{}
 	if db.DB.Where("id = ?", id).First(&u).Error != nil {

@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"backend/db"
 	"backend/models"
 	"net/http"
 
@@ -8,11 +9,26 @@ import (
 )
 
 func GetAllUsers(c echo.Context) error {
-	us, err := models.GetAllUsers()
-	if err != nil {
-		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
+	// us, err := models.GetAllUsers()
+	us := []models.User{}
+	if db.DB.Find(&us).Error != nil {
+		return c.JSON(http.StatusNotFound, map[string]string{"message": "Users not found"})
 	}
-	return c.JSON(http.StatusOK, us)
+
+	res := []models.UserResult{}
+	for _, u := range us {
+		r := models.UserResult{
+			ID:        u.ID,
+			FirstName: u.FirstName,
+			LastName:  u.LastName,
+			Username:  u.Username,
+			Email:     u.Email,
+			CreatedAt: u.CreatedAt,
+			UpdatedAt: u.UpdatedAt,
+		}
+		res = append(res, r)
+	}
+	return c.JSON(http.StatusOK, res)
 }
 
 func GetUserById(c echo.Context) error {
