@@ -13,9 +13,9 @@ export default function Demo() {
   if (!isAuthenticated) return null;
 
   return (
-    <>
+    <div className="flex items-center justify-center">
       <h1>Demo page</h1>
       <Button onClick={logout}>Logout</Button>
-    </>
+    </div>
   )
 }
