@@ -11,6 +11,11 @@ export default function Home() {
   const router = useRouter();
   const { isAuthenticated, logout } = useAuth();
 
+  const handleLogout = () => {
+    logout();
+    router.push("/login");
+  };
+
   if (isAuthenticated === null) {
     return (
       <div className="h-full flex items-center justify-center">
@@ -27,14 +32,13 @@ export default function Home() {
       <Button type="button" variant="utopia" className="mb-5">
         <Link href="/demo">Go to demo page</Link>
       </Button>
-      {isAuthenticated && (
-        <Button
-          onClick={() => {
-            logout();
-            router.push("/login");
-          }}
-        >
+      {isAuthenticated ? (
+        <Button onClick={handleLogout}>
           Logout
+        </Button>
+      ) : (
+        <Button>
+          <Link href="/sign-up">Sign up</Link>
         </Button>
       )}
     </div>
