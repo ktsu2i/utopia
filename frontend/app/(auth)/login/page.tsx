@@ -69,7 +69,7 @@ export default function Login() {
 
   return (
     <div className="h-full flex justify-center items-center">
-      <div className="flex flex-col w-1/3 space-y-4">
+      <div className="flex flex-col w-4/5 md:w-2/5 xl:w-1/4 space-y-4">
         <h1 className="text-2xl font-bold">Welcome Back!</h1>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -120,8 +120,7 @@ export default function Login() {
           </form>
         </Form>
         <div className="flex justify-center space-x-2">
-          <p className="text-center">Don&apos;t have an account?</p>
-          <Link href="/sign-up" className="text-blue-500">Sign up</Link>
+          <p className="text-center">Don&apos;t have an account? <Link href="/sign-up" className="text-blue-500">Sign up</Link></p>
         </div>
       </div>
     </div>
