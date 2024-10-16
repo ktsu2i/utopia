@@ -13,7 +13,7 @@ export default function Demo() {
       <div className="h-full flex items-center justify-center">
         <TailSpin color="#FF9933" />
       </div>
-    )
+    );
   }
 
   if (!isAuthenticated) return null;
