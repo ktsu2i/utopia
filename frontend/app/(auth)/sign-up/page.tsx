@@ -10,15 +10,11 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import Link from "next/link";
 
+import { isStrongPassword } from "@/lib/validations";
+
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-
-const isStrongPassword = (password: string): boolean => {
-  const regex = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/;
-  
-  return regex.test(password);
-}
 
 const SignUpSchema = z.object({
   username: z
