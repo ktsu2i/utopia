@@ -24,24 +24,14 @@ const LoginSchema = z.object({
   email: z
     .string()
     .trim()
-    .min(1, {
-      message: "Please enter your email address."
-    })
-    .email({
-      message: "Invalid email address."
-    })
-    .max(254, {
-      message: "Too long email address."
-    }),
+    .min(1, { message: "Please enter your email address." })
+    .email({ message: "Invalid email address." })
+    .max(254, { message: "Too long email address." }),
   password: z
     .string()
     .trim()
-    .min(8, {
-      message: "Password must be at least 8 characters."
-    })
-    .refine(isStrongPassword, {
-      message: "Password must contain a-z, A-Z, 0-9, and !@#$%^&*.",
-    })
+    .min(8, { message: "Password must be at least 8 characters." })
+    .refine(isStrongPassword, { message: "Password must contain a-z, A-Z, 0-9, and !@#$%^&*." }),
 });
 
 export default function Login() {
