@@ -10,26 +10,18 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import Link from "next/link";
 
+import { isStrongPassword } from "@/lib/validations";
+
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-
-const isStrongPassword = (password: string): boolean => {
-  const regex = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/;
-  
-  return regex.test(password);
-}
 
 const SignUpSchema = z.object({
   username: z
     .string()
     .trim()
-    .min(5, {
-      message: "Username must be at least 5 characters."
-    })
-    .regex(/^[a-z0-9_-]+$/, {
-      message: "Username can only contain a-z, 0-9, _, and -."
-    })
+    .min(5, {  message: "Username must be at least 5 characters." })
+    .regex(/^[a-z0-9_-]+$/, { message: "Username can only contain a-z, 0-9, _, and -." })
     .refine(async (username) => {
       try {
         await axios.post("http://localhost:8080/api/check-username-exists", { username });
@@ -41,24 +33,14 @@ const SignUpSchema = z.object({
   email: z
     .string()
     .trim()
-    .min(1, {
-      message: "Please enter your email address."
-    })
-    .email({
-      message: "Invalid email address."
-    })
-    .max(254, {
-      message: "Too long email address."
-    }),
+    .min(1, { message: "Please enter your email address." })
+    .email({ message: "Invalid email address." })
+    .max(254, { message: "Too long email address." }),
   password: z
     .string()
     .trim()
-    .min(8, {
-      message: "Password must be at least 8 characters."
-    })
-    .refine(isStrongPassword, {
-      message: "Password must contain a-z, A-Z, 0-9, and !@#$%^&*.",
-    })
+    .min(8, { message: "Password must be at least 8 characters." })
+    .refine(isStrongPassword, { message: "Password must contain a-z, A-Z, 0-9, and !@#$%^&*." }),
 });
 
 export default function SignUp() {
