@@ -95,6 +95,15 @@ func ValidateToken(c echo.Context) error {
 	return c.JSON(http.StatusOK, map[string]string{"id": claims.ID})
 }
 
+func CheckUsernameExists(c echo.Context) error {
+	username := c.Param("username")
+	u := models.User{}
+	if db.DB.Where("username = ?", username).First(&u).Error != nil {
+		return c.JSON(http.StatusOK, map[string]bool{"exists": true})
+	}
+	return c.JSON(http.StatusInternalServerError, map[string]bool{"exists": false})
+}
+
 func SignUp(c echo.Context) error {
 	var req models.SignUpParams
 	if err := c.Bind(&req); err != nil {
