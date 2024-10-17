@@ -14,6 +14,10 @@ type LoginParams struct {
 	Password string `json:"password"`
 }
 
+type UsernameParams struct {
+	Username string `json:"username"`
+}
+
 // JWT claims
 type AccountClaims struct {
 	ID string `json:"id"`

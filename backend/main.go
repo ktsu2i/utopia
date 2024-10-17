@@ -30,7 +30,7 @@ func main() {
 		SigningKey: []byte(os.Getenv("JWT_SECRET")),
 		Skipper: func(c echo.Context) bool {
 			path := c.Path()
-			return path == "/api/sign-up" || path == "/api/login" || path == "/api/logout"
+			return path == "/api/sign-up" || path == "/api/login" || path == "/check-username-exists"
 		},
 	}))
 

@@ -26,7 +26,15 @@ const SignUpSchema = z.object({
     .trim()
     .min(5, {
       message: "Username must be at least 5 characters."
-    }),
+    })
+    .refine(async (username) => {
+      try {
+        await axios.post("http://localhost:8080/api/check-username-exists", { username });
+        return true;
+      } catch {
+        return false;
+      }
+    }, { message: "Username already exists." }),
   email: z
     .string()
     .trim()
