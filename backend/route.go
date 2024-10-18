@@ -20,4 +20,5 @@ func route(e *echo.Echo) {
 	api.GET("/users", handlers.GetAllUsers)
 	api.GET("/users/:id", handlers.GetUserById)
 	api.DELETE("/users/:id", handlers.DeleteUserById)
+	api.POST("/groq", handlers.GetGroqResponse)
 }
