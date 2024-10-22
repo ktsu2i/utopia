@@ -31,7 +31,7 @@ const (
 	- Do not provide any additional commentary, explanations, or context—only respond with 'Inappropriate' or 'Appropriate'.`
 )
 
-func GetGroqResponse(c echo.Context) error {
+func CheckText(c echo.Context) error {
 	key := os.Getenv("GROQ_API_KEY")
 	var request models.GroqRequest
 	if err := c.Bind(&request); err != nil {
@@ -85,5 +85,5 @@ func GetGroqResponse(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
 	}
 
-	return c.JSON(http.StatusOK, res.Choices[0].Message.Content == "Inappropriate")
+	return c.JSON(http.StatusOK, res.Choices[0].Message.Content == "Appropriate")
 }

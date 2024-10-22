@@ -20,7 +20,7 @@ const GroqSchema = z.object({
 })
 
 export default function Demo() {
-  const [groq, setGroq] = useState("");
+  const [isAppropriate, setIsAppropriate] = useState(true);
   const { isAuthenticated } = useAuth();
 
   const form = useForm<z.infer<typeof GroqSchema>>({
@@ -32,9 +32,9 @@ export default function Demo() {
 
   const onSubmit = async (data: z.infer<typeof GroqSchema>) => {
     try {
-      const res = await axios.post("http://localhost:8080/api/groq", data, { withCredentials: true });
-      setGroq(res.data);
-      if (groq === "True") {
+      const res = await axios.post("http://localhost:8080/api/text/check", data, { withCredentials: true });
+      setIsAppropriate(res.data);
+      if (!isAppropriate) {
         toast.success("Posted it!");
       }
     } catch {
@@ -74,7 +74,7 @@ export default function Demo() {
             <Button variant="utopia" size="lg" className="w-full">Post</Button>
           </form>
         </Form>
-        {groq === "True" && (
+        {!isAppropriate && (
           <Alert variant="destructive">
             <ExclamationTriangleIcon className="h-4 w-4" />
             <AlertTitle>Warning!</AlertTitle>
