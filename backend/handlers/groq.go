@@ -79,7 +79,7 @@ func GetGroqResponse(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
 	}
 
-	var res models.Response
+	var res models.GroqResponse
 	err = json.Unmarshal(body, &res)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
