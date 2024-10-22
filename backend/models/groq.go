@@ -18,6 +18,6 @@ type Choice struct {
 	Message Message `json:"message"`
 }
 
-type Response struct {
+type GroqResponse struct {
 	Choices []Choice `json:"choices"`
 }
