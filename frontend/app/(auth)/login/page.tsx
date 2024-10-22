@@ -81,6 +81,7 @@ export default function Login() {
                     <FormControl>
                       <div className="relative w-full">
                         <Input
+                          minLength={8}
                           autoComplete="current-password"
                           type={showPassword ? "text" : "password"}
                           {...field}
