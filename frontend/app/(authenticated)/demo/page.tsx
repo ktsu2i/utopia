@@ -32,7 +32,7 @@ export default function Demo() {
 
   const onSubmit = async (data: z.infer<typeof GroqSchema>) => {
     try {
-      const res = await axios.post("http://localhost:8080/api/text/check", data, { withCredentials: true });
+      const res = await axios.post("http://localhost:8080/api/validate-text", data, { withCredentials: true });
       setIsAppropriate(res.data);
       if (!isAppropriate) {
         toast.success("Posted it!");
