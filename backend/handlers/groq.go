@@ -31,7 +31,7 @@ const (
 	- Do not provide any additional commentary, explanations, or context—only respond with 'Inappropriate' or 'Appropriate'.`
 )
 
-func CheckText(c echo.Context) error {
+func ValidateText(c echo.Context) error {
 	key := os.Getenv("GROQ_API_KEY")
 	var request models.GroqRequest
 	if err := c.Bind(&request); err != nil {
