@@ -108,6 +108,7 @@ export default function SignUp() {
                     <FormControl>
                       <div className="relative w-full">
                         <Input
+                          minLength={8}
                           autoComplete="new-password"
                           type={showPassword ? "text" : "password"}
                           {...field}
