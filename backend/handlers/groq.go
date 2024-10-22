@@ -27,8 +27,8 @@ const (
 	Instructions:
 	- Analyze the following user input.
 	- Determine if the content violates any of the above guidelines.
-	- Respond with only 'True' if the content is inappropriate, or 'False' if it is appropriate.
-	- Do not provide any additional commentary, explanations, or context—only respond with 'True' or 'False'.`
+	- Respond with only 'Inappropriate' if the content is inappropriate, or 'Inappropriate' if it is appropriate.
+	- Do not provide any additional commentary, explanations, or context—only respond with 'Inappropriate' or 'Appropriate'.`
 )
 
 func GetGroqResponse(c echo.Context) error {
@@ -85,5 +85,5 @@ func GetGroqResponse(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
 	}
 
-	return c.JSON(http.StatusOK, res.Choices[0].Message.Content)
+	return c.JSON(http.StatusOK, res.Choices[0].Message.Content == "Inappropriate")
 }
