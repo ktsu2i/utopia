@@ -2,6 +2,11 @@
 
 This project started from CIS 3296: Software Design at TUJ.
 
+Project Members:
+- (Kaito Tsutsui)[https://github.com/ktsu2i]
+- (Kseniya Chadovich)[https://github.com/kseniya-chadovich]
+- (Sumana Reddy)[https://github.com/sumana0406]
+
 ## Purpose
 
 In today's society, many people use social media daily, often leading to negative interactions such as insults directed at users or celebrities. These hostile exchanges can result in depression, mental health issues, or even suicide. To combat this, I created **Utopia**, a social media application designed to foster mutual support and positivity.
