@@ -3,9 +3,9 @@
 This project started from CIS 3296: Software Design at TUJ.
 
 Project Members:
-- (Kaito Tsutsui)[https://github.com/ktsu2i]
-- (Kseniya Chadovich)[https://github.com/kseniya-chadovich]
-- (Sumana Reddy)[https://github.com/sumana0406]
+- [Kaito Tsutsui](https://github.com/ktsu2i)
+- [Kseniya Chadovich](https://github.com/kseniya-chadovich)
+- [Sumana Reddy](https://github.com/sumana0406)
 
 ## Purpose
 
