@@ -7,7 +7,7 @@ import useAuth from "@/hooks/useAuth";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -19,33 +19,9 @@ const GroqSchema = z.object({
   input: z.string().trim().min(1, { message: "Please enter something." })
 })
 
-interface User {
-  id: string
-  firstName: string
-  lastName: string
-  username: string
-  email: string
-  createdAt: string
-  updatedAt: string
-}
-
 export default function Demo() {
   const [isAppropriate, setIsAppropriate] = useState(true);
-  const [currentUser, setCurrentUser] = useState<User | null>(null); 
   const { isAuthenticated } = useAuth();
-
-  useEffect(() => {
-    const getCurrentUser = async () => {
-      try {
-        const res = await axios.get("http://localhost:8080/api/me", { withCredentials: true });
-        setCurrentUser(res.data);
-      } catch {
-        setCurrentUser(null);
-      }
-    }
-
-    getCurrentUser();
-  }, []);
 
   const form = useForm<z.infer<typeof GroqSchema>>({
     resolver: zodResolver(GroqSchema),
@@ -107,11 +83,6 @@ export default function Demo() {
             </AlertDescription>
           </Alert>
         )}
-        <ul>
-          <li>{currentUser?.id}</li>
-          <li>{currentUser?.username}</li>
-          <li>{currentUser?.email}</li>
-        </ul>
       </div>
     </div>
   )
