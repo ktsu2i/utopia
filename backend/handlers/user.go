@@ -38,13 +38,15 @@ func GetCurrentUser(c echo.Context) error {
 	}
 
 	res := models.UserResult{
-		ID:        u.ID,
-		FirstName: u.FirstName,
-		LastName:  u.LastName,
-		Username:  u.Username,
-		Email:     u.Email,
-		CreatedAt: u.CreatedAt,
-		UpdatedAt: u.UpdatedAt,
+		ID:              u.ID,
+		FirstName:       u.FirstName,
+		LastName:        u.LastName,
+		Username:        u.Username,
+		Email:           u.Email,
+		ProfileImageUrl: u.ProfileImageUrl,
+		Bio:             u.Bio,
+		CreatedAt:       u.CreatedAt,
+		UpdatedAt:       u.UpdatedAt,
 	}
 
 	return c.JSON(http.StatusOK, res)
@@ -59,13 +61,15 @@ func GetAllUsers(c echo.Context) error {
 	res := []models.UserResult{}
 	for _, u := range us {
 		r := models.UserResult{
-			ID:        u.ID,
-			FirstName: u.FirstName,
-			LastName:  u.LastName,
-			Username:  u.Username,
-			Email:     u.Email,
-			CreatedAt: u.CreatedAt,
-			UpdatedAt: u.UpdatedAt,
+			ID:              u.ID,
+			FirstName:       u.FirstName,
+			LastName:        u.LastName,
+			Username:        u.Username,
+			Email:           u.Email,
+			ProfileImageUrl: u.ProfileImageUrl,
+			Bio:             u.Bio,
+			CreatedAt:       u.CreatedAt,
+			UpdatedAt:       u.UpdatedAt,
 		}
 		res = append(res, r)
 	}
@@ -80,13 +84,15 @@ func GetUserById(c echo.Context) error {
 	}
 
 	res := models.UserResult{
-		ID:        u.ID,
-		FirstName: u.FirstName,
-		LastName:  u.LastName,
-		Username:  u.Username,
-		Email:     u.Email,
-		CreatedAt: u.CreatedAt,
-		UpdatedAt: u.UpdatedAt,
+		ID:              u.ID,
+		FirstName:       u.FirstName,
+		LastName:        u.LastName,
+		Username:        u.Username,
+		Email:           u.Email,
+		ProfileImageUrl: u.ProfileImageUrl,
+		Bio:             u.Bio,
+		CreatedAt:       u.CreatedAt,
+		UpdatedAt:       u.UpdatedAt,
 	}
 	return c.JSON(http.StatusOK, res)
 }
