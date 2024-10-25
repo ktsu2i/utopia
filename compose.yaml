@@ -40,6 +40,7 @@ services:
     volumes:
       - db_data:/var/lib/mysql
     environment:
+      - MYSQL_ROOT_HOST=%
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=utopia_dev
       - MYSQL_USER=admin
