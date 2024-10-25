@@ -118,3 +118,24 @@ But you will be required to build if you want to run the app again.
 ```
 docker compose down
 ```
+
+If you want to delete everything including volumes, add `-v` option.
+
+```
+docker compose down -v
+```
+
+## SQL migration
+
+This project is using [sql-migrate](https://github.com/rubenv/sql-migrate), which is a SQL schema migration tool for Golang.
+
+### Create a new migration file
+
+Go to `/backend` directory and run the following command to create a migration file under `/backend/migrations`.
+
+```
+cd backend
+sql-migrate new [name]
+```
+
+When you run `docker compose up`, it automatically migrates the files. Thus, you are just required to add migration files if necessary.
