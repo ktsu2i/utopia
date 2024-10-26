@@ -2,7 +2,7 @@
 -- +migrate Up
 CREATE TABLE IF NOT EXISTS `posts` (
     `id` VARCHAR(255) NOT NULL,
-    `user_id` REFERENCES Users(),
+    `user_id` VARCHAR(255) NOT NULL,
     `content` TEXT NULL,
     `created_at` DATETIME(6) DEFAULT NULL,
     `updated_at` DATETIME(6) DEFAULT NULL,
