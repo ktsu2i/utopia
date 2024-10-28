@@ -23,5 +23,5 @@ func route(e *echo.Echo) {
 	api.GET("/users/:id", handlers.GetUserById)
 	api.DELETE("/users/:id", handlers.DeleteUserById)
 	api.GET("/posts", handlers.GetPosts)
-	api.POST("/posts", handlers.CreatePosts)
+	api.POST("/posts", handlers.CreatePost)
 }

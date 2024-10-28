@@ -10,7 +10,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func CreatePosts(c echo.Context) error {
+func CreatePost(c echo.Context) error {
 	userID, err := GetUserID(c)
 	if err != nil {
 		return c.JSON(http.StatusUnauthorized, map[string]string{"message": "Unauthorized"})
