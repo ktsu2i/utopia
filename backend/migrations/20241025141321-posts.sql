@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS `posts` (
     `content` TEXT NULL,
     `created_at` DATETIME(6) DEFAULT NULL,
     `updated_at` DATETIME(6) DEFAULT NULL,
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
     FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
 );
 
