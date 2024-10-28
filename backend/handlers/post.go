@@ -31,7 +31,7 @@ func CreatePosts(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
 	}
 
-	return c.JSON(http.StatusOK, map[string]string{"message": "successfully posted"})
+	return c.JSON(http.StatusOK, p)
 }
 
 func GetPosts(c echo.Context) error {
@@ -49,7 +49,7 @@ func GetPosts(c echo.Context) error {
 	offset := (page - 1) * limit
 
 	var posts []models.Post
-	if err := db.DB.Preload("User").Order("created_at desc").Limit(limit).Offset(offset).Find(&posts).Error; err != nil {
+	if err := db.DB.Order("created_at desc").Limit(limit).Offset(offset).Find(&posts).Error; err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
 	}
 
