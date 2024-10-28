@@ -6,8 +6,33 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 )
+
+func CreatePosts(c echo.Context) error {
+	userID, err := GetUserID(c)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, map[string]string{"message": "Unauthorized"})
+	}
+
+	var req models.PostParams
+	if err := c.Bind(&req); err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{"message": err.Error()})
+	}
+
+	p := models.Post{
+		ID:      uuid.NewString(),
+		UserID:  userID,
+		Content: req.Content,
+	}
+
+	if err := db.DB.Create(&p).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
+	}
+
+	return c.JSON(http.StatusOK, map[string]string{"message": "successfully posted"})
+}
 
 func GetPosts(c echo.Context) error {
 	// Default settings

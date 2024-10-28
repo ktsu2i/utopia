@@ -11,6 +11,31 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+func GetUserID(c echo.Context) (string, error) {
+	cookie, err := c.Cookie("token")
+	if err != nil {
+		return "", fmt.Errorf("cookie not found")
+	}
+
+	claims := &models.AccountClaims{}
+	token, err := jwt.ParseWithClaims(cookie.Value, claims, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, fmt.Errorf("unexpected signing method")
+		}
+		return []byte(os.Getenv("JWT_SECRET")), nil
+	})
+
+	if err != nil || !token.Valid {
+		return "", fmt.Errorf("invalid token")
+	}
+
+	if claims.ID == "" {
+		return "", fmt.Errorf("userID not found")
+	}
+
+	return claims.ID, nil
+}
+
 func GetCurrentUser(c echo.Context) error {
 	cookie, err := c.Cookie("token")
 	if err != nil {

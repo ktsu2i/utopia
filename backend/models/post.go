@@ -2,6 +2,11 @@ package models
 
 import "time"
 
+// Request
+type PostParams struct {
+	Content string `json:"content"`
+}
+
 // DB
 type Post struct {
 	ID        string    `json:"id"`
