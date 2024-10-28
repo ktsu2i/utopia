@@ -69,7 +69,7 @@ export default function TestPost() {
     };
 
     fetchPosts();
-  }, []);
+  }, [post]);
 
   return (
     <>
