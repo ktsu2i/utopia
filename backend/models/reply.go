@@ -5,10 +5,10 @@ import "time"
 // DB
 type Reply struct {
 	ID            string    `json:"id"`
-	UserID        string    `json:"user_id"`
-	PostID        string    `json:"post_id"`
-	ParentReplyID string    `json:"parent_reply_id"`
+	UserID        string    `json:"userId"`
+	PostID        string    `json:"postId"`
+	ParentReplyID string    `json:"parentReplyRd"`
 	Content       string    `json:"content"`
-	CreatedAt     time.Time `json:"created_at"`
-	UpdatedAt     time.Time `json:"updated_at"`
+	CreatedAt     time.Time `json:"createdAt"`
+	UpdatedAt     time.Time `json:"updatedAt"`
 }

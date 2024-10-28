@@ -10,9 +10,9 @@ type PostParams struct {
 // DB
 type Post struct {
 	ID        string    `json:"id"`
-	UserID    string    `json:"user_id"`
+	UserID    string    `json:"userId"`
 	Content   string    `json:"content"`
 	Replies   []Reply   `json:"replies"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
 }

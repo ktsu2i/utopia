@@ -34,7 +34,7 @@ type UserResult struct {
 	LastName        string    `json:"lastName"`
 	Username        string    `json:"username"`
 	Email           string    `json:"email"`
-	ProfileImageUrl string    `json:"profile_image_url"`
+	ProfileImageUrl string    `json:"profileImageUrl"`
 	Bio             string    `json:"bio"`
 	CreatedAt       time.Time `json:"createdAt"`
 	UpdatedAt       time.Time `json:"updatedAt"`
