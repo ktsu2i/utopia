@@ -13,7 +13,7 @@ import (
 func CreatePosts(c echo.Context) error {
 	userID, err := GetUserID(c)
 	if err != nil {
-		c.JSON(http.StatusUnauthorized, map[string]string{"message": "Unauthorized"})
+		return c.JSON(http.StatusUnauthorized, map[string]string{"message": "Unauthorized"})
 	}
 
 	var req models.PostParams
