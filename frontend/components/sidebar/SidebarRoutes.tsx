@@ -1,4 +1,4 @@
-import { Bell, Bot, Home, Mail, Search, Send } from "lucide-react";
+import { Bell, Bot, Home, Mail, Search, Send, Settings } from "lucide-react";
 import { usePathname } from "next/navigation"
 import SidebarItem from "./SidebarItem";
 
@@ -29,6 +29,12 @@ const SidebarRoutes = () => {
       label: "Messages",
       href: "/messages",
       active: pathname === "/messages",
+    },
+    {
+      icon: Settings,
+      label: "Settings",
+      href: "/settings",
+      active: pathname === "/settings",
     },
     {
       icon: Home,
