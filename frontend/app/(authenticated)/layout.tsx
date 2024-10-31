@@ -1,3 +1,4 @@
+import RightSidebar from "@/components/right-sidebar/RightSidebar"
 import Sidebar from "@/components/sidebar/Sidebar"
 
 export default function Layout({
@@ -8,7 +9,8 @@ export default function Layout({
   return (
     <>
       <Sidebar />
-      <main className="pl-[33.3333%] h-full">{children}</main>
+      <RightSidebar />
+      <main className="px-[33.3333%] h-full">{children}</main>
     </>
   )
 }
