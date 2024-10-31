@@ -10,7 +10,7 @@ const SidebarRoutes = () => {
       icon: Home,
       label: "Home",
       href: "/home",
-      active: pathname === "/",
+      active: pathname === "/home",
     },
     {
       icon: Search,

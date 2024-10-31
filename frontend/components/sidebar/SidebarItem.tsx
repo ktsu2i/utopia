@@ -25,7 +25,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
     <Button
       onClick={onClick}
       variant="ghost"
-      className="flex justify-start gap-4 w-[200px]"
+      className="flex justify-start gap-4 py-6 w-[200px]"
     >
       <Icon size={24} strokeWidth={active ? 2.5 : 2} />
       <span className={`text-lg ${active ? "font-semibold" : ""}`}>{label}</span>
