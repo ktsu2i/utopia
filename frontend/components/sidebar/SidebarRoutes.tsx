@@ -1,3 +1,5 @@
+"use client";
+
 import { Bell, Bot, Home, Mail, Search, Send, Settings } from "lucide-react";
 import { usePathname } from "next/navigation"
 import SidebarItem from "./SidebarItem";
