@@ -4,11 +4,13 @@ import { getAllPosts } from "@/actions/getAllPosts";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import useAuth from "@/hooks/useAuth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { TailSpin } from "react-loader-spinner";
 import { z } from "zod";
 
 interface Reply {
@@ -37,6 +39,7 @@ const PostSchema = z.object({
 export default function TestPost() {
   const [post, setPost] = useState<Post | null>(null);
   const [posts, setPosts] = useState<Post[]>([]);
+  const { isAuthenticated } = useAuth();
 
   const form = useForm<z.infer<typeof PostSchema>>({
     resolver: zodResolver(PostSchema),
@@ -71,6 +74,14 @@ export default function TestPost() {
     fetchPosts();
   }, [post]);
 
+  if (isAuthenticated === null) {
+    return (
+      <div className="h-full flex items-center justify-center">
+        <TailSpin color="#FF9933" />
+      </div>
+    );
+  }
+  
   return (
     <>
       <h1>Test Post</h1>
