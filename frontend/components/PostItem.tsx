@@ -1,6 +1,8 @@
 import { Post } from "@/lib/types";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import { Ellipsis } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { Button } from "./ui/button";
 
 interface PostItemProps {
   key: number
@@ -24,7 +26,17 @@ const PostItem: React.FC<PostItemProps> = ({
         <div className="w-full">
           <div className="flex justify-between">
             <span className="font-semibold">{post.user.username}</span>
-            <Ellipsis className="h-4 w-4" color="gray" />
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button variant="ghost" size="sm">
+                  <Ellipsis className="h-4 w-4" color="gray" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="flex flex-col w-24 p-2">
+                <Button variant="ghost" className="justify-start">Edit</Button>
+                <Button variant="ghost" className="justify-start text-red-600 hover:text-red-600">Delete</Button>
+              </PopoverContent>
+            </Popover>
           </div>
           <div>{post.content}</div>
         </div>
