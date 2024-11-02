@@ -21,10 +21,9 @@ type Post struct {
 type PostResult struct {
 	ID        string    `json:"id"`
 	UserID    string    `json:"userId"`
+	User      User      `json:"user"`
 	Content   string    `json:"content"`
 	Replies   []Reply   `json:"replies"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
-
-	User User `json:"user"`
 }
