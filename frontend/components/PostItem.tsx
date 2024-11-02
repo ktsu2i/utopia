@@ -1,3 +1,5 @@
+"use client";
+
 import { Post, User } from "@/lib/types";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import { Ellipsis } from "lucide-react";
