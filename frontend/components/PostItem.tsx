@@ -1,8 +1,10 @@
-import { Post } from "@/lib/types";
+import { Post, User } from "@/lib/types";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import { Ellipsis } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Button } from "./ui/button";
+import { getCurrentUser } from "@/actions/getCurrentUser";
+import { useEffect, useState } from "react";
 
 interface PostItemProps {
   key: number
@@ -13,6 +15,18 @@ const PostItem: React.FC<PostItemProps> = ({
   key,
   post,
 }) => {
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const isMe = currentUser?.id === post.userId;
+  
+  useEffect(() => {
+    const fetchCurrentUser = async () => {
+      const user = await getCurrentUser();
+      setCurrentUser(user);
+    };
+
+    fetchCurrentUser();
+  }, []);
+
   return (
     <div key={key} className="border-b border-x border-gray-300 last:border-b-0 p-4">
       <div className="flex gap-x-2">
@@ -32,9 +46,19 @@ const PostItem: React.FC<PostItemProps> = ({
                   <Ellipsis className="h-4 w-4" color="gray" />
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="flex flex-col w-24 p-2">
-                <Button variant="ghost" className="justify-start">Edit</Button>
-                <Button variant="ghost" className="justify-start text-red-600 hover:text-red-600">Delete</Button>
+              <PopoverContent className={`flex flex-col p-2 ${isMe ? "w-24" : "w-32"}`}>
+                {isMe ? (
+                  <>
+                    <Button variant="ghost" className="justify-start">Edit</Button>
+                    <Button variant="ghost" className="justify-start text-red-600 hover:text-red-600">Delete</Button>
+                  </>
+                ) : (
+                  <>
+                    <Button variant="ghost" className="justify-start">Follow {post.user.username}</Button>
+                    <Button variant="ghost" className="justify-start">Mute {post.user.username}</Button>
+                    <Button variant="ghost" className="justify-start text-red-600 hover:text-red-600">Block {post.user.username}</Button>
+                  </>
+                )}
               </PopoverContent>
             </Popover>
           </div>
