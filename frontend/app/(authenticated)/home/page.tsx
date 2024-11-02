@@ -7,6 +7,7 @@ import { useInView } from "react-intersection-observer";
 import { TailSpin } from "react-loader-spinner";
 
 import { Post } from "@/lib/types";
+import PostItem from "@/components/PostItem";
 
 export default function Home() {
   const getKey = (pageIndex: number, previousPageData: Post[][]) => {
@@ -45,9 +46,9 @@ export default function Home() {
   return (
     <>
       {data && (
-        <div className="flex flex-col gap-6 justify-center">
-          {data.flat().map((post, i) => (
-            <div key={i} className="bg-slate-200 h-[100px] m-2">{post.content}</div>
+        <div className="flex flex-col justify-center">
+          {data.flat().map((post: Post, i: number) => (
+            <PostItem key={i} post={post} />
           ))}
         </div>
       )}
