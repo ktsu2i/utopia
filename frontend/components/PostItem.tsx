@@ -1,12 +1,11 @@
 "use client";
 
-import { Post, User } from "@/lib/types";
+import { Post } from "@/lib/types";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import { Ellipsis } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Button } from "./ui/button";
-import { getCurrentUser } from "@/actions/getCurrentUser";
-import { useEffect, useState } from "react";
+import useCurrentUser from "@/hooks/useCurrentUser";
 
 interface PostItemProps {
   key: number
@@ -17,17 +16,8 @@ const PostItem: React.FC<PostItemProps> = ({
   key,
   post,
 }) => {
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const { currentUser } = useCurrentUser();
   const isMe = currentUser?.id === post.userId;
-  
-  useEffect(() => {
-    const fetchCurrentUser = async () => {
-      const user = await getCurrentUser();
-      setCurrentUser(user);
-    };
-
-    fetchCurrentUser();
-  }, []);
 
   return (
     <div key={key} className="border-b border-x border-gray-300 last:border-b-0 p-4">
