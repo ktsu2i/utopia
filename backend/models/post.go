@@ -16,3 +16,15 @@ type Post struct {
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
 }
+
+// Response
+type PostResult struct {
+	ID        string    `json:"id"`
+	UserID    string    `json:"userId"`
+	Content   string    `json:"content"`
+	Replies   []Reply   `json:"replies"`
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
+
+	User User `json:"user"`
+}
