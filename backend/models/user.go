@@ -39,3 +39,7 @@ type UserResult struct {
 	CreatedAt       time.Time `json:"createdAt"`
 	UpdatedAt       time.Time `json:"updatedAt"`
 }
+
+func (UserResult) TableName() string {
+	return "users"
+}
