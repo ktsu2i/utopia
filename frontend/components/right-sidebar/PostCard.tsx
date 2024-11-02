@@ -13,6 +13,8 @@ import { useState } from "react";
 import { Post } from "@/lib/types";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "../ui/form";
 import { Button } from "../ui/button";
+import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
+import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 
 const PostSchema = z.object({
   content: z.string().min(1).max(150),
@@ -20,6 +22,7 @@ const PostSchema = z.object({
 
 const PostCard = () => {
   const [post, setPost] = useState<Post | null>(null);
+  const [isAppropriate, setIsAppropriate] = useState(true);
   const { currentUser } = useCurrentUser();
 
   const form = useForm<z.infer<typeof PostSchema>>({
@@ -31,12 +34,18 @@ const PostCard = () => {
 
   const onSubmit = async (data: z.infer<typeof PostSchema>) => {
     try {
-      const res = await axios.post<Post>("http://localhost:8080/api/posts", data, {
-        withCredentials: true
-      });
-      setPost(res.data);
-      toast.success("Posted it!");
-      form.reset();
+      const res = await axios.post("http://localhost:8080/api/validate-text", data, { withCredentials: true });
+      setIsAppropriate(res.data);
+
+      if (!isAppropriate) {
+        const res = await axios.post<Post>("http://localhost:8080/api/posts", data, {
+          withCredentials: true
+        });
+        setIsAppropriate(true);
+        setPost(res.data);
+        toast.success("Posted it!");
+        form.reset();
+      }
     } catch {
       toast.error("Something went wrong");
     }
@@ -72,9 +81,20 @@ const PostCard = () => {
                       </FormItem>
                     )}
                   />
-                  <Button variant="utopia" size="lg" className="mt-4 w-full">Post</Button>
+                  <Button variant="utopia" size="lg" className="my-4 w-full">Post</Button>
                 </form>
               </Form>
+              {!isAppropriate && (
+                <Alert variant="destructive">
+                  <ExclamationTriangleIcon className="h-4 w-4" />
+                  <AlertTitle className="font-semibold">Warning!</AlertTitle>
+                  <AlertDescription>
+                    You were about to post inappropriate contents. 
+                    <br />
+                    Be respectful to everyone!
+                  </AlertDescription>
+                </Alert>
+              )}
             </div>
           </div>
         </CardContent>
