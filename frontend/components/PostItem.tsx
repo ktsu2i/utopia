@@ -54,7 +54,7 @@ const PostItem: React.FC<PostItemProps> = ({
               </PopoverContent>
             </Popover>
           </div>
-          <div>{post.content}</div>
+          <div className="whitespace-pre-wrap">{post.content}</div>
         </div>
       </div>
     </div>
