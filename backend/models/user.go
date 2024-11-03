@@ -32,9 +32,10 @@ type User struct {
 // Response
 type UserResult struct {
 	ID              string    `json:"id"`
+	AccountName     string    `json:"accountName"`
+	Username        string    `json:"username"`
 	FirstName       string    `json:"firstName"`
 	LastName        string    `json:"lastName"`
-	Username        string    `json:"username"`
 	Email           string    `json:"email"`
 	ProfileImageUrl string    `json:"profileImageUrl"`
 	Bio             string    `json:"bio"`
