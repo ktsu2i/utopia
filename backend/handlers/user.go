@@ -64,9 +64,10 @@ func GetCurrentUser(c echo.Context) error {
 
 	res := models.UserResult{
 		ID:              u.ID,
+		AccountName:     u.AccountName,
+		Username:        u.Username,
 		FirstName:       u.FirstName,
 		LastName:        u.LastName,
-		Username:        u.Username,
 		Email:           u.Email,
 		ProfileImageUrl: u.ProfileImageUrl,
 		Bio:             u.Bio,
@@ -87,9 +88,10 @@ func GetAllUsers(c echo.Context) error {
 	for _, u := range us {
 		r := models.UserResult{
 			ID:              u.ID,
+			AccountName:     u.AccountName,
+			Username:        u.Username,
 			FirstName:       u.FirstName,
 			LastName:        u.LastName,
-			Username:        u.Username,
 			Email:           u.Email,
 			ProfileImageUrl: u.ProfileImageUrl,
 			Bio:             u.Bio,
@@ -110,9 +112,10 @@ func GetUserById(c echo.Context) error {
 
 	res := models.UserResult{
 		ID:              u.ID,
+		AccountName:     u.AccountName,
+		Username:        u.Username,
 		FirstName:       u.FirstName,
 		LastName:        u.LastName,
-		Username:        u.Username,
 		Email:           u.Email,
 		ProfileImageUrl: u.ProfileImageUrl,
 		Bio:             u.Bio,
