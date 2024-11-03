@@ -17,6 +17,10 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 const SignUpSchema = z.object({
+  accountName: z
+    .string()
+    .trim()
+    .min(1, { message: "Please enter your account name" }),
   username: z
     .string()
     .trim()
@@ -50,6 +54,7 @@ export default function SignUp() {
   const form = useForm<z.infer<typeof SignUpSchema>>({
     resolver: zodResolver(SignUpSchema),
     defaultValues: {
+      accountName: "",
       username: "",
       email: "",
       password: "",
@@ -73,6 +78,19 @@ export default function SignUp() {
         <h1 className="text-2xl font-bold">Welcome to Utopia!</h1>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <FormField
+              control={form.control}
+              name="accountName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Account Name</FormLabel>
+                  <FormControl>
+                    <Input {...field}/>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="username"
