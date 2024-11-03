@@ -83,7 +83,7 @@ export default function SignUp() {
               name="accountName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Account Name</FormLabel>
+                  <FormLabel>Name</FormLabel>
                   <FormControl>
                     <Input {...field}/>
                   </FormControl>
@@ -98,7 +98,10 @@ export default function SignUp() {
                 <FormItem>
                   <FormLabel>Username</FormLabel>
                   <FormControl>
-                    <Input {...field}/>
+                    <div className="relative flex items-center">
+                      <span className="absolute left-3 text-gray-500">@</span>
+                      <Input className="pl-8" {...field}/>
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
