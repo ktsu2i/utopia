@@ -60,7 +60,7 @@ const SidebarRoutes = () => {
   ];
 
   return (
-    <div className="flex flex-col justify-between h-full pt-10">
+    <div className="flex flex-col justify-between h-full pt-10 mr-6">
       <div className="flex flex-col items-end gap-4">
         {routes.map((route) => (
           <SidebarItem
