@@ -121,6 +121,7 @@ func SignUp(c echo.Context) error {
 
 	u := models.User{
 		ID:             uuid.NewString(),
+		AccountName:    req.AccountName,
 		Username:       req.Username,
 		Email:          req.Email,
 		HashedPassword: hashed,

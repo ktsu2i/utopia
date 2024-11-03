@@ -4,9 +4,10 @@ import "github.com/golang-jwt/jwt/v5"
 
 // Request
 type SignUpParams struct {
-	Username string `json:"username"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
+	AccountName string `json:"accountName"`
+	Username    string `json:"username"`
+	Email       string `json:"email"`
+	Password    string `json:"password"`
 }
 
 type LoginParams struct {
