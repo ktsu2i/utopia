@@ -1,13 +1,14 @@
 "use client";
 
+import useAuthStore from "@/stores/authStore";
 import axios from "axios";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 export default function useAuth() {
   const pathname = usePathname();
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const router = useRouter();
+  const { isAuthenticated, setIsAuthenticated } = useAuthStore();
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -23,7 +24,7 @@ export default function useAuth() {
     }
 
     checkAuth();
-  }, [pathname, router]);
+  }, [pathname, router, setIsAuthenticated]);
 
   const logout = async () => {
     try {
