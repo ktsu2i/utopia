@@ -4,9 +4,11 @@ import useCurrentUser from "@/hooks/useCurrentUser";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import useAuth from "@/hooks/useAuth";
 
 const UserInfo = () => {
   const { currentUser } = useCurrentUser();
+  const { logout } = useAuth();
 
   return (
     <Popover>
@@ -26,7 +28,13 @@ const UserInfo = () => {
       </PopoverTrigger>
       <PopoverContent className="flex flex-col p-2 w-28">
         <Button variant="ghost" className="justify-start">Profile</Button>
-        <Button variant="ghost" className="justify-start text-red-600 hover:text-red-600">Logout</Button>
+        <Button
+          onClick={logout}
+          variant="ghost"
+          className="justify-start text-red-600 hover:text-red-600"
+        >
+          Logout
+        </Button>
       </PopoverContent>
     </Popover>
   );
