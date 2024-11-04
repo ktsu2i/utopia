@@ -2,7 +2,7 @@ import { User } from "@/lib/types"
 import axios from "axios";
 import { useEffect, useState } from "react"
 
-const useCurrentUser = () => {
+export default function useCurrentUser() {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   
   useEffect(() => {
@@ -22,5 +22,3 @@ const useCurrentUser = () => {
 
   return { currentUser };
 };
-
-export default useCurrentUser;
