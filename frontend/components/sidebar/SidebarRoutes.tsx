@@ -1,6 +1,6 @@
 "use client";
 
-import { Bell, Home, Mail, Search, Settings } from "lucide-react";
+import { Bell, Home, Mail, Search, Settings, User } from "lucide-react";
 import { usePathname } from "next/navigation"
 import SidebarItem from "./SidebarItem";
 import UserInfo from "./UserInfo";
@@ -32,6 +32,12 @@ const SidebarRoutes = () => {
       label: "Messages",
       href: "/messages",
       active: pathname === "/messages",
+    },
+    {
+      icon: User,
+      label: "Profile",
+      href: "/profile",
+      active: pathname === "/profile",
     },
     {
       icon: Settings,
