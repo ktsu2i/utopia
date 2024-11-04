@@ -5,7 +5,7 @@ import { Avatar, AvatarFallback } from "./ui/avatar";
 import { Ellipsis } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Button } from "./ui/button";
-import useCurrentUser from "@/hooks/useCurrentUser";
+import useCurrentUserStore from "@/stores/currentUserStore";
 
 interface PostItemProps {
   key: number
@@ -16,7 +16,7 @@ const PostItem: React.FC<PostItemProps> = ({
   key,
   post,
 }) => {
-  const { currentUser } = useCurrentUser();
+  const { currentUser } = useCurrentUserStore();
   const isMe = currentUser?.id === post.userId;
 
   return (

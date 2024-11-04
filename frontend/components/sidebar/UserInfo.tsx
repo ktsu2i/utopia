@@ -3,11 +3,11 @@
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import useCurrentUser from "@/hooks/useCurrentUser";
 import useAuth from "@/hooks/useAuth";
+import useCurrentUserStore from "@/stores/currentUserStore";
 
 const UserInfo = () => {
-  const { currentUser } = useCurrentUser();
+  const { currentUser } = useCurrentUserStore();
   const { logout } = useAuth();
 
   return (
