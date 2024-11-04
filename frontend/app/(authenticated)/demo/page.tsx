@@ -3,7 +3,6 @@
 import { TailSpin } from "react-loader-spinner";
 import { z } from "zod";
 
-import useAuth from "@/hooks/useAuth";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
@@ -14,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
+import useAuthStore from "@/stores/authStore";
 
 const GroqSchema = z.object({
   input: z.string().trim().min(1, { message: "Please enter something." })
@@ -21,7 +21,7 @@ const GroqSchema = z.object({
 
 export default function Demo() {
   const [isAppropriate, setIsAppropriate] = useState(true);
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated } = useAuthStore();
 
   const form = useForm<z.infer<typeof GroqSchema>>({
     resolver: zodResolver(GroqSchema),
