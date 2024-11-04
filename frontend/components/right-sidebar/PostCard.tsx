@@ -41,10 +41,10 @@ const PostCard = () => {
         const res = await axios.post<Post>("http://localhost:8080/api/posts", data, {
           withCredentials: true
         });
+        setIsAppropriate(true);
         setPost(res.data);
         toast.success("Posted it!");
         form.reset();
-        setIsAppropriate(true);
       } else {
         setIsAppropriate(false);
       }
@@ -54,7 +54,6 @@ const PostCard = () => {
   }
 
   console.log(post); // will be removed
-  console.log(isAppropriate);
 
   return (
     <div className="m-6 w-3/4 max-w-[600px]">
