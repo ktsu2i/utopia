@@ -1,6 +1,5 @@
 "use client";
 
-import useCurrentUser from "@/hooks/useCurrentUser";
 import { Card, CardContent, CardHeader } from "../ui/card";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { Textarea } from "../ui/textarea";
@@ -15,6 +14,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "../ui/form"
 import { Button } from "../ui/button";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
+import useAuthStore from "@/stores/authStore";
 
 const PostSchema = z.object({
   content: z.string().min(1).max(150),
@@ -23,7 +23,7 @@ const PostSchema = z.object({
 const PostCard = () => {
   const [post, setPost] = useState<Post | null>(null);
   const [isAppropriate, setIsAppropriate] = useState(true);
-  const { currentUser } = useCurrentUser();
+  const { currentUser } = useAuthStore();
 
   const form = useForm<z.infer<typeof PostSchema>>({
     resolver: zodResolver(PostSchema),

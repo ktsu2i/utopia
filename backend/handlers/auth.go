@@ -92,7 +92,25 @@ func ValidateToken(c echo.Context) error {
 		return refreshToken(c)
 	}
 
-	return c.JSON(http.StatusOK, map[string]string{"id": claims.ID})
+	var u models.User
+	if err := db.DB.Where("id = ?", claims.ID).First(&u).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"message": "User not found"})
+	}
+
+	res := models.UserResult{
+		ID:              u.ID,
+		AccountName:     u.AccountName,
+		Username:        u.Username,
+		FirstName:       u.FirstName,
+		LastName:        u.LastName,
+		Email:           u.Email,
+		ProfileImageUrl: u.ProfileImageUrl,
+		Bio:             u.Bio,
+		CreatedAt:       u.CreatedAt,
+		UpdatedAt:       u.UpdatedAt,
+	}
+
+	return c.JSON(http.StatusOK, res)
 }
 
 func CheckUsernameExists(c echo.Context) error {
