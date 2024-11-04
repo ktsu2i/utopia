@@ -8,7 +8,7 @@ import { useEffect } from "react";
 export default function useAuth() {
   const pathname = usePathname();
   const router = useRouter();
-  const { isAuthenticated, setIsAuthenticated } = useAuthStore();
+  const { setIsAuthenticated } = useAuthStore();
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -40,5 +40,5 @@ export default function useAuth() {
     }
   };
 
-  return { isAuthenticated, logout };
+  return { logout };
 }
