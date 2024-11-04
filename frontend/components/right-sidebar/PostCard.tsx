@@ -34,17 +34,19 @@ const PostCard = () => {
 
   const onSubmit = async (data: z.infer<typeof PostSchema>) => {
     try {
-      const res = await axios.post("http://localhost:8080/api/validate-text", data, { withCredentials: true });
-      setIsAppropriate(res.data);
+      const res = await axios.post<boolean>("http://localhost:8080/api/validate-text", data, { withCredentials: true });
+      const isPostAppropriate = res.data;
 
-      if (!isAppropriate) {
+      if (isPostAppropriate) {
         const res = await axios.post<Post>("http://localhost:8080/api/posts", data, {
           withCredentials: true
         });
-        setIsAppropriate(true);
         setPost(res.data);
         toast.success("Posted it!");
         form.reset();
+        setIsAppropriate(true);
+      } else {
+        setIsAppropriate(false);
       }
     } catch {
       toast.error("Something went wrong");
@@ -52,6 +54,7 @@ const PostCard = () => {
   }
 
   console.log(post); // will be removed
+  console.log(isAppropriate);
 
   return (
     <div className="m-6 w-3/4 max-w-[600px]">
