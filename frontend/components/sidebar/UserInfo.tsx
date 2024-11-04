@@ -4,10 +4,10 @@ import { Avatar, AvatarFallback } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import useAuth from "@/hooks/useAuth";
-import useCurrentUserStore from "@/stores/currentUserStore";
+import useAuthStore from "@/stores/authStore";
 
 const UserInfo = () => {
-  const { currentUser } = useCurrentUserStore();
+  const { currentUser } = useAuthStore();
   const { logout } = useAuth();
 
   return (
@@ -18,7 +18,7 @@ const UserInfo = () => {
           className="flex justify-start gap-4 py-3 mb-3 w-[250px] h-full"
         >
           <Avatar>
-            <AvatarFallback>{currentUser?.username.substring(0, 1).toUpperCase()}</AvatarFallback>
+            <AvatarFallback>{currentUser?.username?.substring(0, 1).toUpperCase()}</AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
             <div className="text-left text-base font-semibold">{currentUser?.accountName}</div>
