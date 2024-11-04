@@ -1,5 +1,6 @@
 "use client";
 
+import { User } from "@/lib/types";
 import useAuthStore from "@/stores/authStore";
 import axios from "axios";
 import { usePathname, useRouter } from "next/navigation";
@@ -8,15 +9,17 @@ import { useEffect } from "react";
 export default function useAuth() {
   const pathname = usePathname();
   const router = useRouter();
-  const { setIsAuthenticated } = useAuthStore();
+  const { setIsAuthenticated, setCurrentUser } = useAuthStore();
 
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        await axios.get("http://localhost:8080/api/validate-token", { withCredentials: true });
+        const res = await axios.get<User>("http://localhost:8080/api/validate-token", { withCredentials: true });
         setIsAuthenticated(true);
+        setCurrentUser(res.data);
       } catch {
         setIsAuthenticated(false);
+        setCurrentUser(null);
         if (pathname !== "/home" && pathname !== "/test/home") {
           router.push("/login");
         }
@@ -24,14 +27,17 @@ export default function useAuth() {
     }
 
     checkAuth();
-  }, [pathname, router, setIsAuthenticated]);
+  }, [pathname, router, setIsAuthenticated, setCurrentUser]);
 
   const logout = async () => {
     try {
       await axios.post("http://localhost:8080/api/logout", null, { 
         withCredentials: true,
       });
+
       setIsAuthenticated(false);
+      setCurrentUser(null);
+
       if (pathname !== "/test/home") {
         router.push("/login");
       }

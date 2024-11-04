@@ -5,7 +5,7 @@ interface AuthState {
   isAuthenticated: boolean;
   currentUser: User | null;
   setIsAuthenticated: (auth: boolean) => void;
-  setCurrentUser: (user: User) => void;
+  setCurrentUser: (user: User | null) => void;
 }
 
 const useAuthStore = create<AuthState>((set) => ({
