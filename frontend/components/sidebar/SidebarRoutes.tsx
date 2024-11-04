@@ -1,6 +1,6 @@
 "use client";
 
-import { Bell, Bot, Home, Mail, Search, Send, Settings } from "lucide-react";
+import { Bell, Home, Mail, Search, Settings } from "lucide-react";
 import { usePathname } from "next/navigation"
 import SidebarItem from "./SidebarItem";
 import UserInfo from "./UserInfo";
@@ -38,24 +38,6 @@ const SidebarRoutes = () => {
       label: "Settings",
       href: "/settings",
       active: pathname === "/settings",
-    },
-    {
-      icon: Home,
-      label: "Test Home",
-      href: "/test/home",
-      active: pathname === "/test/home",
-    },
-    {
-      icon: Send,
-      label: "Test Post",
-      href: "/test/post",
-      active: pathname === "/test/post",
-    },
-    {
-      icon: Bot,
-      label: "Groq Demo",
-      href: "/demo",
-      active: pathname === "/demo",
     },
   ];
 
