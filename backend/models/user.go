@@ -14,6 +14,13 @@ type UserParams struct {
 	Password    string `json:"password"`
 }
 
+type UserUpdateParams struct {
+	AccountName string `json:"accountName"`
+	Username    string `json:"username"`
+	FirstName   string `json:"firstName"`
+	LastName    string `json:"lastName"`
+}
+
 // DB
 type User struct {
 	ID              string    `json:"id"`

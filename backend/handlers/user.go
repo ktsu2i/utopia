@@ -125,6 +125,39 @@ func GetUserById(c echo.Context) error {
 	return c.JSON(http.StatusOK, res)
 }
 
+func UpdateUser(c echo.Context) error {
+	id := c.Param("id")
+
+	var req models.UserUpdateParams
+	if err := c.Bind(&req); err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{"message": err.Error()})
+	}
+
+	var u models.User
+	if err := db.DB.Where("id = ?", id).First(&u).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"message": "User not found"})
+	}
+
+	if req.AccountName != "" {
+		u.AccountName = req.AccountName
+	}
+	if req.Username != "" {
+		u.Username = req.Username
+	}
+	if req.FirstName != "" {
+		u.FirstName = req.FirstName
+	}
+	if req.LastName != "" {
+		u.LastName = req.LastName
+	}
+
+	if err := db.DB.Save(&u).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
+	}
+
+	return c.JSON(http.StatusOK, map[string]string{"message": "User successfully updated"})
+}
+
 func DeleteUserById(c echo.Context) error {
 	id := c.Param("id")
 	if db.DB.Where("id = ?", id).Delete(&models.User{}).RowsAffected == 0 {

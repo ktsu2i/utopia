@@ -21,6 +21,7 @@ func route(e *echo.Echo) {
 	api.GET("/me", handlers.GetCurrentUser)
 	api.GET("/users", handlers.GetAllUsers)
 	api.GET("/users/:id", handlers.GetUserById)
+	api.PATCH("/users/:id", handlers.UpdateUser)
 	api.DELETE("/users/:id", handlers.DeleteUserById)
 	api.GET("/posts", handlers.GetPosts)
 	api.POST("/posts", handlers.CreatePost)
