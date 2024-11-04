@@ -1,10 +1,11 @@
 import { User } from "@/lib/types"
+import useCurrentUserStore from "@/stores/currentUserStore";
 import axios from "axios";
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 
 export default function useCurrentUser() {
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
-  
+  const { currentUser, setCurrentUser } = useCurrentUserStore();
+
   useEffect(() => {
     const fetchCurrentUser = async () => {
       try {
@@ -14,11 +15,12 @@ export default function useCurrentUser() {
         setCurrentUser(res.data);
       } catch (error) {
         console.log(error);
+        setCurrentUser(null);
       }
     };
 
     fetchCurrentUser();
-  }, []);
+  }, [setCurrentUser]);
 
   return { currentUser };
 };
