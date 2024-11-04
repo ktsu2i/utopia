@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
@@ -7,8 +8,13 @@ import useAuth from "@/hooks/useAuth";
 import useAuthStore from "@/stores/authStore";
 
 const UserInfo = () => {
+  const router = useRouter();
   const { currentUser } = useAuthStore();
   const { logout } = useAuth();
+
+  const onClick = () => {
+    router.push("/profile");
+  };
 
   return (
     <Popover>
@@ -27,7 +33,13 @@ const UserInfo = () => {
         </Button>
       </PopoverTrigger>
       <PopoverContent className="flex flex-col p-2 w-28">
-        <Button variant="ghost" className="justify-start">Profile</Button>
+        <Button
+          onClick={onClick} 
+          variant="ghost"
+          className="justify-start"
+        >
+          Profile
+        </Button>
         <Button
           onClick={logout}
           variant="ghost"
