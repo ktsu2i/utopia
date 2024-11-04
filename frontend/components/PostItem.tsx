@@ -8,19 +8,17 @@ import { Button } from "./ui/button";
 import useAuthStore from "@/stores/authStore";
 
 interface PostItemProps {
-  key: number
   post: Post
 }
 
 const PostItem: React.FC<PostItemProps> = ({
-  key,
   post,
 }) => {
   const { currentUser } = useAuthStore();
   const isMe = currentUser?.id === post.userId;
 
   return (
-    <div key={key} className="border-b border-x border-gray-300 last:border-b-0 p-4">
+    <div className="border-b border-x border-gray-300 last:border-b-0 p-4">
       <div className="flex gap-x-2">
         <div className="h-full">
           <Avatar>
