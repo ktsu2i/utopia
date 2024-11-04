@@ -6,18 +6,22 @@ import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import useAuth from "@/hooks/useAuth";
 import useAuthStore from "@/stores/authStore";
+import { useState } from "react";
 
 const UserInfo = () => {
+  const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
+
   const { currentUser } = useAuthStore();
   const { logout } = useAuth();
 
   const onClick = () => {
+    setIsOpen(false);
     router.push("/profile");
   };
 
   return (
-    <Popover>
+    <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
         <Button
           variant="ghost"
