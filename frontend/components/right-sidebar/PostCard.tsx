@@ -22,6 +22,7 @@ const PostSchema = z.object({
 
 const PostCard = () => {
   const [post, setPost] = useState<Post | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [isAppropriate, setIsAppropriate] = useState(true);
   const { currentUser } = useAuthStore();
 
@@ -33,11 +34,13 @@ const PostCard = () => {
   });
 
   const onSubmit = async (data: z.infer<typeof PostSchema>) => {
-    try {
-      const res = await axios.post("http://localhost:8080/api/validate-text", data, { withCredentials: true });
-      setIsAppropriate(res.data);
+    setIsLoading(true);
 
-      if (!isAppropriate) {
+    try {
+      const res = await axios.post<boolean>("http://localhost:8080/api/validate-text", data, { withCredentials: true });
+      const isPostAppropriate = res.data;
+
+      if (isPostAppropriate) {
         const res = await axios.post<Post>("http://localhost:8080/api/posts", data, {
           withCredentials: true
         });
@@ -45,9 +48,13 @@ const PostCard = () => {
         setPost(res.data);
         toast.success("Posted it!");
         form.reset();
+      } else {
+        setIsAppropriate(false);
       }
     } catch {
       toast.error("Something went wrong");
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -81,7 +88,14 @@ const PostCard = () => {
                       </FormItem>
                     )}
                   />
-                  <Button variant="utopia" size="lg" className="my-4 w-full">Post</Button>
+                  <Button
+                    disabled={isLoading}
+                    variant="utopia"
+                    size="lg"
+                    className="my-4 w-full"
+                  >
+                    {isLoading ? "Checking..." : "Post"}
+                  </Button>
                 </form>
               </Form>
               {!isAppropriate && (

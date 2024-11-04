@@ -1,7 +1,7 @@
 package models
 
 type GroqRequest struct {
-	Input string `json:"input"`
+	Content string `json:"content"`
 }
 
 type Message struct {

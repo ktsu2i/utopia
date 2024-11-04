@@ -27,7 +27,7 @@ const (
 	Instructions:
 	- Analyze the following user input.
 	- Determine if the content violates any of the above guidelines.
-	- Respond with only 'Inappropriate' if the content is inappropriate, or 'Inappropriate' if it is appropriate.
+	- Respond with only 'Inappropriate' if the content is inappropriate, or 'Appropriate' if it is appropriate.
 	- Do not provide any additional commentary, explanations, or context—only respond with 'Inappropriate' or 'Appropriate'.`
 )
 
@@ -45,7 +45,7 @@ func ValidateText(c echo.Context) error {
 
 	msg := models.Message{
 		Role:    "user",
-		Content: request.Input,
+		Content: request.Content,
 	}
 
 	payload := models.Payload{
@@ -84,6 +84,8 @@ func ValidateText(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
 	}
+
+	fmt.Printf("res from golang = %s", res.Choices[0].Message.Content)
 
 	return c.JSON(http.StatusOK, res.Choices[0].Message.Content == "Appropriate")
 }
