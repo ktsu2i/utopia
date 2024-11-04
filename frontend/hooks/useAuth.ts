@@ -31,7 +31,7 @@ export default function useAuth() {
         withCredentials: true,
       });
       setIsAuthenticated(false);
-      if (pathname !== "/home" && pathname !== "/test/home") {
+      if (pathname !== "/test/home") {
         router.push("/login");
       }
     } catch (error) {

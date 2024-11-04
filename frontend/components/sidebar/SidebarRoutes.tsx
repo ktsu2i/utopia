@@ -3,6 +3,7 @@
 import { Bell, Bot, Home, Mail, Search, Send, Settings } from "lucide-react";
 import { usePathname } from "next/navigation"
 import SidebarItem from "./SidebarItem";
+import UserInfo from "./UserInfo";
 
 const SidebarRoutes = () => {
   const pathname = usePathname();
@@ -59,16 +60,21 @@ const SidebarRoutes = () => {
   ];
 
   return (
-    <div className="flex flex-col items-end gap-4">
-      {routes.map((route) => (
-        <SidebarItem
-          key={route.href}
-          icon={route.icon}
-          label={route.label}
-          href={route.href}
-          active={route.active}
-        />
-      ))}
+    <div className="flex flex-col justify-between h-full pt-10 mr-6">
+      <div className="flex flex-col items-end gap-4">
+        {routes.map((route) => (
+          <SidebarItem
+            key={route.href}
+            icon={route.icon}
+            label={route.label}
+            href={route.href}
+            active={route.active}
+          />
+        ))}
+      </div>
+      <div className="flex flex-col items-end">
+        <UserInfo />
+      </div>
     </div>
   );
 };
