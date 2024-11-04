@@ -6,10 +6,12 @@ import { TailSpin } from "react-loader-spinner";
 
 import { Button } from "../../../../components/ui/button";
 import useAuth from "../../../../hooks/useAuth";
+import useAuthStore from "@/stores/authStore";
 
 export default function TestHome() {
   const router = useRouter();
-  const { isAuthenticated, logout } = useAuth();
+  const { isAuthenticated } = useAuthStore();
+  const { logout } = useAuth();
 
   const handleLogout = () => {
     logout();
