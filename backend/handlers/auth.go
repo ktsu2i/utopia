@@ -158,7 +158,20 @@ func SignUp(c echo.Context) error {
 	}
 	c.SetCookie(cookie)
 
-	return c.JSON(http.StatusOK, map[string]string{"message": "successfully registered"})
+	res := models.UserResult{
+		ID:              u.ID,
+		AccountName:     u.AccountName,
+		Username:        u.Username,
+		FirstName:       u.FirstName,
+		LastName:        u.LastName,
+		Email:           u.Email,
+		ProfileImageUrl: u.ProfileImageUrl,
+		Bio:             u.Bio,
+		CreatedAt:       u.CreatedAt,
+		UpdatedAt:       u.UpdatedAt,
+	}
+
+	return c.JSON(http.StatusOK, res)
 }
 
 func Login(c echo.Context) error {
@@ -225,7 +238,20 @@ func Login(c echo.Context) error {
 	}
 	c.SetCookie(refreshCookie)
 
-	return c.JSON(http.StatusOK, map[string]string{"message": "successfully logged in"})
+	res := models.UserResult{
+		ID:              u.ID,
+		AccountName:     u.AccountName,
+		Username:        u.Username,
+		FirstName:       u.FirstName,
+		LastName:        u.LastName,
+		Email:           u.Email,
+		ProfileImageUrl: u.ProfileImageUrl,
+		Bio:             u.Bio,
+		CreatedAt:       u.CreatedAt,
+		UpdatedAt:       u.UpdatedAt,
+	}
+
+	return c.JSON(http.StatusOK, res)
 }
 
 func Logout(c echo.Context) error {
