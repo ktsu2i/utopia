@@ -50,7 +50,7 @@ export default function Home() {
     const socket = new WebSocket("ws://localhost:8080/ws");
     
     socket.onmessage = (event) => {
-      if (event.data === "new_post" || event.data === "delete_post") {
+      if (event.data === "create_post" || event.data === "delete_post") {
         mutate();
       }
     };

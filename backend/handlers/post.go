@@ -31,7 +31,7 @@ func CreatePost(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
 	}
 
-	NotifyClients("new_post")
+	NotifyClients("create_post")
 
 	return c.JSON(http.StatusOK, p)
 }
