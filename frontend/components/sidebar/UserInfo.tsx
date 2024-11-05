@@ -20,6 +20,11 @@ const UserInfo = () => {
     router.push("/profile");
   };
 
+  const handleLogout = () => {
+    setIsOpen(false);
+    logout();
+  };
+
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
@@ -45,7 +50,7 @@ const UserInfo = () => {
           Profile
         </Button>
         <Button
-          onClick={logout}
+          onClick={handleLogout}
           variant="ghost"
           className="justify-start text-red-600 hover:text-red-600"
         >
