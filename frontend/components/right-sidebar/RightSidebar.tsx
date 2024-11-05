@@ -1,8 +1,11 @@
+import useAuthStore from "@/stores/authStore";
 import PostCard from "./PostCard";
 
 const RightSidebar = () => {
+  const { isAuthenticated } = useAuthStore();
+
   return (
-    <div className="h-screen w-1/3 fixed top-0 right-0">
+    <div className={`h-screen w-1/3 fixed top-0 right-0 ${!isAuthenticated && "hidden"}`}>
       <PostCard />
     </div>
   )

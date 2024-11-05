@@ -1,5 +1,15 @@
+"use client";
+
+import useAuthStore from "@/stores/authStore";
+
 export default function Settings() {
+  const { isAuthenticated } = useAuthStore();
+
   return (
-    <div>Settings</div>
+    <>
+      {isAuthenticated && (
+        <div>Messages</div>
+      )}
+    </>
   );
 }

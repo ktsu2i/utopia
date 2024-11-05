@@ -1,5 +1,7 @@
-import RightSidebar from "@/components/right-sidebar/RightSidebar"
-import Sidebar from "@/components/sidebar/Sidebar"
+"use client";
+
+import RightSidebar from "@/components/right-sidebar/RightSidebar";
+import Sidebar from "@/components/sidebar/Sidebar";
 
 export default function Layout({
   children
