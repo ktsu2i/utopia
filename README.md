@@ -19,6 +19,7 @@ In today's society, many people use social media daily, often leading to negativ
   - Next.js
   - Tailwind CSS
   - Zustand
+  - shadcn/ui
 
 - Backend:
   - Golang
