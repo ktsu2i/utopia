@@ -38,7 +38,15 @@ const SignUpSchema = z.object({
     .trim()
     .min(1, { message: "Please enter your email address." })
     .email({ message: "Invalid email address." })
-    .max(254, { message: "Too long email address." }),
+    .max(254, { message: "Too long email address." })
+    .refine(async (email) => {
+      try {
+        await axios.post("http://locahost:8080/api/check-email-exists", { email });
+        return true;
+      } catch {
+        return false;
+      }
+    }, { message: "Email already exists." }),
   password: z
     .string()
     .trim()
