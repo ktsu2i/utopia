@@ -4,7 +4,7 @@ import { Post } from "@/lib/types";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import { Ellipsis } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { Button } from "./ui/button";
+import { Button, buttonVariants } from "./ui/button";
 import useAuthStore from "@/stores/authStore";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "./ui/alert-dialog";
 import axios from "axios";
@@ -70,7 +70,12 @@ const PostItem: React.FC<PostItemProps> = ({
                         </AlertDialogHeader>
                         <AlertDialogFooter>
                           <AlertDialogCancel>Cancel</AlertDialogCancel>
-                          <AlertDialogAction onClick={onClick}>Delete</AlertDialogAction>
+                          <AlertDialogAction
+                            onClick={onClick} 
+                            className={buttonVariants({ variant: "destructive" })}
+                          >
+                            Delete
+                          </AlertDialogAction>
                         </AlertDialogFooter>
                       </AlertDialogContent>
                     </AlertDialog>
