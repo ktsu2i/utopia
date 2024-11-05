@@ -17,7 +17,11 @@ import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import useAuthStore from "@/stores/authStore";
 
 const PostSchema = z.object({
-  content: z.string().min(1).max(150),
+  content: z
+    .string()
+    .trim()
+    .min(1, { message: "Post must be at least 1 character." })
+    .max(150, { message: "Post must be less than 151 characters." }),
 });
 
 const PostCard = () => {
