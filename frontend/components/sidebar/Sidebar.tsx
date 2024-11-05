@@ -1,3 +1,5 @@
+"use client";
+
 import useAuthStore from "@/stores/authStore";
 import SidebarRoutes from "./SidebarRoutes";
 
