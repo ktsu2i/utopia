@@ -48,7 +48,7 @@ const PostItem: React.FC<PostItemProps> = ({
                   <Ellipsis className="h-4 w-4" color="gray" />
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className={`flex flex-col p-2 ${isMe ? "w-24" : "w-32"}`}>
+              <PopoverContent className="flex flex-col p-2 w-24">
                 {isMe ? (
                   <>
                     <Button variant="ghost" className="justify-start">Edit</Button>
