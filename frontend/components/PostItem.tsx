@@ -6,6 +6,9 @@ import { Ellipsis } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Button } from "./ui/button";
 import useAuthStore from "@/stores/authStore";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "./ui/alert-dialog";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 interface PostItemProps {
   post: Post
@@ -16,6 +19,15 @@ const PostItem: React.FC<PostItemProps> = ({
 }) => {
   const { currentUser } = useAuthStore();
   const isMe = currentUser?.id === post.userId;
+
+  const onClick = async () => {
+    try {
+      await axios.delete(`http://localhost:8080/api/posts/${post.id}`, { withCredentials: true });
+      toast.success("Deleted post");
+    } catch {
+      toast.error("Something went wrong");
+    }
+  };
 
   return (
     <div className="border-b border-x border-gray-300 last:border-b-0 p-4">
@@ -40,7 +52,28 @@ const PostItem: React.FC<PostItemProps> = ({
                 {isMe ? (
                   <>
                     <Button variant="ghost" className="justify-start">Edit</Button>
-                    <Button variant="ghost" className="justify-start text-red-600 hover:text-red-600">Delete</Button>
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          className="justify-start text-red-600 hover:text-red-600"
+                        >
+                          Delete
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            This will permanently delete this post. 
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogAction onClick={onClick}>Delete</AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
                   </>
                 ) : (
                   <>
