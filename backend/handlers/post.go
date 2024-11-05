@@ -31,6 +31,8 @@ func CreatePost(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
 	}
 
+	NotifyClients("create_post")
+
 	return c.JSON(http.StatusOK, p)
 }
 
@@ -61,5 +63,8 @@ func DeletePost(c echo.Context) error {
 	if db.DB.Where("id = ?", id).Delete(&models.Post{}).RowsAffected == 0 {
 		return c.JSON(http.StatusNotFound, map[string]string{"message": "Post not found"})
 	}
+
+	NotifyClients("delete_post")
+
 	return c.JSON(http.StatusOK, map[string]string{"message": "Post deleted successfully"})
 }

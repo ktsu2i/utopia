@@ -23,7 +23,7 @@ export default function Home() {
     [],
   );
 
-  const { data, size, setSize, isValidating } = useSWRInfinite(
+  const { data, size, setSize, isValidating, mutate } = useSWRInfinite(
     getKey, 
     fetcher, 
     {
@@ -45,6 +45,20 @@ export default function Home() {
       setSize(size + 1);
     }
   }, [isScrollEnd, isValidating, isReachingEnd, setSize, size]);
+
+  useEffect(() => {
+    const socket = new WebSocket("ws://localhost:8080/api/ws");
+    
+    socket.onmessage = (event) => {
+      if (event.data === "create_post" || event.data === "delete_post") {
+        mutate();
+      }
+    };
+
+    return () => {
+      socket.close();
+    };
+  }, [mutate]);
 
   return (
     <>

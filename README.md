@@ -26,6 +26,7 @@ In today's society, many people use social media daily, often leading to negativ
   - Echo
   - Air
   - Gorm
+  - Gorilla WebSocket
   - MySQL
   - Groq for LLM API (model: Llama 3 Groq 70B)
 
