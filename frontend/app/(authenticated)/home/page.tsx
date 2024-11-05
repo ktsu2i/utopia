@@ -50,8 +50,7 @@ export default function Home() {
     const socket = new WebSocket("ws://localhost:8080/ws");
     
     socket.onmessage = (event) => {
-      const message = JSON.parse(event.data);
-      if (message.type === "new_post") {
+      if (event.data === "new_post") {
         mutate();
       }
     };
