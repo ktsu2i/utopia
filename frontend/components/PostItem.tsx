@@ -82,9 +82,9 @@ const PostItem: React.FC<PostItemProps> = ({
                   </>
                 ) : (
                   <>
-                    <Button variant="ghost" className="justify-start">Follow {post.user.username}</Button>
-                    <Button variant="ghost" className="justify-start">Mute {post.user.username}</Button>
-                    <Button variant="ghost" className="justify-start text-red-600 hover:text-red-600">Block {post.user.username}</Button>
+                    <Button variant="ghost" className="justify-start">Follow</Button>
+                    <Button variant="ghost" className="justify-start">Mute</Button>
+                    <Button variant="ghost" className="justify-start text-red-600 hover:text-red-600">Block</Button>
                   </>
                 )}
               </PopoverContent>
