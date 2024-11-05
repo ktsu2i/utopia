@@ -20,7 +20,7 @@ export default function useAuth() {
       } catch {
         setIsAuthenticated(false);
         setCurrentUser(null);
-        if (pathname !== "/home" && pathname !== "/test/home") {
+        if (pathname !== "/test/home") {
           router.push("/login");
         }
       }
