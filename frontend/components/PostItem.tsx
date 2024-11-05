@@ -23,7 +23,7 @@ const PostItem: React.FC<PostItemProps> = ({
         <div className="h-full">
           <Avatar>
             <AvatarFallback>
-              {post.user.username.substring(0, 1).toUpperCase()}
+              {post.user.accountName.substring(0, 1).toUpperCase()}
             </AvatarFallback>
           </Avatar>
         </div>

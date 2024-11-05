@@ -28,7 +28,7 @@ const UserInfo = () => {
           className="flex justify-start gap-4 py-3 mb-3 w-[250px] h-full"
         >
           <Avatar>
-            <AvatarFallback>{currentUser?.username?.substring(0, 1).toUpperCase()}</AvatarFallback>
+            <AvatarFallback>{currentUser?.accountName?.substring(0, 1).toUpperCase()}</AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
             <div className="text-left text-base font-semibold">{currentUser?.accountName}</div>
