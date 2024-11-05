@@ -1,5 +1,15 @@
+"use client";
+
+import useAuthStore from "@/stores/authStore";
+
 export default function Notifications() {
+  const { isAuthenticated } = useAuthStore();
+
   return (
-    <div>Notifications</div>
+    <>
+      {isAuthenticated && (
+        <div>Notifications</div>
+      )}
+    </>
   );
 }
