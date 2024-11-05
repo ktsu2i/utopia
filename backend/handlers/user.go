@@ -163,5 +163,8 @@ func DeleteUserById(c echo.Context) error {
 	if db.DB.Where("id = ?", id).Delete(&models.User{}).RowsAffected == 0 {
 		return c.JSON(http.StatusNotFound, map[string]string{"message": "User not found"})
 	}
+
+	NotifyClients("delete_user")
+
 	return c.JSON(http.StatusOK, map[string]string{"message": "User deleted successfully"})
 }
