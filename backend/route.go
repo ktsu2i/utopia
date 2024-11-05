@@ -7,6 +7,8 @@ import (
 )
 
 func route(e *echo.Echo) {
+	e.GET("/ws", handlers.HandleWebSocket)
+
 	api := e.Group("/api")
 
 	// No JWT auth required
