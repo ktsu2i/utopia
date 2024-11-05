@@ -47,7 +47,7 @@ export default function Home() {
   }, [isScrollEnd, isValidating, isReachingEnd, setSize, size]);
 
   useEffect(() => {
-    const socket = new WebSocket("ws://localhost:8080/ws");
+    const socket = new WebSocket("ws://localhost:8080/api/ws");
     
     socket.onmessage = (event) => {
       if (event.data === "create_post" || event.data === "delete_post") {

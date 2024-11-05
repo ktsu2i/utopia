@@ -7,14 +7,13 @@ import (
 )
 
 func route(e *echo.Echo) {
-	e.GET("/ws", handlers.HandleWebSocket)
-
 	api := e.Group("/api")
 
 	// No JWT auth required
 	api.POST("/sign-up", handlers.SignUp)
 	api.POST("/login", handlers.Login)
 	api.POST("/check-username-exists", handlers.CheckUsernameExists)
+	api.GET("/ws", handlers.HandleWebSocket)
 
 	// JWT auth required
 	api.POST("/logout", handlers.Logout)
