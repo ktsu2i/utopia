@@ -19,6 +19,10 @@ type UsernameParams struct {
 	Username string `json:"username"`
 }
 
+type EmailParams struct {
+	Email string `json:"email"`
+}
+
 // JWT claims
 type AccountClaims struct {
 	ID string `json:"id"`
