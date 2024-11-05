@@ -1,5 +1,3 @@
-"use client";
-
 import RightSidebar from "@/components/right-sidebar/RightSidebar";
 import Sidebar from "@/components/sidebar/Sidebar";
 
