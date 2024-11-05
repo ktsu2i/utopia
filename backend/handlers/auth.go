@@ -126,6 +126,19 @@ func CheckUsernameExists(c echo.Context) error {
 	return c.JSON(http.StatusInternalServerError, map[string]bool{"exists": false})
 }
 
+func CheckEmailExists(c echo.Context) error {
+	var req models.EmailParams
+	if err := c.Bind(&req); err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{"message": err.Error()})
+	}
+
+	u := models.User{}
+	if db.DB.Where("email = ?", req.Email).First(&u).Error != nil {
+		return c.JSON(http.StatusOK, map[string]bool{"exists": true})
+	}
+	return c.JSON(http.StatusInternalServerError, map[string]bool{"exists": false})
+}
+
 func SignUp(c echo.Context) error {
 	var req models.SignUpParams
 	if err := c.Bind(&req); err != nil {
