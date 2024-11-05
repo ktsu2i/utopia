@@ -44,7 +44,10 @@ const PostItem: React.FC<PostItemProps> = ({
         </div>
         <div className="w-full">
           <div className="flex justify-between">
-            <span className="font-semibold">{post.user.username}</span>
+            <div className="flex flex-col pb-2">
+              <span className="font-semibold">{post.user.accountName}</span>
+              <span className="text-sm text-gray-500">{"@" + post.user.username}</span>
+            </div>
             <Popover open={isOpen} onOpenChange={setIsOpen}>
               <PopoverTrigger asChild>
                 <Button variant="ghost" size="sm">
