@@ -8,8 +8,11 @@ import { TailSpin } from "react-loader-spinner";
 
 import { Post } from "@/lib/types";
 import PostItem from "@/components/PostItem";
+import useAuthStore from "@/stores/authStore";
 
 export default function Home() {
+  const { isAuthenticated } = useAuthStore();
+
   const getKey = (pageIndex: number, previousPageData: Post[][]) => {
     if (previousPageData && !previousPageData.length) return null; // reaches the end
     return `http://localhost:8080/api/posts?page=${pageIndex + 1}&limit=10`;
@@ -45,7 +48,7 @@ export default function Home() {
 
   return (
     <>
-      {data && (
+      {isAuthenticated && data && (
         <div className="flex flex-col justify-center">
           {data.flat().map((post: Post, i: number) => (
             <PostItem key={i} post={post} />
