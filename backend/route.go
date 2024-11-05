@@ -13,6 +13,7 @@ func route(e *echo.Echo) {
 	api.POST("/sign-up", handlers.SignUp)
 	api.POST("/login", handlers.Login)
 	api.POST("/check-username-exists", handlers.CheckUsernameExists)
+	api.POST("/check-email-exists", handlers.CheckEmailExists)
 	api.GET("/ws", handlers.HandleWebSocket)
 
 	// JWT auth required
