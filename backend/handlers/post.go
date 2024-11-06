@@ -5,6 +5,7 @@ import (
 	"backend/models"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
@@ -22,9 +23,11 @@ func CreatePost(c echo.Context) error {
 	}
 
 	p := models.Post{
-		ID:      uuid.NewString(),
-		UserID:  userID,
-		Content: req.Content,
+		ID:        uuid.NewString(),
+		UserID:    userID,
+		Content:   req.Content,
+		CreatedAt: time.Now().UTC(),
+		UpdatedAt: time.Now().UTC(),
 	}
 
 	if err := db.DB.Create(&p).Error; err != nil {
