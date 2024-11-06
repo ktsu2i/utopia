@@ -10,6 +10,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useState } from "react";
+import { formatDistanceToNowStrict, parseISO } from "date-fns";
 
 interface PostItemProps {
   post: Post
@@ -20,7 +21,9 @@ const PostItem: React.FC<PostItemProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const { currentUser } = useAuthStore();
+
   const isMe = currentUser?.id === post.userId;
+  const postedDate = formatDistanceToNowStrict(parseISO(post.updatedAt));
 
   const onClick = async () => {
     setIsOpen(false);
@@ -46,7 +49,7 @@ const PostItem: React.FC<PostItemProps> = ({
           <div className="flex justify-between">
             <div className="flex flex-col pb-2">
               <span className="font-semibold">{post.user.accountName}</span>
-              <span className="text-sm text-gray-500">{"@" + post.user.username}</span>
+              <span className="text-sm text-gray-500">{"@" + post.user.username} &middot; {postedDate}</span>
             </div>
             <Popover open={isOpen} onOpenChange={setIsOpen}>
               <PopoverTrigger asChild>
