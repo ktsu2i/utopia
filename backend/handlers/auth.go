@@ -208,6 +208,17 @@ func Login(c echo.Context) error {
 		return c.JSON(http.StatusUnauthorized, map[string]string{"message": err.Error()})
 	}
 
+	res := &models.UserResult{
+		ID:              u.ID,
+		AccountName:     u.AccountName,
+		Username:        u.Username,
+		FirstName:       u.FirstName,
+		LastName:        u.LastName,
+		Email:           u.Email,
+		ProfileImageUrl: u.ProfileImageUrl,
+		Bio:             u.Bio,
+	}
+
 	// Create JWT claims
 	claims := &models.AccountClaims{
 		ID: u.ID,
@@ -258,7 +269,7 @@ func Login(c echo.Context) error {
 	}
 	c.SetCookie(refreshCookie)
 
-	return c.JSON(http.StatusOK, map[string]string{"message": "successfully logged in"})
+	return c.JSON(http.StatusOK, res)
 }
 
 func Logout(c echo.Context) error {
