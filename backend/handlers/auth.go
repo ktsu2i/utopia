@@ -156,6 +156,8 @@ func SignUp(c echo.Context) error {
 		Username:       req.Username,
 		Email:          req.Email,
 		HashedPassword: hashed,
+		CreatedAt:      time.Now().UTC(),
+		UpdatedAt:      time.Now().UTC(),
 	}
 
 	if err := db.DB.Create(&u).Error; err != nil {
