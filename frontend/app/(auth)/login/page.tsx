@@ -15,6 +15,8 @@ import { isStrongPassword } from "@/lib/validations";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import useAuthStore from "@/stores/authStore";
+import { User } from "@/lib/types";
 
 const LoginSchema = z.object({
   email: z
@@ -33,6 +35,8 @@ const LoginSchema = z.object({
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
+  
+  const { setIsAuthenticated, setCurrentUser } = useAuthStore();
 
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
@@ -45,9 +49,13 @@ export default function Login() {
   const onSubmit = async (data: z.infer<typeof LoginSchema>) => {
     try {
       // eslint-disable-next-line
-      const res = await axios.post("http://localhost:8080/api/login", data, { withCredentials: true });
-      toast.success("You're successfully logged in!");
-      router.push("/");
+      await axios.post<User>("http://localhost:8080/api/login", data, { withCredentials: true })
+        .then((res) => {
+          setIsAuthenticated(true);
+          setCurrentUser(res.data);
+          toast.success("You're successfully logged in!");
+          router.push("/");
+        });
     } catch {
       toast.error("Something went wrong");
     }
