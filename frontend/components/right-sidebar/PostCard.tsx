@@ -119,7 +119,7 @@ const PostCard = () => {
                       </FormItem>
                     )}
                   />
-                  <TooltipProvider>
+                  <TooltipProvider delayDuration={200}>
                     <Tooltip>
                       <TooltipTrigger className="my-4 w-full">
                         <Button
