@@ -24,25 +24,25 @@ var wsServer = WebSocketServer{
 }
 
 func HandleWebSocket(c echo.Context) error {
-	conn, err := upgrader.Upgrade(c.Response(), c.Request(), nil)
+	ws, err := upgrader.Upgrade(c.Response(), c.Request(), nil)
 	if err != nil {
 		return err
 	}
-	defer conn.Close()
+	defer ws.Close()
 
 	// Add client
 	wsServer.mu.Lock()
-	wsServer.clients[conn] = true
+	wsServer.clients[ws] = true
 	wsServer.mu.Unlock()
 
 	defer func() {
 		wsServer.mu.Lock()
-		delete(wsServer.clients, conn)
+		delete(wsServer.clients, ws)
 		wsServer.mu.Unlock()
 	}()
 
 	for {
-		_, _, err := conn.ReadMessage()
+		_, _, err := ws.ReadMessage()
 		if err != nil {
 			break
 		}
