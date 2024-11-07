@@ -15,6 +15,8 @@ import { Button } from "../ui/button";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import useAuthStore from "@/stores/authStore";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
+import { Command } from "lucide-react";
 
 const PostSchema = z.object({
   content: z
@@ -105,14 +107,24 @@ const PostCard = () => {
                       </FormItem>
                     )}
                   />
-                  <Button
-                    disabled={isLoading}
-                    variant="utopia"
-                    size="lg"
-                    className="my-4 w-full"
-                  >
-                    {isLoading ? "Checking..." : "Post"}
-                  </Button>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <Button
+                          disabled={isLoading}
+                          variant="utopia"
+                          size="lg"
+                          className="my-4 w-full"
+                        >
+                          {isLoading ? "Checking..." : "Post"}
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <Command />
+                        <div>+Return</div>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
                 </form>
               </Form>
               {!isAppropriate && (
