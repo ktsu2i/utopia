@@ -78,6 +78,8 @@ const PostCard = () => {
   };
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (isLoading) return;
+
     if ((event.metaKey || event.ctrlKey) && event.key === "Enter") {
       event.preventDefault();
       form.handleSubmit(onSubmit)();
