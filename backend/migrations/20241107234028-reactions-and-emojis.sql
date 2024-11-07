@@ -1,7 +1,7 @@
 
 -- +migrate Up
 CREATE TABLE IF NOT EXISTS `emojis` (
-	`id` INT(10) NOT NULL AUTOINCREMENT,
+	`id` INT(10) NOT NULL AUTO_INCREMENT,
 	`name` VARCHAR(255) NOT NULL,
 	`unicode` VARCHAR(10),
 	`image_url` VARCHAR(255),
@@ -13,10 +13,10 @@ CREATE TABLE IF NOT EXISTS `emojis` (
 );
 
 CREATE TABLE IF NOT EXISTS `reactions` (
-	`id` INT(15) NOT NULL AUTOINCREMENT,
+	`id` INT(15) NOT NULL AUTO_INCREMENT,
 	`post_id` VARCHAR(255) NOT NULL,
 	`user_id` VARCHAR(255) NOT NULL,
-	`emoji_id` VARCHAR(255) NOT NULL,
+	`emoji_id` INT(10) NOT NULL,
 	`created_at` DATETIME(6) DEFAULT NULL,
 	`updated_at` DATETIME(6) DEFAULT NULL,
 	PRIMARY KEY (`id`),
