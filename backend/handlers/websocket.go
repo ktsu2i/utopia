@@ -26,7 +26,7 @@ var wsServer = WebSocketServer{
 func HandleWebSocket(c echo.Context) error {
 	conn, err := upgrader.Upgrade(c.Response(), c.Request(), nil)
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, err.Error())
+		return err
 	}
 	defer conn.Close()
 
@@ -47,7 +47,7 @@ func HandleWebSocket(c echo.Context) error {
 			break
 		}
 	}
-	return c.JSON(http.StatusOK, nil)
+	return nil
 }
 
 func NotifyClients(message string) {
