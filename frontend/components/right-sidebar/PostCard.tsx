@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Post } from "@/lib/types";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "../ui/form";
 import { Button } from "../ui/button";
@@ -16,7 +16,6 @@ import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import useAuthStore from "@/stores/authStore";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
-import { Command } from "lucide-react";
 
 const PostSchema = z.object({
   content: z
@@ -30,8 +29,21 @@ const PostCard = () => {
   const [post, setPost] = useState<Post | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isAppropriate, setIsAppropriate] = useState(true);
+  const [shortcutKey, setShortcutKey] = useState("");
 
   const { currentUser } = useAuthStore();
+
+  useEffect(() => {
+    const userAgent = navigator.userAgent;
+
+    if (userAgent.includes("Win") || userAgent.includes("Linux")) {
+      setShortcutKey("Ctrl+Enter");
+    } else if (userAgent.includes("Mac")) {
+      setShortcutKey("⌘+Return");
+    } else {
+      setShortcutKey("");
+    }
+  }, []);
 
   const form = useForm<z.infer<typeof PostSchema>>({
     resolver: zodResolver(PostSchema),
@@ -109,20 +121,17 @@ const PostCard = () => {
                   />
                   <TooltipProvider>
                     <Tooltip>
-                      <TooltipTrigger>
+                      <TooltipTrigger className="my-4 w-full">
                         <Button
                           disabled={isLoading}
                           variant="utopia"
                           size="lg"
-                          className="my-4 w-full"
+                          className="w-full"
                         >
                           {isLoading ? "Checking..." : "Post"}
                         </Button>
                       </TooltipTrigger>
-                      <TooltipContent>
-                        <Command />
-                        <div>+Return</div>
-                      </TooltipContent>
+                      <TooltipContent>{shortcutKey}</TooltipContent>
                     </Tooltip>
                   </TooltipProvider>
                 </form>
