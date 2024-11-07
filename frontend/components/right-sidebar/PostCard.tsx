@@ -37,9 +37,9 @@ const PostCard = () => {
     const userAgent = navigator.userAgent;
 
     if (userAgent.includes("Win") || userAgent.includes("Linux")) {
-      setShortcutKey("Ctrl+Enter");
+      setShortcutKey("Ctrl + Enter");
     } else if (userAgent.includes("Mac")) {
-      setShortcutKey("⌘+Return");
+      setShortcutKey("⌘ + Return");
     } else {
       setShortcutKey("");
     }
