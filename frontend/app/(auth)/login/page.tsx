@@ -48,7 +48,6 @@ export default function Login() {
 
   const onSubmit = async (data: z.infer<typeof LoginSchema>) => {
     try {
-      // eslint-disable-next-line
       await axios.post<User>("http://localhost:8080/api/login", data, { withCredentials: true })
         .then((res) => {
           setIsAuthenticated(true);
