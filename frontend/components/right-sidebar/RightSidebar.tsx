@@ -1,7 +1,9 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import useAuthStore from "@/stores/authStore";
-import PostCard from "./PostCard";
+
+const PostCard = dynamic(() => import("./PostCard"), { ssr: false });
 
 const RightSidebar = () => {
   const { isAuthenticated } = useAuthStore();
