@@ -36,7 +36,7 @@ const PostItem: React.FC<PostItemProps> = ({
   };
 
   return (
-    <div className="border-b border-x border-gray-300 last:border-b-0 p-4">
+    <div className="border-b border-gray-300 last:border-b-0 p-4">
       <div className="flex gap-x-2">
         <div className="h-full">
           <Avatar>
