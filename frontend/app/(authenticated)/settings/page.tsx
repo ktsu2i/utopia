@@ -14,7 +14,7 @@ export default function Settings() {
         <div>Messages</div>
       )}
       <div>
-        {emojis.map((emoji) => (<div key={emoji.id}>{emoji.unicode}</div>))}
+        {emojis.map((emoji) => (<div key={emoji.id} className="text-xl">{String.fromCodePoint(parseInt(emoji.unicode, 16))}</div>))}
       </div>
     </>
   );
