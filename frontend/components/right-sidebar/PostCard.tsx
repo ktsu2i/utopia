@@ -28,6 +28,7 @@ const PostCard = () => {
   const [post, setPost] = useState<Post | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isAppropriate, setIsAppropriate] = useState(true);
+
   const { currentUser } = useAuthStore();
 
   const form = useForm<z.infer<typeof PostSchema>>({
@@ -60,7 +61,14 @@ const PostCard = () => {
     } finally {
       setIsLoading(false);
     }
-  }
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if ((event.metaKey || event.ctrlKey) && event.key === "Enter") {
+      event.preventDefault();
+      form.handleSubmit(onSubmit)();
+    }
+  };
 
   console.log(post); // will be removed
 
@@ -86,7 +94,12 @@ const PostCard = () => {
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
-                          <Textarea placeholder="How are you doing?" className="h-32 resize-none" {...field}/>
+                          <Textarea
+                            onKeyDown={handleKeyDown}
+                            placeholder="How are you doing?" 
+                            className="h-32 resize-none" 
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
