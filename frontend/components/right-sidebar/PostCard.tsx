@@ -73,7 +73,7 @@ const PostCard = () => {
             <div className="h-full">
               <Avatar>
                 <AvatarFallback>
-                  {currentUser?.accountName.substring(0, 1).toUpperCase()}
+                  {currentUser?.accountName?.substring(0, 1).toUpperCase()}
                 </AvatarFallback>
               </Avatar>
             </div>
