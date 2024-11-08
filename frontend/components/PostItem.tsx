@@ -119,7 +119,17 @@ const PostItem: React.FC<PostItemProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="w-full">
+        <div className="w-full flex items-center gap-2">
+          {post.reactions.map((reaction) => (
+            <Button
+              key={reaction.emojiId}
+              variant="outline"
+              size="sm"
+              className={`text-sm px-2 py-1 ${reaction.userId === currentUser?.id ? "bg-[#FFF5E6] border-[#FF9933]" : ""}`}
+            >
+              {String.fromCodePoint(parseInt(reaction.emoji.unicode, 16))}
+            </Button>
+          ))}
           <Popover>
             <PopoverTrigger asChild>
               <Button variant="ghost" size="sm" className="text-gray-500 rounded-full w-8 h-8 p-0">
