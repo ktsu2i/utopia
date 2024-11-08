@@ -31,7 +31,6 @@ const PostItem: React.FC<PostItemProps> = ({
   const { currentUser } = useAuthStore();
   const { emojis } = useEmojis();
 
-  const isMe = currentUser?.id === post.userId;
   const postedDate = formatDistanceToNowStrict(parseISO(post.updatedAt));
 
   const groupedReactions = Object.values(
@@ -112,7 +111,7 @@ const PostItem: React.FC<PostItemProps> = ({
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="flex flex-col p-2 w-24">
-                  {isMe ? (
+                  {currentUser?.id === post.userId ? (
                     <>
                       <Button variant="ghost" className="justify-start">Edit</Button>
                       <AlertDialog>
