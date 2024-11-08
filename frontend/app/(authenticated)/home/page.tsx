@@ -59,7 +59,7 @@ export default function Home() {
     return () => {
       socket.close();
     };
-  }, [mutate]);
+  }, [mutate, eventTypes]);
 
   return (
     <>
