@@ -3,8 +3,6 @@ package models
 import "time"
 
 type ReactionParams struct {
-	PostID  string `json:"postId"`
-	UserID  string `json:"userId"`
 	EmojiID string `json:"emojiId"`
 }
 
