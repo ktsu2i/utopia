@@ -39,3 +39,11 @@ export interface Emoji {
   createdAt: string
   updatedAt: string
 }
+
+export interface Reaction {
+  postId: string
+  userId: string
+  emojiId: number
+  createdAt: string
+  updatedAt: string
+}
