@@ -172,7 +172,7 @@ const PostItem: React.FC<PostItemProps> = ({
           ))}
           <Popover open={isEmojisOpen} onOpenChange={setIsEmojisOpen}>
             <PopoverTrigger asChild>
-              <Button variant="ghost" size="sm" className="text-gray-500 rounded-full w-8 h-8 p-0">
+              <Button variant="ghost" size="sm" className="text-gray-500 rounded-full w-8 h-8 p-0 hover:text-utopia hover:bg-utopia_light">
                 <SmilePlus className="h-5 w-5" />
                 <span className="sr-only">Add reaction</span>
               </Button>
