@@ -57,6 +57,15 @@ const PostItem: React.FC<PostItemProps> = ({
     }
   };
 
+  const removeReaction = async (reactionId: number) => {
+    try {
+      await axios.delete(`http://localhost:8080/api/reactions/${reactionId}`, { withCredentials: true });
+      toast.success("reaction deleted!");
+    } catch {
+      toast.error("something went wrong");
+    }
+  }
+
   const onClick = async () => {
     setIsOpen(false);
     try {
@@ -144,6 +153,11 @@ const PostItem: React.FC<PostItemProps> = ({
               variant="outline"
               size="sm"
               className={`text-sm px-2 py-1 ${groupedReaction.userId === currentUser?.id ? "bg-[#FFF5E6] border-[#FF9933]" : ""}`}
+              onClick={() => {
+                if (groupedReaction.userId === currentUser?.id) {
+                  removeReaction(groupedReaction.id);
+                }
+              }}
             >
               {String.fromCodePoint(parseInt(groupedReaction.emoji.unicode, 16))} {groupedReaction.count}
             </Button>

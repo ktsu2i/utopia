@@ -48,24 +48,12 @@ func AddReaction(c echo.Context) error {
 }
 
 func DeleteReaction(c echo.Context) error {
-	userID, err := GetUserID(c)
-	if err != nil {
-		return c.JSON(http.StatusUnauthorized, map[string]string{"message": "Unauthorized"})
-	}
-
-	var req models.ReactionParams
-	if err := c.Bind(&req); err != nil {
-		return c.JSON(http.StatusBadRequest, map[string]string{"message": err.Error()})
-	}
-
-	var reaction models.Reaction
-	if err := db.DB.Where("user_id = ? AND post_id = ? AND emoji_id = ?", userID, req.PostID, req.EmojiID).First(&reaction).Error; err != nil {
+	id := c.Param("id")
+	if db.DB.Where("id = ?", id).Delete(&models.Reaction{}).RowsAffected == 0 {
 		return c.JSON(http.StatusNotFound, map[string]string{"message": "Reaction not found"})
 	}
 
-	if err := db.DB.Delete(&reaction).Error; err != nil {
-		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
-	}
+	NotifyClients("delete_reaction")
 
 	return c.JSON(http.StatusOK, map[string]string{"message": "Reaction successfully deleted"})
 }

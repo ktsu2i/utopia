@@ -32,6 +32,7 @@ export interface Emoji {
 }
 
 export interface Reaction {
+  id: number
   postId: string
   userId: string
   emojiId: number

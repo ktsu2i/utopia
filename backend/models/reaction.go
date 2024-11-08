@@ -8,6 +8,7 @@ type ReactionParams struct {
 }
 
 type Reaction struct {
+	ID        int       `json:"id"`
 	PostID    string    `json:"postId"`
 	UserID    string    `json:"userId"`
 	EmojiID   int       `json:"emojiId"`

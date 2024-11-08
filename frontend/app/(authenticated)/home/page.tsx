@@ -48,9 +48,10 @@ export default function Home() {
 
   useEffect(() => {
     const socket = new WebSocket("ws://localhost:8080/api/ws");
-    
+    const eventTypes = ["create_post", "delete_post", "delete_user", "add_reaction", "delete_reaction"];
+
     socket.onmessage = (event) => {
-      if (event.data === "create_post" || event.data === "delete_post" || event.data === "delete_user" || event.data === "add_reaction") {
+      if (eventTypes.includes(event.data)) {
         mutate();
       }
     };
