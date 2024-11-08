@@ -13,4 +13,5 @@ type Reaction struct {
 	EmojiID   int       `json:"emojiId"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
+	Emoji     Emoji     `json:"emoji"`
 }
