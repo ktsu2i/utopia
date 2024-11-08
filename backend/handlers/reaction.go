@@ -11,7 +11,6 @@ import (
 
 func AddReaction(c echo.Context) error {
 	postID := c.Param("post_id")
-	emojiID := c.Param("emoji_id")
 
 	userID, err := GetUserID(c)
 	if err != nil {
@@ -26,7 +25,7 @@ func AddReaction(c echo.Context) error {
 	r := models.Reaction{
 		UserID:    userID,
 		PostID:    postID,
-		EmojiID:   emojiID,
+		EmojiID:   req.EmojiID,
 		CreatedAt: time.Now().UTC(),
 		UpdatedAt: time.Now().UTC(),
 	}
