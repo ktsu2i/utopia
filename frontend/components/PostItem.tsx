@@ -54,6 +54,7 @@ const PostItem: React.FC<PostItemProps> = ({
       
       setIsEmojisOpen(false);
     } catch {
+      setIsEmojisOpen(false);
     }
   };
 
