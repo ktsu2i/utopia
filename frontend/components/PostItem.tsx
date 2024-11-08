@@ -50,19 +50,14 @@ const PostItem: React.FC<PostItemProps> = ({
         postId: post.id,
         emojiId: emojiId,
       }, { withCredentials: true });
-
-      toast.success("Reaction added");
     } catch {
-      toast.error("Something went wrong");
     }
   };
 
   const removeReaction = async (reactionId: number) => {
     try {
       await axios.delete(`http://localhost:8080/api/reactions/${reactionId}`, { withCredentials: true });
-      toast.success("reaction deleted!");
     } catch {
-      toast.error("something went wrong");
     }
   }
 
