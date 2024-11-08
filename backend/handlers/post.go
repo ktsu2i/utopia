@@ -54,7 +54,13 @@ func GetPosts(c echo.Context) error {
 	offset := (page - 1) * limit
 
 	var posts []models.PostResult
-	if err := db.DB.Preload("User").Order("created_at desc").Limit(limit).Offset(offset).Find(&posts).Error; err != nil {
+	if err := db.DB.
+		Preload("User").
+		Preload("Reactions.Emoji").
+		Order("created_at desc").
+		Limit(limit).
+		Offset(offset).
+		Find(&posts).Error; err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
 	}
 

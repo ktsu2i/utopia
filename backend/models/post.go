@@ -9,12 +9,11 @@ type PostParams struct {
 
 // DB
 type Post struct {
-	ID        string     `json:"id"`
-	UserID    string     `json:"userId"`
-	Content   string     `json:"content"`
-	CreatedAt time.Time  `json:"createdAt"`
-	UpdatedAt time.Time  `json:"updatedAt"`
-	Reactions []Reaction `json:"reactions"`
+	ID        string    `json:"id"`
+	UserID    string    `json:"userId"`
+	Content   string    `json:"content"`
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
 }
 
 // Response
@@ -25,7 +24,7 @@ type PostResult struct {
 	Content   string     `json:"content"`
 	CreatedAt time.Time  `json:"createdAt"`
 	UpdatedAt time.Time  `json:"updatedAt"`
-	Reactions []Reaction `json:"reactions"`
+	Reactions []Reaction `gorm:"foreignKey:PostID;references:ID" json:"reactions"`
 }
 
 func (PostResult) TableName() string {
