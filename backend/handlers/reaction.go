@@ -42,5 +42,7 @@ func AddReaction(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
 	}
 
+	NotifyClients("add_reaction")
+
 	return c.JSON(http.StatusOK, r)
 }

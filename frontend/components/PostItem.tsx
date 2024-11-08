@@ -25,15 +25,14 @@ const PostItem: React.FC<PostItemProps> = ({
   post,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [reactions, setReactions] = useState<Reaction[]>(post.reactions);
   const { currentUser } = useAuthStore();
   const { emojis } = useEmojis();
 
   const isMe = currentUser?.id === post.userId;
   const postedDate = formatDistanceToNowStrict(parseISO(post.updatedAt));
-  
+
   const groupedReactions = Object.values(
-    reactions.reduce((acc: { [key: number]: GroupedReaction }, reaction: Reaction) => {
+    post.reactions.reduce((acc: { [key: number]: GroupedReaction }, reaction: Reaction) => {
       const emojiId = reaction.emojiId;
 
       if (!acc[emojiId]) {
@@ -47,15 +46,10 @@ const PostItem: React.FC<PostItemProps> = ({
 
   const addReaction = async (emojiId: number) => {
     try {
-      const res = await axios.post<Reaction>("http://localhost:8080/api/reactions", {
+      await axios.post<Reaction>("http://localhost:8080/api/reactions", {
         postId: post.id,
         emojiId: emojiId,
       }, { withCredentials: true });
-
-      setReactions((prev) => [
-        ...prev,
-        res.data
-      ]);
 
       toast.success("Reaction added");
     } catch {
