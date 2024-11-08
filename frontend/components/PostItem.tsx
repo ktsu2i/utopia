@@ -164,7 +164,7 @@ const PostItem: React.FC<PostItemProps> = ({
               key={groupedReaction.emojiId}
               variant="outline"
               size="sm"
-              className={`text-sm px-2 py-1 ${groupedReaction.userIds.includes(currentUser?.id || "") ? "bg-[#FFF5E6] border-[#FF9933]" : ""}`}
+              className={`text-sm px-2 py-1 ${groupedReaction.userIds.includes(currentUser?.id || "") ? "bg-utopia_light border-utopia" : ""}`}
               onClick={() => handleReaction(groupedReaction.emojiId, groupedReaction.userIds)}
             >
               {parseEmoji(groupedReaction.emoji.unicode)} {groupedReaction.count}
