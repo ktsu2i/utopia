@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/labstack/echo/v4"
+	"gorm.io/gorm"
 )
 
 func AddReaction(c echo.Context) error {
@@ -18,6 +19,15 @@ func AddReaction(c echo.Context) error {
 	var req models.ReactionParams
 	if err := c.Bind(&req); err != nil {
 		return c.JSON(http.StatusBadRequest, map[string]string{"message": err.Error()})
+	}
+
+	// Check if user adds same emoji to same post
+	var reaction models.Reaction
+	err = db.DB.Where("user_id = ? AND post_id = ? AND emoji_id = ?", userID, req.PostID, req.EmojiID).First(&reaction).Error
+	if err == nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"message": "Reaction already exists"})
+	} else if err != gorm.ErrRecordNotFound {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"message": "DB error"})
 	}
 
 	r := models.Reaction{
