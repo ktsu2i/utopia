@@ -12,7 +12,7 @@ import toast from "react-hot-toast";
 import { useState } from "react";
 import { formatDistanceToNowStrict, parseISO } from "date-fns";
 import { useEmojis } from "@/hooks/useEmojis";
-import parseEmoji from "@/lib/parseEmoji";
+import { parseEmoji } from "@/lib/utils";
 
 interface PostItemProps {
   post: Post
