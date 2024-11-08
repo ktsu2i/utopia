@@ -110,7 +110,7 @@ const PostItem: React.FC<PostItemProps> = ({
         <div className="w-full">
           <Popover>
             <PopoverTrigger asChild>
-              <Button variant="ghost" size="sm" className="text-gray-500">
+              <Button variant="ghost" size="sm" className="text-gray-500 rounded-full w-8 h-8 p-0">
                 <SmilePlus className="h-5 w-5" />
                 <span className="sr-only">Add reaction</span>
               </Button>
