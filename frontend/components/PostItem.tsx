@@ -27,6 +27,18 @@ const PostItem: React.FC<PostItemProps> = ({
   const isMe = currentUser?.id === post.userId;
   const postedDate = formatDistanceToNowStrict(parseISO(post.updatedAt));
 
+  const addReaction = async (emojiId: number) => {
+    try {
+      await axios.post("http://localhost:8080/api/reactions", {
+        postId: post.id,
+        emojiId: emojiId,
+      }, { withCredentials: true });
+      toast.success("Reaction added");
+    } catch {
+      toast.error("Something went wrong");
+    }
+  };
+
   const onClick = async () => {
     setIsOpen(false);
     try {
@@ -122,6 +134,7 @@ const PostItem: React.FC<PostItemProps> = ({
                     key={emoji.name}
                     variant="ghost"
                     className="text-2xl p-2"
+                    onClick={() => addReaction(emoji.id)}
                   >
                     {String.fromCodePoint(parseInt(emoji.unicode, 16))}
                   </Button>
