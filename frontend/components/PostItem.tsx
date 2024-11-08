@@ -25,6 +25,7 @@ const PostItem: React.FC<PostItemProps> = ({
   post,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isEmojisOpen, setIsEmojisOpen] = useState(false);
   const { currentUser } = useAuthStore();
   const { emojis } = useEmojis();
 
@@ -50,6 +51,8 @@ const PostItem: React.FC<PostItemProps> = ({
         postId: post.id,
         emojiId: emojiId,
       }, { withCredentials: true });
+      
+      setIsEmojisOpen(false);
     } catch {
     }
   };
@@ -157,7 +160,7 @@ const PostItem: React.FC<PostItemProps> = ({
               {String.fromCodePoint(parseInt(groupedReaction.emoji.unicode, 16))} {groupedReaction.count}
             </Button>
           ))}
-          <Popover>
+          <Popover open={isEmojisOpen} onOpenChange={setIsEmojisOpen}>
             <PopoverTrigger asChild>
               <Button variant="ghost" size="sm" className="text-gray-500 rounded-full w-8 h-8 p-0">
                 <SmilePlus className="h-5 w-5" />
