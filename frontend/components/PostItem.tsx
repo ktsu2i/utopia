@@ -119,7 +119,7 @@ const PostItem: React.FC<PostItemProps> = ({
               <div className="grid grid-cols-4 gap-2">
                 {emojis.map((emoji) => (
                   <Button
-                    key={emoji.id}
+                    key={emoji.name}
                     variant="ghost"
                     className="text-2xl p-2"
                   >
