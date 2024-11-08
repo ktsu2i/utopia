@@ -107,8 +107,8 @@ const PostItem: React.FC<PostItemProps> = ({
               </div>
               <Popover open={isOpen} onOpenChange={setIsOpen}>
                 <PopoverTrigger asChild>
-                  <Button variant="ghost" size="sm">
-                    <Ellipsis className="h-4 w-4" color="gray" />
+                  <Button variant="ghost" size="sm" className="h-8 w-8 p-0 rounded-full hover:text-utopia hover:bg-utopia_light">
+                    <Ellipsis className="h-4 w-4" />
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="flex flex-col p-2 w-24">
