@@ -10,8 +10,6 @@ import (
 )
 
 func AddReaction(c echo.Context) error {
-	postID := c.Param("post_id")
-
 	userID, err := GetUserID(c)
 	if err != nil {
 		return c.JSON(http.StatusUnauthorized, map[string]string{"message": "Unauthorized"})
@@ -24,7 +22,7 @@ func AddReaction(c echo.Context) error {
 
 	r := models.Reaction{
 		UserID:    userID,
-		PostID:    postID,
+		PostID:    req.PostID,
 		EmojiID:   req.EmojiID,
 		CreatedAt: time.Now().UTC(),
 		UpdatedAt: time.Now().UTC(),
