@@ -29,5 +29,5 @@ func route(e *echo.Echo) {
 	api.POST("/posts", handlers.CreatePost)
 	api.DELETE("/posts/:id", handlers.DeletePost)
 	api.GET("/emojis", handlers.GetEmojis)
-	api.POST("/emojis", handlers.AddReaction)
+	api.POST("/reactions", handlers.AddReaction)
 }
