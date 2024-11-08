@@ -51,6 +51,7 @@ const config: Config = {
   				'5': 'hsl(var(--chart-5))'
   			},
 				utopia: "#FF9933",
+				utopia_light: "#FFF5E6",
   		},
   		borderRadius: {
   			lg: 'var(--radius)',
