@@ -1,6 +1,6 @@
 "use client";
 
-import { Post } from "@/lib/types";
+import { Post, Reaction } from "@/lib/types";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import { Ellipsis, SmilePlus } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
@@ -17,6 +17,10 @@ interface PostItemProps {
   post: Post
 }
 
+interface GroupedReaction extends Reaction {
+  count: number;
+}
+
 const PostItem: React.FC<PostItemProps> = ({
   post,
 }) => {
@@ -26,6 +30,17 @@ const PostItem: React.FC<PostItemProps> = ({
 
   const isMe = currentUser?.id === post.userId;
   const postedDate = formatDistanceToNowStrict(parseISO(post.updatedAt));
+
+  const groupedReactions: { [key: number]: GroupedReaction } = post.reactions.reduce(
+    (acc: { [key: number]: GroupedReaction }, reaction: Reaction) => {
+      const emojiId = reaction.emojiId;
+      if (!acc[emojiId]) {
+        acc[emojiId] = { ...reaction, count: 0 };
+      }
+      acc[emojiId].count += 1;
+      return acc;
+    }, {}
+  );
 
   const addReaction = async (emojiId: number) => {
     try {
@@ -120,14 +135,14 @@ const PostItem: React.FC<PostItemProps> = ({
 
         {/* Footer */}
         <div className="w-full flex items-center gap-2">
-          {post.reactions.map((reaction) => (
+          {Object.values(groupedReactions).map((groupedReaction) => (
             <Button
-              key={reaction.emojiId}
+              key={groupedReaction.emojiId}
               variant="outline"
               size="sm"
-              className={`text-sm px-2 py-1 ${reaction.userId === currentUser?.id ? "bg-[#FFF5E6] border-[#FF9933]" : ""}`}
+              className={`text-sm px-2 py-1 ${groupedReaction.userId === currentUser?.id ? "bg-[#FFF5E6] border-[#FF9933]" : ""}`}
             >
-              {String.fromCodePoint(parseInt(reaction.emoji.unicode, 16))}
+              {String.fromCodePoint(parseInt(groupedReaction.emoji.unicode, 16))} {groupedReaction.count}
             </Button>
           ))}
           <Popover>
