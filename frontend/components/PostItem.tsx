@@ -63,6 +63,7 @@ const PostItem: React.FC<PostItemProps> = ({
     try {
       await axios.delete(`http://localhost:8080/api/reactions/${reactionId}`, { withCredentials: true });
     } catch {
+      // no error handling
     }
   }
 
