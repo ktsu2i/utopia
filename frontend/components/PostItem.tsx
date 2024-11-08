@@ -12,6 +12,7 @@ import toast from "react-hot-toast";
 import { useState } from "react";
 import { formatDistanceToNowStrict, parseISO } from "date-fns";
 import { useEmojis } from "@/hooks/useEmojis";
+import parseEmoji from "@/lib/parseEmoji";
 
 interface PostItemProps {
   post: Post
@@ -158,7 +159,7 @@ const PostItem: React.FC<PostItemProps> = ({
                 }
               }}
             >
-              {String.fromCodePoint(parseInt(groupedReaction.emoji.unicode, 16))} {groupedReaction.count}
+              {parseEmoji(groupedReaction.emoji.unicode)} {groupedReaction.count}
             </Button>
           ))}
           <Popover open={isEmojisOpen} onOpenChange={setIsEmojisOpen}>
