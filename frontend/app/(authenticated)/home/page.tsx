@@ -37,6 +37,7 @@ export default function Home() {
   const limit = 10;
   const isEmpty = data?.[0]?.length === 0;
   const isReachingEnd = isEmpty || (data && data?.[data?.length - 1]?.length < limit);
+  const eventTypes = ["create_post", "delete_post", "delete_user", "add_reaction", "delete_reaction"];
 
   const { ref, inView: isScrollEnd } = useInView();
 
@@ -48,9 +49,9 @@ export default function Home() {
 
   useEffect(() => {
     const socket = new WebSocket("ws://localhost:8080/api/ws");
-    
+
     socket.onmessage = (event) => {
-      if (event.data === "create_post" || event.data === "delete_post" || event.data === "delete_user") {
+      if (eventTypes.includes(event.data)) {
         mutate();
       }
     };

@@ -21,6 +21,26 @@ export interface Reply {
   updatedAt: string
 }
 
+export interface Emoji {
+  id: number
+  name: string
+  unicode: string
+  imageUrl: string
+  creatorId: string
+  createdAt: string
+  updatedAt: string
+}
+
+export interface Reaction {
+  id: number
+  postId: string
+  userId: string
+  emojiId: number
+  createdAt: string
+  updatedAt: string
+  emoji: Emoji
+}
+
 export interface Post {
   id: string
   userId: string
@@ -28,4 +48,6 @@ export interface Post {
   content: string
   createdAt: string
   updatedAt: string
+  reactions: Reaction[]
 }
+

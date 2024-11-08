@@ -24,6 +24,7 @@ type PostResult struct {
 	Content   string     `json:"content"`
 	CreatedAt time.Time  `json:"createdAt"`
 	UpdatedAt time.Time  `json:"updatedAt"`
+	Reactions []Reaction `gorm:"foreignKey:PostID;references:ID" json:"reactions"`
 }
 
 func (PostResult) TableName() string {
