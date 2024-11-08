@@ -20,6 +20,7 @@ interface PostItemProps {
 
 interface GroupedReaction extends Reaction {
   count: number;
+  userIds: string[];
 }
 
 const PostItem: React.FC<PostItemProps> = ({
@@ -38,9 +39,10 @@ const PostItem: React.FC<PostItemProps> = ({
       const emojiId = reaction.emojiId;
 
       if (!acc[emojiId]) {
-        acc[emojiId] = { ...reaction, count: 0 };
+        acc[emojiId] = { ...reaction, count: 0, userIds: [] };
       }
       acc[emojiId].count += 1;
+      acc[emojiId].userIds.push(reaction.userId);
 
       return acc;
     }, {})
@@ -65,7 +67,16 @@ const PostItem: React.FC<PostItemProps> = ({
     } catch {
       // no error handling
     }
-  }
+  };
+
+  const handleReaction = (emojiId: number, userIds: string[]) => {
+    if (userIds.includes(currentUser?.id || "")) {
+      const reaction = post.reactions.find(r => r.emojiId === emojiId && r.userId === currentUser?.id);
+      if (reaction) removeReaction(reaction.id);
+    } else {
+      addReaction(emojiId);
+    }
+  };
 
   const onClick = async () => {
     setIsOpen(false);
@@ -153,12 +164,8 @@ const PostItem: React.FC<PostItemProps> = ({
               key={groupedReaction.emojiId}
               variant="outline"
               size="sm"
-              className={`text-sm px-2 py-1 ${groupedReaction.userId === currentUser?.id ? "bg-[#FFF5E6] border-[#FF9933]" : ""}`}
-              onClick={() => {
-                if (groupedReaction.userId === currentUser?.id) {
-                  removeReaction(groupedReaction.id);
-                }
-              }}
+              className={`text-sm px-2 py-1 ${groupedReaction.userIds.includes(currentUser?.id || "") ? "bg-[#FFF5E6] border-[#FF9933]" : ""}`}
+              onClick={() => handleReaction(groupedReaction.emojiId, groupedReaction.userIds)}
             >
               {parseEmoji(groupedReaction.emoji.unicode)} {groupedReaction.count}
             </Button>
