@@ -165,7 +165,7 @@ const PostItem: React.FC<PostItemProps> = ({
             <Button
               key={groupedReaction.emojiId}
               variant="outline"
-              size={isSelected ? "default" : "sm"}
+              size="sm"
               className={`text-sm px-2 py-1 ${groupedReaction.userIds.includes(currentUser?.id || "") ? "bg-utopia_light border-utopia" : ""}`}
               onClick={() => handleReaction(groupedReaction.emojiId, groupedReaction.userIds)}
             >
@@ -174,7 +174,11 @@ const PostItem: React.FC<PostItemProps> = ({
           ))}
           <Popover open={isEmojisOpen} onOpenChange={setIsEmojisOpen}>
             <PopoverTrigger asChild>
-              <Button variant="ghost" size="sm" className="text-gray-500 rounded-full w-8 h-8 p-0 hover:text-utopia hover:bg-utopia_light">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-gray-500 rounded-full w-8 h-8 p-0 hover:text-utopia hover:bg-utopia_light"
+              >
                 <SmilePlus className="h-5 w-5" />
                 <span className="sr-only">Add reaction</span>
               </Button>
