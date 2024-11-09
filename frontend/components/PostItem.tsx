@@ -103,7 +103,7 @@ const PostItem: React.FC<PostItemProps> = ({
       <div className="flex flex-col gap-y-2">
         {/* Header */}
         {isSelected && (
-          <div className="flex items-center gap-5 p-2 mb-2">
+          <div className="flex items-center gap-5 py-2 pr-2 mb-2">
             <Link href="/home" className="p-1 rounded-full hover:bg-utopia_light hover:text-utopia">
               <ArrowLeft />
             </Link>
