@@ -165,7 +165,7 @@ const PostItem: React.FC<PostItemProps> = ({
             <Button
               key={groupedReaction.emojiId}
               variant="outline"
-              size="sm"
+              size={isSelected ? "default" : "sm"}
               className={`text-sm px-2 py-1 ${groupedReaction.userIds.includes(currentUser?.id || "") ? "bg-utopia_light border-utopia" : ""}`}
               onClick={() => handleReaction(groupedReaction.emojiId, groupedReaction.userIds)}
             >
