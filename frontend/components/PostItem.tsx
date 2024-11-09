@@ -96,7 +96,7 @@ const PostItem: React.FC<PostItemProps> = ({
     if (!isSelected) {
       router.push(`/home/posts/${post.id}`);
     }
-  }
+  };
 
   return (
     <div className="border-b border-gray-300 last:border-b-0 p-4">
