@@ -24,6 +24,18 @@ export default function PostDetails() {
     };
 
     fetchPost();
+
+    const socket = new WebSocket("ws://localhost:8080/api/ws");
+
+    socket.onmessage = (event) => {
+      if (event.data === "add_reaction" || event.data === "delete_reaction") {
+        fetchPost();
+      }
+    };
+
+    return () => {
+      socket.close();
+    };
   }, [postId]);
 
   if (!post) {
