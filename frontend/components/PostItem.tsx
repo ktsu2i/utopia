@@ -14,6 +14,7 @@ import { formatDistanceToNowStrict, parseISO } from "date-fns";
 import { useEmojis } from "@/hooks/useEmojis";
 import { parseEmoji } from "@/lib/utils";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface PostItemProps {
   post: Post;
@@ -29,6 +30,7 @@ const PostItem: React.FC<PostItemProps> = ({
   post,
   isSelected,
 }) => {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [isEmojisOpen, setIsEmojisOpen] = useState(false);
   const { currentUser } = useAuthStore();
@@ -80,7 +82,7 @@ const PostItem: React.FC<PostItemProps> = ({
     }
   };
 
-  const onClick = async () => {
+  const handleDelete = async () => {
     setIsOpen(false);
     try {
       await axios.delete(`http://localhost:8080/api/posts/${post.id}`, { withCredentials: true });
@@ -90,8 +92,14 @@ const PostItem: React.FC<PostItemProps> = ({
     }
   };
 
+  const onClick = () => {
+    if (!isSelected) {
+      router.push(`/home/posts/${post.id}`);
+    }
+  }
+
   return (
-    <Link href={`/home/posts/${post.id}`} className="border-b border-gray-300 last:border-b-0 p-4">
+    <div className="border-b border-gray-300 last:border-b-0 p-4">
       <div className="flex flex-col gap-y-2">
         {/* Header */}
         {isSelected && (
@@ -146,7 +154,7 @@ const PostItem: React.FC<PostItemProps> = ({
                           <AlertDialogFooter>
                             <AlertDialogCancel>Cancel</AlertDialogCancel>
                             <AlertDialogAction
-                              onClick={onClick} 
+                              onClick={handleDelete} 
                               className={buttonVariants({ variant: "destructive" })}
                             >
                               Delete
@@ -165,7 +173,12 @@ const PostItem: React.FC<PostItemProps> = ({
                 </PopoverContent>
               </Popover>
             </div>
-            <div className={`whitespace-pre-wrap ${isSelected && "text-lg p-2"}`}>{post.content}</div>
+            <div
+              onClick={onClick} 
+              className={`whitespace-pre-wrap ${isSelected ? "text-lg p-2" : "cursor-pointer"}`}
+            >
+              {post.content}
+            </div>
           </div>
         </div>
 
@@ -210,7 +223,7 @@ const PostItem: React.FC<PostItemProps> = ({
           </Popover>
         </div>
       </div>
-    </Link>
+    </div>
   );
 };
 
