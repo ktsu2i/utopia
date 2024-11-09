@@ -2,7 +2,7 @@
 
 import { Post, Reaction } from "@/lib/types";
 import { Avatar, AvatarFallback } from "./ui/avatar";
-import { Ellipsis, SmilePlus } from "lucide-react";
+import { ArrowLeft, Ellipsis, SmilePlus } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Button, buttonVariants } from "./ui/button";
 import useAuthStore from "@/stores/authStore";
@@ -93,6 +93,16 @@ const PostItem: React.FC<PostItemProps> = ({
   return (
     <Link href={`/home/posts/${post.id}`} className="border-b border-gray-300 last:border-b-0 p-4">
       <div className="flex flex-col gap-y-2">
+        {/* Header */}
+        {isSelected && (
+          <div className="flex items-center gap-5 p-2 mb-2">
+            <Link href="/home" className="p-1 rounded-full hover:bg-utopia_light hover:text-utopia">
+              <ArrowLeft />
+            </Link>
+            <div className="font-bold text-xl">Post</div>
+          </div>
+        )}
+
         <div className="flex gap-x-2">
           <div className="h-full">
             <Avatar>
