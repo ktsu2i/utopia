@@ -2,7 +2,7 @@
 
 import { Post, Reaction } from "@/lib/types";
 import { Avatar, AvatarFallback } from "./ui/avatar";
-import { Ellipsis, SmilePlus } from "lucide-react";
+import { ArrowLeft, Ellipsis, SmilePlus } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Button, buttonVariants } from "./ui/button";
 import useAuthStore from "@/stores/authStore";
@@ -13,9 +13,12 @@ import { useState } from "react";
 import { formatDistanceToNowStrict, parseISO } from "date-fns";
 import { useEmojis } from "@/hooks/useEmojis";
 import { parseEmoji } from "@/lib/utils";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface PostItemProps {
-  post: Post
+  post: Post;
+  isSelected: boolean;
 }
 
 interface GroupedReaction extends Reaction {
@@ -25,7 +28,9 @@ interface GroupedReaction extends Reaction {
 
 const PostItem: React.FC<PostItemProps> = ({
   post,
+  isSelected,
 }) => {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [isEmojisOpen, setIsEmojisOpen] = useState(false);
   const { currentUser } = useAuthStore();
@@ -77,19 +82,38 @@ const PostItem: React.FC<PostItemProps> = ({
     }
   };
 
-  const onClick = async () => {
+  const handleDelete = async () => {
     setIsOpen(false);
     try {
       await axios.delete(`http://localhost:8080/api/posts/${post.id}`, { withCredentials: true });
+      if (isSelected) {
+        router.push("/home");
+      }
       toast.success("Deleted post");
     } catch {
       toast.error("Something went wrong");
     }
   };
 
+  const onClick = () => {
+    if (!isSelected) {
+      router.push(`/home/posts/${post.id}`);
+    }
+  };
+
   return (
     <div className="border-b border-gray-300 last:border-b-0 p-4">
       <div className="flex flex-col gap-y-2">
+        {/* Header */}
+        {isSelected && (
+          <div className="flex items-center gap-5 py-2 pr-2 mb-2">
+            <Link href="/home" className="p-1 rounded-full hover:bg-utopia_light hover:text-utopia">
+              <ArrowLeft />
+            </Link>
+            <div className="font-bold text-xl">Post</div>
+          </div>
+        )}
+
         <div className="flex gap-x-2">
           <div className="h-full">
             <Avatar>
@@ -133,7 +157,7 @@ const PostItem: React.FC<PostItemProps> = ({
                           <AlertDialogFooter>
                             <AlertDialogCancel>Cancel</AlertDialogCancel>
                             <AlertDialogAction
-                              onClick={onClick} 
+                              onClick={handleDelete} 
                               className={buttonVariants({ variant: "destructive" })}
                             >
                               Delete
@@ -152,7 +176,12 @@ const PostItem: React.FC<PostItemProps> = ({
                 </PopoverContent>
               </Popover>
             </div>
-            <div className="whitespace-pre-wrap">{post.content}</div>
+            <div
+              onClick={onClick} 
+              className={`whitespace-pre-wrap ${isSelected ? "text-lg p-2" : "cursor-pointer"}`}
+            >
+              {post.content}
+            </div>
           </div>
         </div>
 
@@ -171,7 +200,11 @@ const PostItem: React.FC<PostItemProps> = ({
           ))}
           <Popover open={isEmojisOpen} onOpenChange={setIsEmojisOpen}>
             <PopoverTrigger asChild>
-              <Button variant="ghost" size="sm" className="text-gray-500 rounded-full w-8 h-8 p-0 hover:text-utopia hover:bg-utopia_light">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-gray-500 rounded-full w-8 h-8 p-0 hover:text-utopia hover:bg-utopia_light"
+              >
                 <SmilePlus className="h-5 w-5" />
                 <span className="sr-only">Add reaction</span>
               </Button>
