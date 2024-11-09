@@ -13,7 +13,7 @@ import { useState } from "react";
 import { formatDistanceToNowStrict, parseISO } from "date-fns";
 import { useEmojis } from "@/hooks/useEmojis";
 import { parseEmoji } from "@/lib/utils";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface PostItemProps {
   post: Post
@@ -27,7 +27,6 @@ interface GroupedReaction extends Reaction {
 const PostItem: React.FC<PostItemProps> = ({
   post,
 }) => {
-  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [isEmojisOpen, setIsEmojisOpen] = useState(false);
   const { currentUser } = useAuthStore();
@@ -90,7 +89,7 @@ const PostItem: React.FC<PostItemProps> = ({
   };
 
   return (
-    <div className="border-b border-gray-300 last:border-b-0 p-4" onClick={() => router.push(`/home/posts/${post.id}`)}>
+    <Link href={`/home/posts/${post.id}`} className="border-b border-gray-300 last:border-b-0 p-4">
       <div className="flex flex-col gap-y-2">
         <div className="flex gap-x-2">
           <div className="h-full">
@@ -195,7 +194,7 @@ const PostItem: React.FC<PostItemProps> = ({
           </Popover>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
