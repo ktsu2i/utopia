@@ -19,7 +19,7 @@ export default function PostDetails() {
         const res = await axios.get<Post>(`http://localhost:8080/api/posts/${postId}`, { withCredentials: true });
         setPost(res.data);
       } catch {
-        // error handling
+        // no error handling
       }
     };
 
