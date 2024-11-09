@@ -39,6 +39,18 @@ func CreatePost(c echo.Context) error {
 	return c.JSON(http.StatusOK, p)
 }
 
+func GetPost(c echo.Context) error {
+	id := c.Param("id")
+	p := models.PostResult{}
+	if db.DB.
+		Preload("User").
+		Preload("Reactions.Emoji").
+		Where("id = ?", id).First(&p).Error != nil {
+		return c.JSON(http.StatusNotFound, map[string]string{"message": "Post not found"})
+	}
+	return c.JSON(http.StatusOK, p)
+}
+
 func GetPosts(c echo.Context) error {
 	// Default settings
 	page, err := strconv.Atoi(c.QueryParam("page"))
