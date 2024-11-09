@@ -66,7 +66,7 @@ export default function Home() {
       {isAuthenticated && data && (
         <div className="flex flex-col justify-center">
           {data.flat().map((post: Post, i: number) => (
-            <PostItem key={i} post={post} />
+            <PostItem key={i} post={post} isSelected={false} />
           ))}
         </div>
       )}

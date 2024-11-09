@@ -16,7 +16,8 @@ import { parseEmoji } from "@/lib/utils";
 import Link from "next/link";
 
 interface PostItemProps {
-  post: Post
+  post: Post;
+  isSelected: boolean;
 }
 
 interface GroupedReaction extends Reaction {
@@ -26,6 +27,7 @@ interface GroupedReaction extends Reaction {
 
 const PostItem: React.FC<PostItemProps> = ({
   post,
+  isSelected,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isEmojisOpen, setIsEmojisOpen] = useState(false);
@@ -153,7 +155,7 @@ const PostItem: React.FC<PostItemProps> = ({
                 </PopoverContent>
               </Popover>
             </div>
-            <div className="whitespace-pre-wrap">{post.content}</div>
+            <div className={`whitespace-pre-wrap ${isSelected && "text-lg p-2"}`}>{post.content}</div>
           </div>
         </div>
 
