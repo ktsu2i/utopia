@@ -86,6 +86,9 @@ const PostItem: React.FC<PostItemProps> = ({
     setIsOpen(false);
     try {
       await axios.delete(`http://localhost:8080/api/posts/${post.id}`, { withCredentials: true });
+      if (isSelected) {
+        router.push("/home");
+      }
       toast.success("Deleted post");
     } catch {
       toast.error("Something went wrong");
