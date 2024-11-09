@@ -35,6 +35,10 @@ export default function PostDetails() {
   }
 
   return (
-    <PostItem post={post} />
+    <>
+      <div className="flex flex-col justify-center">
+        <PostItem post={post} />
+      </div>
+    </>
   );
 }
