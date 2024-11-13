@@ -78,7 +78,23 @@ docker compose version
 git clone https://github.com/ktsu2i/utopia.git
 ```
 
-### 2. Build & run the app
+### 2. Setup
+
+Copy `.env.example` and add secret keys.
+
+```
+cp .env.example .env
+```
+
+If you are NOT using Apple Silicon, comment out this line.
+
+```dockerfile:compose.yaml
+  db:
+    image: mysql:8.0
+    # platform: linux/amd64
+```
+
+### 3. Build & run the app
 
 ```
 docker compose up --build
