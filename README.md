@@ -88,7 +88,7 @@ cp .env.example .env
 
 If you are NOT using Apple Silicon, comment out this line.
 
-```dockerfile:compose.yaml
+```yaml:compose.yaml
   db:
     image: mysql:8.0
     # platform: linux/amd64
