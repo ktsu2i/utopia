@@ -34,6 +34,7 @@ services:
 
   db:
     image: mysql:8.0
+    platform: linux/amd64 # comment this out if you are not using apple silicon
     container_name: utopia_db
     ports:
       - 3306:3306
