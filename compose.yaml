@@ -23,6 +23,7 @@ services:
     container_name: utopia_backend
     ports:
       - "8080:8080"
+    env_file: .env
     volumes:
       - ./backend:/code
     depends_on:
@@ -42,10 +43,10 @@ services:
       - db_data:/var/lib/mysql
     environment:
       - MYSQL_ROOT_HOST=%
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=utopia_dev
-      - MYSQL_USER=admin
-      - MYSQL_PASSWORD=admin
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s
