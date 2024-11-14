@@ -12,6 +12,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 	"golang.org/x/crypto/bcrypt"
+	"gorm.io/gorm"
 )
 
 func hash(password string) (string, error) {
@@ -120,10 +121,14 @@ func CheckUsernameExists(c echo.Context) error {
 	}
 
 	u := models.User{}
-	if db.DB.Where("username = ?", req.Username).First(&u).Error != nil {
-		return c.JSON(http.StatusOK, map[string]bool{"exists": true})
+	if err := db.DB.Where("username = ?", req.Username).First(&u).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return c.JSON(http.StatusOK, nil)
+		}
+		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
 	}
-	return c.JSON(http.StatusInternalServerError, map[string]bool{"exists": false})
+
+	return c.JSON(http.StatusConflict, map[string]string{"message": "Username already exists"})
 }
 
 func CheckEmailExists(c echo.Context) error {
@@ -133,10 +138,14 @@ func CheckEmailExists(c echo.Context) error {
 	}
 
 	u := models.User{}
-	if db.DB.Where("email = ?", req.Email).First(&u).Error != nil {
-		return c.JSON(http.StatusOK, map[string]bool{"exists": true})
+	if err := db.DB.Where("email = ?", req.Email).First(&u).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return c.JSON(http.StatusOK, nil)
+		}
+		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
 	}
-	return c.JSON(http.StatusInternalServerError, map[string]bool{"exists": false})
+
+	return c.JSON(http.StatusConflict, map[string]string{"message": "Email already exists"})
 }
 
 func SignUp(c echo.Context) error {

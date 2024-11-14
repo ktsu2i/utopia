@@ -41,7 +41,7 @@ const SignUpSchema = z.object({
     .max(254, { message: "Too long email address." })
     .refine(async (email) => {
       try {
-        await axios.post("http://locahost:8080/api/check-email-exists", { email });
+        await axios.post("http://localhost:8080/api/check-email-exists", { email });
         return true;
       } catch {
         return false;
