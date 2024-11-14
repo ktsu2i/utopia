@@ -102,7 +102,7 @@ const PostItem: React.FC<PostItemProps> = ({
   };
 
   return (
-    <div className="border-b border-gray-300 last:border-b-0 p-4">
+    <div className={`border-b border-gray-300 p-4 ${!isSelected && "last:border-b-0"}`}>
       <div className="flex flex-col gap-y-2">
         {/* Header */}
         {isSelected && (
