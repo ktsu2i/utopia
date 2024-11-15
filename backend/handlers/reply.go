@@ -4,6 +4,7 @@ import (
 	"backend/db"
 	"backend/models"
 	"net/http"
+	"strconv"
 
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
@@ -40,6 +41,19 @@ func CreateReply(c echo.Context) error {
 func GetParentReplies(c echo.Context) error {
 	postID := c.QueryParam("postId")
 
+	// Default settings
+	page, err := strconv.Atoi(c.QueryParam("page"))
+	if err != nil || page < 1 {
+		page = 1
+	}
+
+	limit, err := strconv.Atoi(c.QueryParam("limit"))
+	if err != nil || limit < 1 || limit > 100 {
+		limit = 10
+	}
+
+	offset := (page - 1) * limit
+
 	var replies []models.ReplyResult
 	if err := db.DB.
 		Where("post_id = ? AND parent_reply_id IS NULL", postID).
@@ -47,6 +61,8 @@ func GetParentReplies(c echo.Context) error {
 		Preload("Post.User").
 		Preload("Post").
 		Order("created_at desc").
+		Limit(limit).
+		Offset(offset).
 		Find(&replies).Error; err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
 	}
