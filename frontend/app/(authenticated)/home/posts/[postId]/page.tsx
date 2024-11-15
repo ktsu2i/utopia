@@ -212,9 +212,10 @@ export default function PostDetails() {
             )}
           </div>
         </div>
-        <div className="flex flex-col justify-center">
+      </div>
+      <div className="flex flex-col justify-center">
           {data && data.flat().map((reply: Reply, i: number) => (
-            <div>{reply.content}</div>
+            <div key={i}>{reply.content}</div>
           ))}
           {!isValidating && (<div ref={ref} aria-hidden="true" />)}
           {isValidating && (
@@ -223,7 +224,6 @@ export default function PostDetails() {
             </div>
           )}
         </div>
-      </div>
     </>
   );
 }
