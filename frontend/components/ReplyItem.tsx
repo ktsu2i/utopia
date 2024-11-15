@@ -89,7 +89,7 @@ const ReplyItem: React.FC<ReplyItemProps> = ({
       if (isSelected) {
         router.push("/home");
       }
-      toast.success("Deleted post");
+      toast.success("Deleted reply");
     } catch {
       toast.error("Something went wrong");
     }
