@@ -35,6 +35,7 @@ export default function PostDetails() {
   const [isLoading, setIsLoading] = useState(false);
   const [isAppropriate, setIsAppropriate] = useState(true);
 
+  // Realtime emoji for post
   useEffect(() => {
     const fetchPost = async () => {
       if (!postId) return;
