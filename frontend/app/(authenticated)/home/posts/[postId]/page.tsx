@@ -13,10 +13,12 @@ import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import axios from "axios";
 import { Send } from "lucide-react";
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { useInView } from "react-intersection-observer";
 import { TailSpin } from "react-loader-spinner";
+import useSWRInfinite from "swr/infinite";
 import { z } from "zod";
 
 const ReplySchema = z.object({
@@ -34,6 +36,53 @@ export default function PostDetails() {
   const [reply, setReply] = useState<Reply | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isAppropriate, setIsAppropriate] = useState(true);
+
+  const getKey = (pageIndex: number, previousPageData: Reply[][]) => {
+    if (previousPageData && !previousPageData.length) return null; // reaches the end
+    return `http://localhost:8080/api/parent-replies?postId=${postId}&page=${pageIndex + 1}&limit=10`;
+  };
+
+  const fetcher = useCallback(
+    async (url: string) => (await axios.get<Reply[]>(url, { withCredentials: true })).data,
+    [],
+  );
+
+  const { data, size, setSize, isValidating, mutate } = useSWRInfinite(
+    getKey,
+    fetcher,
+    {
+      revalidateOnReconnect: false,
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateFirstPage: true,
+    }
+  );
+
+  const limit = 10;
+  const isEmpty = data?.[0].length === 0;
+  const isReachingEnd = isEmpty || (data && data?.[data?.length - 1]?.length < limit);
+
+  const { ref, inView: isScrollEnd } = useInView();
+
+  useEffect(() => {
+    if (isScrollEnd && !isValidating && !isReachingEnd) {
+      setSize(size + 1);
+    }
+  }, [isScrollEnd, isValidating, isReachingEnd, setSize, size]);
+
+  useEffect(() => {
+    const socket = new WebSocket("ws://localhost:8080/api/ws");
+
+    socket.onmessage = (event) => {
+      if (event.data === "create_reply") {
+        mutate();
+      }
+    };
+
+    return () => {
+      socket.close();
+    };
+  }, [mutate]);
 
   // Realtime emoji for post
   useEffect(() => {
@@ -163,8 +212,16 @@ export default function PostDetails() {
             )}
           </div>
         </div>
-        <div className="font-bold">
-          {reply?.content}
+        <div className="flex flex-col justify-center">
+          {data && data.flat().map((reply: Reply, i: number) => (
+            <div>{reply.content}</div>
+          ))}
+          {!isValidating && (<div ref={ref} aria-hidden="true" />)}
+          {isValidating && (
+            <div className="h-full flex items-center justify-center">
+              <TailSpin color="#FF9933" />
+            </div>
+          )}
         </div>
       </div>
     </>
