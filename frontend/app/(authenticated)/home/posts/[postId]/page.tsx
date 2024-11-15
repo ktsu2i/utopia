@@ -1,6 +1,7 @@
 "use client";
 
 import PostItem from "@/components/PostItem";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
@@ -8,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Post, Reply } from "@/lib/types";
 import useAuthStore from "@/stores/authStore";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import axios from "axios";
 import { Send } from "lucide-react";
 import { useParams } from "next/navigation";
@@ -87,6 +89,7 @@ export default function PostDetails() {
         toast.success("Posted it!");
         form.reset();
       } else {
+        console.log("not good bro")
         setIsAppropriate(false);
       }
     } catch {
@@ -114,7 +117,7 @@ export default function PostDetails() {
               {currentUser?.accountName?.substring(0, 1).toUpperCase()}
             </AvatarFallback>
           </Avatar>
-          <div>
+          <div className="flex flex-col gap-y-4">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="flex items-center w-full gap-x-2">
                 <FormField
@@ -144,6 +147,17 @@ export default function PostDetails() {
                 </Button>
               </form>
             </Form>
+            {!isAppropriate && (
+              <Alert variant="destructive">
+                <ExclamationTriangleIcon className="h-4 w-4" />
+                <AlertTitle className="font-semibold">Warning!</AlertTitle>
+                <AlertDescription>
+                  You were about to reply with inappropriate contents. 
+                  <br />
+                  Be respectful to everyone!
+                </AlertDescription>
+              </Alert>
+            )}
           </div>
         </div>
         <div className="font-bold">
