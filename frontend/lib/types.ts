@@ -14,7 +14,9 @@ export interface User {
 export interface Reply {
   id: string
   userId: string
+  user: User
   postId: string
+  post: Post
   parentReplyId: string
   content: string
   createdAt: string
