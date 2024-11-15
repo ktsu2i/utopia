@@ -32,3 +32,7 @@ type ReplyResult struct {
 	CreatedAt     time.Time  `json:"createdAt"`
 	UpdatedAt     time.Time  `json:"updatedAt"`
 }
+
+func (ReplyResult) TableName() string {
+	return "replies"
+}
