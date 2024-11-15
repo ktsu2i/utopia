@@ -134,6 +134,7 @@ export default function PostDetails() {
                   )}
                 />
                 <Button
+                  disabled={isLoading}
                   variant="ghost"
                   size="sm"
                   className="rounded-full w-8 h-8 p-1 hover:text-utopia hover:bg-utopia_light"
