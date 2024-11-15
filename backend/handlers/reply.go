@@ -36,3 +36,16 @@ func CreateReply(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, r)
 }
+
+func GetReplies(c echo.Context) error {
+	var replies []models.ReplyResult
+	if err := db.DB.
+		Preload("User").
+		Preload("Post").
+		Order("created_at desc").
+		Find(&replies).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
+	}
+
+	return c.JSON(http.StatusOK, replies)
+}

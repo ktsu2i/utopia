@@ -28,6 +28,7 @@ export default function PostDetails() {
   const { postId } = useParams();
   const { currentUser } = useAuthStore();
   const [post, setPost] = useState<Post | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -63,8 +64,25 @@ export default function PostDetails() {
     },
   });
 
-  const onSubmit = () => {
-    // todo
+  const onSubmit = async (data: z.infer<typeof ReplySchema>) => {
+    setIsLoading(true);
+
+    try {
+      const res = await axios.post<boolean>("http://localhost:8080/api/validate-text", data, { withCredentials: true });
+      const isReplyAppropriate = res.data;
+
+      if (isReplyAppropriate) {
+        const res = await axios.post("http://localhost:8080/api/replies", {
+          post: post,
+          parentReplyId: "",
+          content: data.content
+        }, {
+          withCredentials: true
+        });
+      }
+    } catch {
+      // error handling
+    }
   };
 
   if (!post) {
