@@ -117,34 +117,36 @@ export default function PostDetails() {
               {currentUser?.accountName?.substring(0, 1).toUpperCase()}
             </AvatarFallback>
           </Avatar>
-          <div className="flex flex-col gap-y-4">
+          <div className="flex flex-col gap-y-4 w-full">
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="flex items-center w-full gap-x-2">
+              <form onSubmit={form.handleSubmit(onSubmit)}>
                 <FormField
                   control={form.control}
                   name="content"
                   render={({ field }) => (
                     <FormItem>
-                      <FormControl>
-                        <Textarea
-                          placeholder="Encourage others!"
-                          className="w-full resize-none"
-                          {...field}
-                        />
-                      </FormControl>
+                      <div className="w-full flex items-center gap-x-2">
+                        <FormControl>
+                          <Textarea
+                            placeholder="Encourage others!"
+                            className="resize-none"
+                            {...field}
+                          />
+                        </FormControl>
+                        <Button
+                          disabled={isLoading}
+                          variant="ghost"
+                          size="sm"
+                          className="rounded-full w-8 h-8 p-1 hover:text-utopia hover:bg-utopia_light"
+                        >
+                          <Send className="h-5 w-5" />
+                          <span className="sr-only">Reply</span>
+                        </Button>
+                      </div>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                <Button
-                  disabled={isLoading}
-                  variant="ghost"
-                  size="sm"
-                  className="rounded-full w-8 h-8 p-1 hover:text-utopia hover:bg-utopia_light"
-                >
-                  <Send className="h-5 w-5" />
-                  <span className="sr-only">Reply</span>
-                </Button>
               </form>
             </Form>
             {!isAppropriate && (
