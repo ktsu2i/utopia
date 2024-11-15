@@ -13,6 +13,7 @@ import { Send } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { TailSpin } from "react-loader-spinner";
 import { z } from "zod";
 
@@ -81,7 +82,9 @@ export default function PostDetails() {
         });
       }
     } catch {
-      // error handling
+      toast.error("Something went wrong");
+    } finally {
+      setIsLoading(false);
     }
   };
 
