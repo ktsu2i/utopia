@@ -106,15 +106,15 @@ export default function PostDetails() {
     <>
       <div className="flex flex-col justify-center border-b border-gray-300">
         <PostItem post={post} isSelected={true} />
-        <div className=" flex gap-x-2 p-4">
+        <div className="flex gap-x-2 p-4">
           <Avatar>
             <AvatarFallback>
               {currentUser?.accountName?.substring(0, 1).toUpperCase()}
             </AvatarFallback>
           </Avatar>
-          <div className="flex items-center w-full gap-x-2">
+          <div>
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
+              <form onSubmit={form.handleSubmit(onSubmit)} className="flex items-center w-full gap-x-2">
                 <FormField
                   control={form.control}
                   name="content"
@@ -131,16 +131,16 @@ export default function PostDetails() {
                     </FormItem>
                   )}
                 />
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="rounded-full w-8 h-8 p-1 hover:text-utopia hover:bg-utopia_light"
+                >
+                  <Send className="h-5 w-5" />
+                  <span className="sr-only">Reply</span>
+                </Button>
               </form>
             </Form>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="rounded-full w-8 h-8 p-1 hover:text-utopia hover:bg-utopia_light"
-            >
-              <Send className="h-5 w-5" />
-              <span className="sr-only">Reply</span>
-            </Button>
           </div>
         </div>
       </div>
