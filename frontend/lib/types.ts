@@ -35,7 +35,8 @@ export interface Emoji {
 
 export interface Reaction {
   id: number
-  postId: string
+  postId: string | null
+  replyId: string | null
   userId: string
   emojiId: number
   createdAt: string

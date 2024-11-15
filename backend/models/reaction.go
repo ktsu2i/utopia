@@ -3,13 +3,15 @@ package models
 import "time"
 
 type ReactionParams struct {
-	PostID  string `json:"postId"`
-	EmojiID int    `json:"emojiId"`
+	PostID  *string `json:"postId"`
+	ReplyID *string `json:"replyId"`
+	EmojiID int     `json:"emojiId"`
 }
 
 type Reaction struct {
 	ID        int       `json:"id"`
-	PostID    string    `json:"postId"`
+	PostID    *string   `json:"postId"`
+	ReplyID   *string   `json:"replyId"`
 	UserID    string    `json:"userId"`
 	EmojiID   int       `json:"emojiId"`
 	CreatedAt time.Time `json:"createdAt"`

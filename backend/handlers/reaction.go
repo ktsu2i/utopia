@@ -33,6 +33,7 @@ func AddReaction(c echo.Context) error {
 	r := models.Reaction{
 		UserID:    userID,
 		PostID:    req.PostID,
+		ReplyID:   req.ReplyID,
 		EmojiID:   req.EmojiID,
 		CreatedAt: time.Now().UTC(),
 		UpdatedAt: time.Now().UTC(),
