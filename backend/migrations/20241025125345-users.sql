@@ -3,6 +3,7 @@
 CREATE TABLE IF NOT EXISTS `users` (
     `id` VARCHAR(255) NOT NULL,
     `username` VARCHAR(255) NOT NULL UNIQUE,
+    `account_name` VARCHAR(255) NOT NULL DEFAULT '',
     `first_name` VARCHAR(255) NOT NULL DEFAULT '',
     `last_name` VARCHAR(255) NOT NULL DEFAULT '',
     `email` VARCHAR(255) NOT NULL UNIQUE,

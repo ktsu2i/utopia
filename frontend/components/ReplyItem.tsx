@@ -21,6 +21,11 @@ interface ReplyItemProps {
 	isSelected: boolean;
 }
 
+interface GroupedReaction extends Reaction {
+  count: number;
+  userIds: string[];
+}
+
 const ReplyItem: React.FC<ReplyItemProps> = ({
 	reply,
 	isSelected,
@@ -33,35 +38,49 @@ const ReplyItem: React.FC<ReplyItemProps> = ({
 
 	const repliedDate = formatDistanceToNowStrict(parseISO(reply.updatedAt));
 
-	// const addReaction = async (emojiId: number) => {
-  //   try {
-  //     await axios.post<Reaction>("http://localhost:8080/api/reactions", {
-  //       postId: post.id,
-  //       emojiId: emojiId,
-  //     }, { withCredentials: true });
+	const groupedReactions = Object.values(
+    reply.reactions.reduce((acc: { [key: number]: GroupedReaction }, reaction: Reaction) => {
+      const emojiId = reaction.emojiId;
+
+      if (!acc[emojiId]) {
+        acc[emojiId] = { ...reaction, count: 0, userIds: [] };
+      }
+      acc[emojiId].count += 1;
+      acc[emojiId].userIds.push(reaction.userId);
+
+      return acc;
+    }, {})
+  );
+
+	const addReaction = async (emojiId: number) => {
+    try {
+      await axios.post<Reaction>("http://localhost:8080/api/reactions", {
+        replyId: reply.id,
+        emojiId: emojiId,
+      }, { withCredentials: true });
       
-  //     setIsEmojisOpen(false);
-  //   } catch {
-  //     setIsEmojisOpen(false);
-  //   }
-  // };
+      setIsEmojisOpen(false);
+    } catch {
+      setIsEmojisOpen(false);
+    }
+  };
 
-  // const removeReaction = async (reactionId: number) => {
-  //   try {
-  //     await axios.delete(`http://localhost:8080/api/reactions/${reactionId}`, { withCredentials: true });
-  //   } catch {
-  //     // no error handling
-  //   }
-  // };
+  const removeReaction = async (reactionId: number) => {
+    try {
+      await axios.delete(`http://localhost:8080/api/reactions/${reactionId}`, { withCredentials: true });
+    } catch {
+      // no error handling
+    }
+  };
 
-  // const handleReaction = (emojiId: number, userIds: string[]) => {
-  //   if (userIds.includes(currentUser?.id || "")) {
-  //     const reaction = post.reactions.find(r => r.emojiId === emojiId && r.userId === currentUser?.id);
-  //     if (reaction) removeReaction(reaction.id);
-  //   } else {
-  //     addReaction(emojiId);
-  //   }
-  // };
+  const handleReaction = (emojiId: number, userIds: string[]) => {
+    if (userIds.includes(currentUser?.id || "")) {
+      const reaction = reply.reactions.find(r => r.emojiId === emojiId && r.userId === currentUser?.id);
+      if (reaction) removeReaction(reaction.id);
+    } else {
+      addReaction(emojiId);
+    }
+  };
 
 	const handleDeleteReply = async () => {
     setIsOpen(false);
@@ -161,7 +180,7 @@ const ReplyItem: React.FC<ReplyItemProps> = ({
 
 					{/* Footer */}
 				<div className="w-full flex items-center gap-2">
-					{/* {Object.values(groupedReactions).map((groupedReaction) => (
+					{Object.values(groupedReactions).map((groupedReaction) => (
 						<Button
 							key={groupedReaction.emojiId}
 							variant="outline"
@@ -171,7 +190,7 @@ const ReplyItem: React.FC<ReplyItemProps> = ({
 						>
 							{parseEmoji(groupedReaction.emoji.unicode)} {groupedReaction.count}
 						</Button>
-					))} */}
+					))}
 					<Popover open={isEmojisOpen} onOpenChange={setIsEmojisOpen}>
 						<PopoverTrigger asChild>
 							<Button
@@ -190,7 +209,7 @@ const ReplyItem: React.FC<ReplyItemProps> = ({
 										key={emoji.name}
 										variant="ghost"
 										className="text-2xl p-2"
-										// onClick={() => addReaction(emoji.id)}
+										onClick={() => addReaction(emoji.id)}
 									>
 										{String.fromCodePoint(parseInt(emoji.unicode, 16))}
 									</Button>

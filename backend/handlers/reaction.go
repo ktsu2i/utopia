@@ -23,17 +23,22 @@ func AddReaction(c echo.Context) error {
 
 	// Check if user adds same emoji to same post
 	var reaction models.Reaction
-	err = db.DB.Where("user_id = ? AND post_id = ? AND emoji_id = ?", userID, req.PostID, req.EmojiID).First(&reaction).Error
+	if req.PostID != nil {
+		err = db.DB.Where("user_id = ? AND emoji_id = ? AND post_id = ?", userID, req.EmojiID, req.PostID).First(&reaction).Error
+	}
+	if req.ReplyID != nil {
+		err = db.DB.Where("user_id = ? AND emoji_id = ? AND reply_id = ?", userID, req.EmojiID, req.ReplyID).First(&reaction).Error
+	}
 	if err == nil {
-		return c.JSON(http.StatusInternalServerError, map[string]string{"message": "Reaction already exists"})
+		return c.JSON(http.StatusConflict, map[string]string{"message": "Reaction already exists"})
 	} else if err != gorm.ErrRecordNotFound {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"message": "DB error"})
 	}
 
 	r := models.Reaction{
-		UserID:    userID,
 		PostID:    req.PostID,
 		ReplyID:   req.ReplyID,
+		UserID:    userID,
 		EmojiID:   req.EmojiID,
 		CreatedAt: time.Now().UTC(),
 		UpdatedAt: time.Now().UTC(),

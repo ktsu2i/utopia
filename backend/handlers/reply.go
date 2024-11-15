@@ -60,6 +60,7 @@ func GetParentReplies(c echo.Context) error {
 		Preload("User").
 		Preload("Post.User").
 		Preload("Post").
+		Preload("Reactions.Emoji").
 		Order("created_at desc").
 		Limit(limit).
 		Offset(offset).

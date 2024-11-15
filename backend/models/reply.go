@@ -31,6 +31,7 @@ type ReplyResult struct {
 	Content       string     `json:"content"`
 	CreatedAt     time.Time  `json:"createdAt"`
 	UpdatedAt     time.Time  `json:"updatedAt"`
+	Reactions     []Reaction `gorm:"foreignKey:ReplyID;references:ID" json:"reactions"`
 }
 
 func (ReplyResult) TableName() string {

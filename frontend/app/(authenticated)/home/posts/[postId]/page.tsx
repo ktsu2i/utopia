@@ -75,7 +75,7 @@ export default function PostDetails() {
     const socket = new WebSocket("ws://localhost:8080/api/ws");
 
     socket.onmessage = (event) => {
-      if (event.data === "create_reply") {
+      if (event.data === "create_reply" || event.data === "add_reaction" || event.data === "delete_reaction") {
         mutate();
       }
     };

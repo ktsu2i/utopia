@@ -14,13 +14,15 @@ CREATE TABLE IF NOT EXISTS `emojis` (
 
 CREATE TABLE IF NOT EXISTS `reactions` (
 	`id` INT(15) NOT NULL AUTO_INCREMENT,
-	`post_id` VARCHAR(255) NOT NULL,
+	`post_id` VARCHAR(255) DEFAULT NULL,
+	`reply_id` VARCHAR(255) DEFAULT NULL,
 	`user_id` VARCHAR(255) NOT NULL,
 	`emoji_id` INT(10) NOT NULL,
 	`created_at` DATETIME(6) DEFAULT NULL,
 	`updated_at` DATETIME(6) DEFAULT NULL,
 	PRIMARY KEY (`id`),
 	FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`) ON DELETE CASCADE,
+	FOREIGN KEY (`reply_id`) REFERENCES `replies` (`id`) ON DELETE CASCADE,
 	FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
 	FOREIGN KEY (`emoji_id`) REFERENCES `emojis` (`id`) ON DELETE CASCADE
 );
