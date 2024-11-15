@@ -139,7 +139,6 @@ export default function PostDetails() {
         toast.success("Posted it!");
         form.reset();
       } else {
-        console.log("not good bro")
         setIsAppropriate(false);
       }
     } catch {
