@@ -1,6 +1,7 @@
 "use client";
 
 import PostItem from "@/components/PostItem";
+import ReplyItem from "@/components/ReplyItem";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -212,17 +213,19 @@ export default function PostDetails() {
           </div>
         </div>
       </div>
-      <div className="flex flex-col justify-center">
+      <div>
+        <div className="flex flex-col justify-center">
           {data && data.flat().map((reply: Reply, i: number) => (
-            <div key={i}>{reply.content}</div>
+            <ReplyItem key={i} reply={reply} isSelected={false} />
           ))}
-          {!isValidating && (<div ref={ref} aria-hidden="true" />)}
-          {isValidating && (
-            <div className="h-full flex items-center justify-center">
-              <TailSpin color="#FF9933" />
-            </div>
-          )}
         </div>
+        {!isValidating && (<div ref={ref} aria-hidden="true" />)}
+        {isValidating && (
+          <div className="h-full flex items-center justify-center">
+            <TailSpin color="#FF9933" />
+          </div>
+        )}
+      </div>
     </>
   );
 }
