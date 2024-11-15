@@ -30,6 +30,7 @@ export default function PostDetails() {
   const { currentUser } = useAuthStore();
   const [post, setPost] = useState<Post | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isAppropriate, setIsAppropriate] = useState(true);
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -80,6 +81,11 @@ export default function PostDetails() {
         }, {
           withCredentials: true
         });
+        setIsAppropriate(true);
+        toast.success("Posted it!");
+        form.reset();
+      } else {
+        setIsAppropriate(false);
       }
     } catch {
       toast.error("Something went wrong");
