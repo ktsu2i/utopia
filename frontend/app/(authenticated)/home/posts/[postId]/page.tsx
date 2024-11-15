@@ -5,7 +5,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
-import { Post } from "@/lib/types";
+import { Post, Reply } from "@/lib/types";
 import useAuthStore from "@/stores/authStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
@@ -72,7 +72,7 @@ export default function PostDetails() {
       const isReplyAppropriate = res.data;
 
       if (isReplyAppropriate) {
-        const res = await axios.post("http://localhost:8080/api/replies", {
+        const res = await axios.post<Reply>("http://localhost:8080/api/replies", {
           post: post,
           parentReplyId: "",
           content: data.content
