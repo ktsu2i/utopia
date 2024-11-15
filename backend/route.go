@@ -31,6 +31,7 @@ func route(e *echo.Echo) {
 	api.DELETE("/posts/:id", handlers.DeletePost)
 	api.GET("/parent-replies", handlers.GetParentReplies)
 	api.POST("/replies", handlers.CreateReply)
+	api.DELETE("/replies/:id", handlers.DeleteReply)
 	api.GET("/emojis", handlers.GetEmojis)
 	api.POST("/reactions", handlers.AddReaction)
 	api.DELETE("/reactions/:id", handlers.DeleteReaction)

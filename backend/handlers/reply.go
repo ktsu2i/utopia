@@ -70,3 +70,14 @@ func GetParentReplies(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, replies)
 }
+
+func DeleteReply(c echo.Context) error {
+	id := c.Param("id")
+	if db.DB.Where("id = ?", id).Delete(&models.Reply{}).RowsAffected == 0 {
+		return c.JSON(http.StatusNotFound, map[string]string{"message": "Reply not found"})
+	}
+
+	NotifyClients("delete_reply")
+
+	return c.JSON(http.StatusOK, map[string]string{"message": "Reply deleted successfully"})
+}
