@@ -41,6 +41,7 @@ func GetReplies(c echo.Context) error {
 	var replies []models.ReplyResult
 	if err := db.DB.
 		Preload("User").
+		Preload("Post.User").
 		Preload("Post").
 		Order("created_at desc").
 		Find(&replies).Error; err != nil {

@@ -29,6 +29,7 @@ export default function PostDetails() {
   const { postId } = useParams();
   const { currentUser } = useAuthStore();
   const [post, setPost] = useState<Post | null>(null);
+  const [reply, setReply] = useState<Reply | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isAppropriate, setIsAppropriate] = useState(true);
 
@@ -74,14 +75,15 @@ export default function PostDetails() {
       const isReplyAppropriate = res.data;
 
       if (isReplyAppropriate) {
-        const res = await axios.post<Reply[]>("http://localhost:8080/api/replies", {
+        const res = await axios.post<Reply>("http://localhost:8080/api/replies", {
           post: post,
-          parentReplyId: "",
+          parentReplyId: null,
           content: data.content
         }, {
           withCredentials: true
         });
         setIsAppropriate(true);
+        setReply(res.data);
         toast.success("Posted it!");
         form.reset();
       } else {
@@ -142,6 +144,9 @@ export default function PostDetails() {
               </form>
             </Form>
           </div>
+        </div>
+        <div className="font-bold">
+          {reply?.content}
         </div>
       </div>
     </>
