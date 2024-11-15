@@ -37,9 +37,12 @@ func CreateReply(c echo.Context) error {
 	return c.JSON(http.StatusOK, r)
 }
 
-func GetReplies(c echo.Context) error {
+func GetParentReplies(c echo.Context) error {
+	postID := c.QueryParam("postId")
+
 	var replies []models.ReplyResult
 	if err := db.DB.
+		Where("post_id = ? AND parent_reply_id IS NULL", postID).
 		Preload("User").
 		Preload("Post.User").
 		Preload("Post").
