@@ -106,6 +106,13 @@ Once you build the app, you can run the app without `--build` option unless you 
 docker compose up
 ```
 
+You might want to need to run these commands to run with no cache after you start over everything.
+
+```
+docker compose build --no-cache
+docker compose up
+```
+
 ### Optional: How to go inside the container
 
 You may want to run some commands for MySQL CLI. Run this following command to go inside the MySQL container.
