@@ -95,6 +95,12 @@ const ReplyItem: React.FC<ReplyItemProps> = ({
     }
   };
 
+	const onClick = () => {
+		if (!reply.parentReplyId) {
+			router.push(`/home/posts/${reply.postId}/${reply.id}`);
+		}
+	};
+
 	return (
 		<div className="border-b border-gray-300 last:border-b-0 p-4">
 			<div className="flex flex-col gap-y-2">
@@ -171,6 +177,7 @@ const ReplyItem: React.FC<ReplyItemProps> = ({
 							</Popover>
 						</div>
 						<div
+							onClick={onClick}
 							className={`whitespace-pre-wrap ${isSelected ? "text-lg p-2" : "cursor-pointer"}`}
 						>
 							{reply.content}

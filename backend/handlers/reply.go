@@ -71,6 +71,39 @@ func GetParentReplies(c echo.Context) error {
 	return c.JSON(http.StatusOK, replies)
 }
 
+func GetChildReplies(c echo.Context) error {
+	parentReplyID := c.QueryParam("parentReplyId")
+
+	// Default settings
+	page, err := strconv.Atoi(c.QueryParam("page"))
+	if err != nil || page < 1 {
+		page = 1
+	}
+
+	limit, err := strconv.Atoi(c.QueryParam("limit"))
+	if err != nil || limit < 1 || limit > 100 {
+		limit = 10
+	}
+
+	offset := (page - 1) * limit
+
+	var replies []models.ReplyResult
+	if err := db.DB.
+		Where("parent_reply_id = ?", parentReplyID).
+		Preload("User").
+		Preload("Post.User").
+		Preload("Post").
+		Preload("Reactions.Emoji").
+		Order("created_at desc").
+		Limit(limit).
+		Offset(offset).
+		Find(&replies).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
+	}
+
+	return c.JSON(http.StatusOK, replies)
+}
+
 func DeleteReply(c echo.Context) error {
 	id := c.Param("id")
 	if db.DB.Where("id = ?", id).Delete(&models.Reply{}).RowsAffected == 0 {
