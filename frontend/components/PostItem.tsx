@@ -102,7 +102,7 @@ const PostItem: React.FC<PostItemProps> = ({
     }
   };
 
-  // count child replies
+  // count replies
 	useEffect(() => {
 		const fetchCount = async () => {
 			try {
@@ -114,6 +114,18 @@ const PostItem: React.FC<PostItemProps> = ({
 		};
 
 		fetchCount();
+
+    const socket = new WebSocket("ws://localhost:8080/api/ws");
+
+    socket.onmessage = (event) => {
+      if (event.data === "create_reply" || event.data === "delete_reply") {
+        fetchCount();
+      }
+    };
+
+    return () => {
+      socket.close();
+    }
 	}, [post]);
 
   return (

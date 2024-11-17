@@ -114,6 +114,18 @@ const ReplyItem: React.FC<ReplyItemProps> = ({
 		};
 
 		fetchCount();
+
+		const socket = new WebSocket("ws://localhost:8080/api/ws");
+
+    socket.onmessage = (event) => {
+      if (event.data === "create_reply" || event.data === "delete_reply") {
+        fetchCount();
+      }
+    };
+
+    return () => {
+      socket.close();
+    }
 	}, [reply]);
 
 	return (
