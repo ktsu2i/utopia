@@ -24,7 +24,7 @@ func CreateReply(c echo.Context) error {
 	r := models.Reply{
 		ID:            uuid.NewString(),
 		UserID:        userID,
-		PostID:        req.Post.ID,
+		PostID:        req.PostID,
 		ParentReplyID: req.ParentReplyID,
 		Content:       req.Content,
 	}

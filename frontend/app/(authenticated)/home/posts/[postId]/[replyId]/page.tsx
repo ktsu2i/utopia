@@ -31,7 +31,7 @@ const ReplySchema = z.object({
 });
 
 export default function ReplyDetails() {
-  const { replyId } = useParams();
+  const { postId, replyId } = useParams();
   const { currentUser } = useAuthStore();
   const [parentReply, setParentReply] = useState<Reply | null>(null);
   const [reply, setReply] = useState<Reply | null>(null);
@@ -129,6 +129,7 @@ export default function ReplyDetails() {
 
       if (isReplyAppropriate) {
         const res = await axios.post<Reply>("http://localhost:8080/api/replies", {
+          postId: postId,
           reply: reply,
           parentReplyId: replyId,
           content: data.content

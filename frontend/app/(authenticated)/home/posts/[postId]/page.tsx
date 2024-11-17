@@ -129,7 +129,7 @@ export default function PostDetails() {
 
       if (isReplyAppropriate) {
         const res = await axios.post<Reply>("http://localhost:8080/api/replies", {
-          post: post,
+          postId: post?.id,
           parentReplyId: null,
           content: data.content
         }, {

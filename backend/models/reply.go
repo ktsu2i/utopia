@@ -4,9 +4,9 @@ import "time"
 
 // Request
 type ReplyParams struct {
-	Post          PostResult `json:"post"`
-	ParentReplyID *string    `json:"parentReplyId"`
-	Content       string     `json:"content"`
+	PostID        string  `json:"postId"`
+	ParentReplyID *string `json:"parentReplyId"`
+	Content       string  `json:"content"`
 }
 
 // DB
