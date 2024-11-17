@@ -86,8 +86,6 @@ const PostCard = () => {
     }
   };
 
-  console.log(post); // will be removed
-
   return (
     <div className="m-6 w-3/4 max-w-[600px]">
       <Card>
