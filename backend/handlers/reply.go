@@ -104,6 +104,19 @@ func GetChildReplies(c echo.Context) error {
 	return c.JSON(http.StatusOK, replies)
 }
 
+func CountChildReplies(c echo.Context) error {
+	replyID := c.Param("id")
+
+	var count int64
+	if err := db.DB.Model(&models.Reply{}).
+		Where("parent_reply_id = ?", replyID).
+		Count(&count).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
+	}
+
+	return c.JSON(http.StatusOK, count)
+}
+
 func DeleteReply(c echo.Context) error {
 	id := c.Param("id")
 	if db.DB.Where("id = ?", id).Delete(&models.Reply{}).RowsAffected == 0 {
