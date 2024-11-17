@@ -104,6 +104,19 @@ func GetChildReplies(c echo.Context) error {
 	return c.JSON(http.StatusOK, replies)
 }
 
+func CountParentReplies(c echo.Context) error {
+	postID := c.Param("postId")
+
+	var count int64
+	if err := db.DB.Model(&models.Reply{}).
+		Where("post_id = ? AND parent_reply_id IS NULL", postID).
+		Count(&count).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
+	}
+
+	return c.JSON(http.StatusOK, count)
+}
+
 func CountChildReplies(c echo.Context) error {
 	replyID := c.Param("id")
 
