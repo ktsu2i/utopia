@@ -205,7 +205,7 @@ const PostItem: React.FC<PostItemProps> = ({
             </div>
             <div
               onClick={onClick} 
-              className={`whitespace-pre-wrap ${isSelected ? "text-lg p-2" : "cursor-pointer"}`}
+              className={`whitespace-pre-wrap ${isSelected ? "text-lg py-2" : "cursor-pointer"}`}
             >
               {post.content}
             </div>
