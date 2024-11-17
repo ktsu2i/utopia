@@ -241,7 +241,7 @@ const ReplyItem: React.FC<ReplyItemProps> = ({
 							</PopoverContent>
 						</Popover>
 					</div>
-					<div className="flex items-center gap-x-1 text-gray-500">
+					<div className="flex items-center gap-x-1 text-gray-500 pr-2">
 						<MessageCircle className="h-5 w-5" />
 						<span>{childReplyCount}</span>
 					</div>
