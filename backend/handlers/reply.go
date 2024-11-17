@@ -38,6 +38,20 @@ func CreateReply(c echo.Context) error {
 	return c.JSON(http.StatusOK, r)
 }
 
+func GetReply(c echo.Context) error {
+	id := c.Param("id")
+	r := models.ReplyResult{}
+	if db.DB.
+		Preload("User").
+		Preload("Post.User").
+		Preload("Post").
+		Preload("Reactions.Emoji").
+		Where("id = ?", id).First(&r).Error != nil {
+		return c.JSON(http.StatusNotFound, map[string]string{"message": "Reply not found"})
+	}
+	return c.JSON(http.StatusOK, r)
+}
+
 func GetParentReplies(c echo.Context) error {
 	postID := c.QueryParam("postId")
 

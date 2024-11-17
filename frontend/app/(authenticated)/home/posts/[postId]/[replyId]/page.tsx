@@ -40,7 +40,7 @@ export default function ReplyDetails() {
 
   const getKey = (pageIndex: number, previousPageData: Reply[][]) => {
     if (previousPageData && !previousPageData.length) return null; // reaches the end
-    return `http://localhost:8080/api/child-replies?parentReplyId=${replyId}&page=${pageIndex + 1}&limit=10`;
+    return `http://localhost:8080/api/replies?parentReplyId=${replyId}&page=${pageIndex + 1}&limit=10`;
   };
 
   const fetcher = useCallback(
