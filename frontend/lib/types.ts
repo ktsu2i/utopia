@@ -11,15 +11,6 @@ export interface User {
   updatedAt: string
 }
 
-export interface Reply {
-  id: string
-  userId: string
-  postId: string
-  parentReplyId: string
-  content: string
-  createdAt: string
-  updatedAt: string
-}
 
 export interface Emoji {
   id: number
@@ -33,7 +24,8 @@ export interface Emoji {
 
 export interface Reaction {
   id: number
-  postId: string
+  postId: string | null
+  replyId: string | null
   userId: string
   emojiId: number
   createdAt: string
@@ -51,3 +43,15 @@ export interface Post {
   reactions: Reaction[]
 }
 
+export interface Reply {
+  id: string
+  userId: string
+  user: User
+  postId: string
+  post: Post
+  parentReplyId: string
+  content: string
+  createdAt: string
+  updatedAt: string
+  reactions: Reaction[]
+}

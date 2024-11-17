@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS `replies` (
     `id` VARCHAR(255) NOT NULL,
     `user_id` VARCHAR(255) NOT NULL,
     `post_id` VARCHAR(255) NOT NULL,
-    `parent_reply_id` VARCHAR(255) NOT NULL DEFAULT '',
+    `parent_reply_id` VARCHAR(255) DEFAULT NULL,
     `content` TEXT NOT NULL,
     `created_at` DATETIME(6) DEFAULT NULL,
     `updated_at` DATETIME(6) DEFAULT NULL,

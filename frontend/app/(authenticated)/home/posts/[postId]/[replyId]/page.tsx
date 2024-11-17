@@ -30,17 +30,17 @@ const ReplySchema = z.object({
     .max(150, { message: "Reply must be less than 151 characters." }),
 });
 
-export default function PostDetails() {
-  const { postId } = useParams();
+export default function ReplyDetails() {
+  const { postId, replyId } = useParams();
   const { currentUser } = useAuthStore();
-  const [post, setPost] = useState<Post | null>(null);
+  const [parentReply, setParentReply] = useState<Reply | null>(null);
   const [reply, setReply] = useState<Reply | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isAppropriate, setIsAppropriate] = useState(true);
 
   const getKey = (pageIndex: number, previousPageData: Reply[][]) => {
     if (previousPageData && !previousPageData.length) return null; // reaches the end
-    return `http://localhost:8080/api/parent-replies?postId=${postId}&page=${pageIndex + 1}&limit=10`;
+    return `http://localhost:8080/api/replies?parentReplyId=${replyId}&page=${pageIndex + 1}&limit=10`;
   };
 
   const fetcher = useCallback(
@@ -85,14 +85,14 @@ export default function PostDetails() {
     };
   }, [mutate]);
 
-  // Realtime emoji for post
+  // Realtime emoji for parent reply
   useEffect(() => {
     const fetchPost = async () => {
-      if (!postId) return;
+      if (!replyId) return;
 
       try {
-        const res = await axios.get<Post>(`http://localhost:8080/api/posts/${postId}`, { withCredentials: true });
-        setPost(res.data);
+        const res = await axios.get<Reply>(`http://localhost:8080/api/replies/${replyId}`, { withCredentials: true });
+        setParentReply(res.data);
       } catch {
         // no error handling
       }
@@ -111,7 +111,7 @@ export default function PostDetails() {
     return () => {
       socket.close();
     };
-  }, [postId]);
+  }, [replyId]);
 
   const form = useForm<z.infer<typeof ReplySchema>>({
     resolver: zodResolver(ReplySchema),
@@ -129,8 +129,9 @@ export default function PostDetails() {
 
       if (isReplyAppropriate) {
         const res = await axios.post<Reply>("http://localhost:8080/api/replies", {
-          postId: post?.id,
-          parentReplyId: null,
+          postId: postId,
+          reply: reply,
+          parentReplyId: replyId,
           content: data.content
         }, {
           withCredentials: true
@@ -149,7 +150,7 @@ export default function PostDetails() {
     }
   };
 
-  if (!post) {
+  if (!parentReply) {
     return (
       <div className="h-full flex items-center justify-center">
         <TailSpin color="#FF9933" />
@@ -160,7 +161,7 @@ export default function PostDetails() {
   return (
     <div className="relative">
       <div className="sticky top-0 z-10 bg-white flex flex-col justify-center border-b border-gray-300">
-        <PostItem post={post} isSelected={true} />
+        <ReplyItem reply={parentReply} isSelected={true} />
         <div className="flex gap-x-2 p-4">
           <Avatar>
             <AvatarFallback>
