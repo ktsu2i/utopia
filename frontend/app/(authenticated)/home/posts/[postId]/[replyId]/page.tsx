@@ -159,8 +159,8 @@ export default function ReplyDetails() {
   }
 
   return (
-    <>
-      <div className="flex flex-col justify-center border-b border-gray-300">
+    <div className="relative">
+      <div className="sticky top-0 z-10 bg-white flex flex-col justify-center border-b border-gray-300">
         <ReplyItem reply={parentReply} isSelected={true} />
         <div className="flex gap-x-2 p-4">
           <Avatar>
@@ -227,6 +227,6 @@ export default function ReplyDetails() {
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 }
