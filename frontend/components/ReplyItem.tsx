@@ -1,7 +1,7 @@
 "use client";
 
 import { Reaction, Reply } from "@/lib/types";
-import { ArrowLeft, Ellipsis, SmilePlus } from "lucide-react";
+import { ArrowLeft, Ellipsis, MessageCircle, SmilePlus } from "lucide-react";
 import Link from "next/link";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import { formatDistanceToNowStrict, parseISO } from "date-fns";
@@ -9,7 +9,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Button, buttonVariants } from "./ui/button";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "./ui/alert-dialog";
 import useAuthStore from "@/stores/authStore";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useEmojis } from "@/hooks/useEmojis";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -35,6 +35,7 @@ const ReplyItem: React.FC<ReplyItemProps> = ({
 	const router = useRouter();
 	const [isOpen, setIsOpen] = useState(false);
   const [isEmojisOpen, setIsEmojisOpen] = useState(false);
+	const [childReplyCount, setChildReplyCount] = useState(0);
 
 	const repliedDate = formatDistanceToNowStrict(parseISO(reply.updatedAt));
 
@@ -100,6 +101,20 @@ const ReplyItem: React.FC<ReplyItemProps> = ({
 			router.push(`/home/posts/${reply.postId}/${reply.id}`);
 		}
 	};
+
+	// count child replies
+	useEffect(() => {
+		const fetchCount = async () => {
+			try {
+				const res = await axios.get<number>(`http://localhost:8080/api/replies/${reply.id}/count`);
+				setChildReplyCount(res.data);
+			} catch {
+				// error handling
+			}
+		};
+
+		fetchCount();
+	}, [reply]);
 
 	return (
 		<div className="border-b border-gray-300 last:border-b-0 p-4">
@@ -186,44 +201,50 @@ const ReplyItem: React.FC<ReplyItemProps> = ({
 				</div>
 
 					{/* Footer */}
-				<div className="w-full flex items-center gap-2">
-					{Object.values(groupedReactions).map((groupedReaction) => (
-						<Button
-							key={groupedReaction.emojiId}
-							variant="outline"
-							size="sm"
-							className={`text-sm px-2 py-1 ${groupedReaction.userIds.includes(currentUser?.id || "") ? "bg-utopia_light border-utopia" : ""}`}
-							onClick={() => handleReaction(groupedReaction.emojiId, groupedReaction.userIds)}
-						>
-							{parseEmoji(groupedReaction.emoji.unicode)} {groupedReaction.count}
-						</Button>
-					))}
-					<Popover open={isEmojisOpen} onOpenChange={setIsEmojisOpen}>
-						<PopoverTrigger asChild>
+				<div className="w-full flex items-center gap-2 justify-between">
+					<div className="flex items-center gap-2">
+						{Object.values(groupedReactions).map((groupedReaction) => (
 							<Button
-								variant="ghost"
+								key={groupedReaction.emojiId}
+								variant="outline"
 								size="sm"
-								className="text-gray-500 rounded-full w-8 h-8 p-0 hover:text-utopia hover:bg-utopia_light"
+								className={`text-sm px-2 py-1 ${groupedReaction.userIds.includes(currentUser?.id || "") ? "bg-utopia_light border-utopia" : ""}`}
+								onClick={() => handleReaction(groupedReaction.emojiId, groupedReaction.userIds)}
 							>
-								<SmilePlus className="h-5 w-5" />
-								<span className="sr-only">Add reaction</span>
+								{parseEmoji(groupedReaction.emoji.unicode)} {groupedReaction.count}
 							</Button>
-						</PopoverTrigger>
-						<PopoverContent>
-							<div className="grid grid-cols-4 gap-2">
-								{emojis.map((emoji) => (
-									<Button
-										key={emoji.name}
-										variant="ghost"
-										className="text-2xl p-2"
-										onClick={() => addReaction(emoji.id)}
-									>
-										{String.fromCodePoint(parseInt(emoji.unicode, 16))}
-									</Button>
-								))}
-							</div>
-						</PopoverContent>
-					</Popover>
+						))}
+						<Popover open={isEmojisOpen} onOpenChange={setIsEmojisOpen}>
+							<PopoverTrigger asChild>
+								<Button
+									variant="ghost"
+									size="sm"
+									className="text-gray-500 rounded-full w-8 h-8 p-0 hover:text-utopia hover:bg-utopia_light"
+								>
+									<SmilePlus className="h-5 w-5" />
+									<span className="sr-only">Add reaction</span>
+								</Button>
+							</PopoverTrigger>
+							<PopoverContent>
+								<div className="grid grid-cols-4 gap-2">
+									{emojis.map((emoji) => (
+										<Button
+											key={emoji.name}
+											variant="ghost"
+											className="text-2xl p-2"
+											onClick={() => addReaction(emoji.id)}
+										>
+											{String.fromCodePoint(parseInt(emoji.unicode, 16))}
+										</Button>
+									))}
+								</div>
+							</PopoverContent>
+						</Popover>
+					</div>
+					<div className="flex items-center gap-x-1 text-gray-500">
+						<MessageCircle className="h-5 w-5" />
+						<span>{childReplyCount}</span>
+					</div>
 				</div>
 			</div>
 		</div>	
