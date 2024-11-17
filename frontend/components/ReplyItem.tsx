@@ -97,9 +97,7 @@ const ReplyItem: React.FC<ReplyItemProps> = ({
   };
 
 	const onClick = () => {
-		if (!reply.parentReplyId) {
-			router.push(`/home/posts/${reply.postId}/${reply.id}`);
-		}
+		router.push(`/home/posts/${reply.postId}/${reply.id}`);
 	};
 
 	// count child replies
@@ -134,9 +132,9 @@ const ReplyItem: React.FC<ReplyItemProps> = ({
 				{/* Header */}
 				{isSelected && (
           <div className="flex items-center gap-5 py-2 pr-2 mb-2">
-            <Link href={`/home/posts/${reply.post.id}`} className="p-1 rounded-full hover:bg-utopia_light hover:text-utopia">
+            <div onClick={() => router.back()} className="p-1 rounded-full hover:bg-utopia_light hover:text-utopia">
               <ArrowLeft />
-            </Link>
+            </div>
             <span className="font-bold text-xl">Post</span>
           </div>
         )}
