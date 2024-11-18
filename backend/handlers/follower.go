@@ -49,3 +49,16 @@ func Unfollow(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, nil)
 }
+
+func CountFollowings(c echo.Context) error {
+	userID := c.Param("userId")
+
+	var count int64
+	if err := db.DB.Model(&models.Follower{}).
+		Where("follower_id = ?", userID).
+		Count(&count).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
+	}
+
+	return c.JSON(http.StatusOK, count)
+}
