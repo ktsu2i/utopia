@@ -49,6 +49,8 @@ type UserResult struct {
 	Bio             string    `json:"bio"`
 	FollowingCount  int64     `json:"followingCount"`
 	FollowedCount   int64     `json:"followedCount"`
+	IsFollowing     bool      `json:"isFollowing"`
+	IsFollowed      bool      `json:"isFollowed"`
 	CreatedAt       time.Time `json:"createdAt"`
 	UpdatedAt       time.Time `json:"updatedAt"`
 }

@@ -9,10 +9,12 @@ import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 export default function UserProfilePage() {
   const { userId } = useParams();
   const { isAuthenticated } = useAuthStore();
+  const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
 
@@ -29,7 +31,34 @@ export default function UserProfilePage() {
     };
 
     fetchUser();
+
+    const socket = new WebSocket("ws://localhost:8080/api/ws");
+
+    socket.onmessage = (event) => {
+      if (event.data === "follow" || event.data === "unfollow") {
+        fetchUser();
+      }
+    };
+
+    return () => {
+      socket.close();
+    }
   }, [userId]);
+
+  const handleFollow = async () => {
+    try {
+      setIsLoading(true);
+      if (user?.isFollowing) {
+        await axios.delete(`http://localhost:8080/api/followers/${user?.id}`, { withCredentials: true });
+      } else {
+        await axios.post(`http://localhost:8080/api/followers/${user?.id}`, null, { withCredentials: true });
+      }
+    } catch {
+      toast.error("Something went wrong");
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   return (
     <>
@@ -71,7 +100,11 @@ export default function UserProfilePage() {
             </div>
 
             <div className="flex justify-center gap-x-2">
-              <Button variant="utopia">Follow</Button>
+              {user?.isFollowing ? (
+                <Button onClick={handleFollow}>Unfollow</Button>
+              ) : (
+                <Button variant="utopia" onClick={handleFollow}>Follow</Button>
+              )}
               <Button variant="outline">Message</Button>
             </div>
           </div>

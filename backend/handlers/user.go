@@ -130,10 +130,25 @@ func GetAllUsers(c echo.Context) error {
 }
 
 func GetUserById(c echo.Context) error {
+	currentUserID, err := GetUserID(c)
+	if err != nil {
+		return c.JSON(http.StatusUnauthorized, map[string]string{"message": "Unauthorized"})
+	}
+
 	id := c.Param("id")
 	u := models.User{}
 	if db.DB.Where("id = ?", id).First(&u).Error != nil {
 		return c.JSON(http.StatusNotFound, map[string]string{"message": "User not found"})
+	}
+
+	isFollowing := false
+	if err := db.DB.Model(&models.Follower{}).Where("follower_id = ? AND followed_id = ?", currentUserID, id).First(&models.Follower{}).Error; err == nil {
+		isFollowing = true
+	}
+
+	isFollowed := false
+	if err := db.DB.Model(&models.Follower{}).Where("follower_id = ? AND followed_id = ?", id, currentUserID).First(&models.Follower{}).Error; err == nil {
+		isFollowed = true
 	}
 
 	res := models.UserResult{
@@ -147,6 +162,8 @@ func GetUserById(c echo.Context) error {
 		Bio:             u.Bio,
 		FollowingCount:  countFollowing(u.ID),
 		FollowedCount:   countFollowed(u.ID),
+		IsFollowing:     isFollowing,
+		IsFollowed:      isFollowed,
 		CreatedAt:       u.CreatedAt,
 		UpdatedAt:       u.UpdatedAt,
 	}
