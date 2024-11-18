@@ -141,7 +141,14 @@ const ReplyItem: React.FC<ReplyItemProps> = ({
 
 				<div className="flex gap-x-2">
 					<div className="h-full">
-						<Avatar>
+						<Avatar
+              className="cursor-pointer"
+							onClick={() =>
+              	reply.userId === currentUser?.id ? 
+                	router.push("/profile") : 
+                	router.push(`/profile/${reply.userId}`)
+            	}
+						>
 							<AvatarFallback>
 								{reply.user.accountName.substring(0, 1).toUpperCase()}
 							</AvatarFallback>

@@ -143,11 +143,16 @@ const PostItem: React.FC<PostItemProps> = ({
 
         <div className="flex gap-x-2">
           <div className="h-full">
-            <Avatar>
+            <Avatar
+              className="cursor-pointer"
+              onClick={() =>
+                post.userId === currentUser?.id ? 
+                  router.push("/profile") : 
+                  router.push(`/profile/${post.userId}`)
+              }
+            >
               <AvatarFallback>
-                <Link href={`/profile/${post.user.id}`}>
-                  {post.user.accountName.substring(0, 1).toUpperCase()}
-                </Link>
+                {post.user.accountName.substring(0, 1).toUpperCase()}
               </AvatarFallback>
             </Avatar>
           </div>
