@@ -14,7 +14,7 @@ import (
 func countFollowing(userID string) int64 {
 	var count int64
 	if err := db.DB.Model(&models.Follower{}).
-		Where("follower_id = ?", userID).
+		Where("following_id = ?", userID).
 		Count(&count).Error; err != nil {
 		return 0
 	}
@@ -142,12 +142,12 @@ func GetUserById(c echo.Context) error {
 	}
 
 	isFollowing := false
-	if err := db.DB.Model(&models.Follower{}).Where("follower_id = ? AND followed_id = ?", currentUserID, id).First(&models.Follower{}).Error; err == nil {
+	if err := db.DB.Model(&models.Follower{}).Where("following_id = ? AND followed_id = ?", currentUserID, id).First(&models.Follower{}).Error; err == nil {
 		isFollowing = true
 	}
 
 	isFollowed := false
-	if err := db.DB.Model(&models.Follower{}).Where("follower_id = ? AND followed_id = ?", id, currentUserID).First(&models.Follower{}).Error; err == nil {
+	if err := db.DB.Model(&models.Follower{}).Where("following_id = ? AND followed_id = ?", id, currentUserID).First(&models.Follower{}).Error; err == nil {
 		isFollowed = true
 	}
 

@@ -41,7 +41,7 @@ func Unfollow(c echo.Context) error {
 		return c.JSON(http.StatusUnauthorized, map[string]string{"message": "Unauthorized"})
 	}
 
-	if db.DB.Where("follower_id = ? AND followed_id = ?", userID, followedID).Delete(&models.Follower{}).RowsAffected == 0 {
+	if db.DB.Where("following_id = ? AND followed_id = ?", userID, followedID).Delete(&models.Follower{}).RowsAffected == 0 {
 		return c.JSON(http.StatusNotFound, map[string]string{"message": "Follower not found"})
 	}
 
