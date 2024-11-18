@@ -156,7 +156,14 @@ const ReplyItem: React.FC<ReplyItemProps> = ({
 					</div>
 					<div className="w-full">
 						<div className="flex justify-between">
-							<div className="flex flex-col pb-2">
+							<div 
+                className="flex flex-col cursor-pointer pb-2"
+                onClick={() =>
+                  reply.userId === currentUser?.id ? 
+                    router.push("/profile") : 
+                    router.push(`/profile/${reply.userId}`)
+                }
+              >
 								<span className="font-semibold">{reply.user.accountName}</span>
 								<span className="text-sm text-gray-500">{"@" + reply.user.username} &middot; {repliedDate}</span>
 							</div>
