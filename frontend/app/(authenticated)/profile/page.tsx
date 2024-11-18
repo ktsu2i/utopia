@@ -39,7 +39,7 @@ const Profile = () => {
                 <span className="font-bold">10</span> followers
               </div>
             </div>
-            <div className="justify-center mx-10 my-4 whitespace-pre-wrap">
+            <div className="justify-center mx-20 my-4 whitespace-pre-wrap">
               {currentUser?.bio ? currentUser?.bio : "Add your bio!"}
             </div>
             <div className="flex justify-center">
