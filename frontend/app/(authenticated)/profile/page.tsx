@@ -33,10 +33,10 @@ const Profile = () => {
             </div>
             <div className="flex justify-center gap-x-4">
               <div>
-                <span className="font-bold">10</span> following
+                <span className="font-bold">{currentUser?.followingCount}</span> following
               </div>
               <div>
-                <span className="font-bold">10</span> followers
+                <span className="font-bold">{currentUser?.followedCount}</span> followers
               </div>
             </div>
             <div className="justify-center mx-20 my-4 whitespace-pre-wrap">
