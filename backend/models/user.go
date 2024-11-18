@@ -19,6 +19,7 @@ type UserUpdateParams struct {
 	Username    string `json:"username"`
 	FirstName   string `json:"firstName"`
 	LastName    string `json:"lastName"`
+	Bio         string `json:"bio"`
 }
 
 // DB

@@ -3,8 +3,10 @@
 import useAuthStore from "@/stores/authStore";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 const Profile = () => {
+  const router = useRouter();
   const { isAuthenticated, currentUser } = useAuthStore();
 
   return (
@@ -37,11 +39,11 @@ const Profile = () => {
                 <span className="font-bold">10</span> followers
               </div>
             </div>
-            <div className="text-center mx-10 my-4 whitespace-pre-wrap">
+            <div className="justify-center mx-10 my-4 whitespace-pre-wrap">
               {currentUser?.bio ? currentUser?.bio : "Add your bio!"}
             </div>
             <div className="flex justify-center">
-              <Button variant="outline">Edit profile</Button>
+              <Button variant="outline" onClick={() => router.push("/profile/edit")}>Edit profile</Button>
               {/* <Button variant="outline">??</Button> */}
             </div>
           </div>

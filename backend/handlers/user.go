@@ -150,6 +150,9 @@ func UpdateUser(c echo.Context) error {
 	if req.LastName != "" {
 		u.LastName = req.LastName
 	}
+	if req.Bio != "" {
+		u.Bio = req.Bio
+	}
 
 	if err := db.DB.Save(&u).Error; err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
