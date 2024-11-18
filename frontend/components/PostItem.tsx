@@ -145,7 +145,9 @@ const PostItem: React.FC<PostItemProps> = ({
           <div className="h-full">
             <Avatar>
               <AvatarFallback>
-                {post.user.accountName.substring(0, 1).toUpperCase()}
+                <Link href={`/profile/${post.user.id}`}>
+                  {post.user.accountName.substring(0, 1).toUpperCase()}
+                </Link>
               </AvatarFallback>
             </Avatar>
           </div>
