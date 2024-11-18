@@ -27,6 +27,18 @@ export default function useAuth() {
     }
 
     checkAuth();
+
+    const socket = new WebSocket("ws//localhost:8080/api/ws");
+
+    socket.onmessage = (event) => {
+      if (event.data === "follow" || event.data === "unfollow") {
+        checkAuth();
+      }
+    }
+
+    return () => {
+      socket.close();
+    }
   }, [pathname, router, setIsAuthenticated, setCurrentUser]);
 
   const logout = async () => {

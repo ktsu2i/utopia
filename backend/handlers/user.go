@@ -11,7 +11,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func countFollowing(userID string) int64 {
+func CountFollowing(userID string) int64 {
 	var count int64
 	if err := db.DB.Model(&models.Follower{}).
 		Where("following_id = ?", userID).
@@ -22,7 +22,7 @@ func countFollowing(userID string) int64 {
 	return count
 }
 
-func countFollowed(userID string) int64 {
+func CountFollowed(userID string) int64 {
 	var count int64
 	if err := db.DB.Model(&models.Follower{}).
 		Where("followed_id = ?", userID).
@@ -93,8 +93,8 @@ func GetCurrentUser(c echo.Context) error {
 		Email:           u.Email,
 		ProfileImageUrl: u.ProfileImageUrl,
 		Bio:             u.Bio,
-		FollowingCount:  countFollowing(u.ID),
-		FollowedCount:   countFollowed(u.ID),
+		FollowingCount:  CountFollowing(u.ID),
+		FollowedCount:   CountFollowed(u.ID),
 		CreatedAt:       u.CreatedAt,
 		UpdatedAt:       u.UpdatedAt,
 	}
@@ -119,8 +119,8 @@ func GetAllUsers(c echo.Context) error {
 			Email:           u.Email,
 			ProfileImageUrl: u.ProfileImageUrl,
 			Bio:             u.Bio,
-			FollowingCount:  countFollowing(u.ID),
-			FollowedCount:   countFollowed(u.ID),
+			FollowingCount:  CountFollowing(u.ID),
+			FollowedCount:   CountFollowed(u.ID),
 			CreatedAt:       u.CreatedAt,
 			UpdatedAt:       u.UpdatedAt,
 		}
@@ -160,8 +160,8 @@ func GetUserById(c echo.Context) error {
 		Email:           u.Email,
 		ProfileImageUrl: u.ProfileImageUrl,
 		Bio:             u.Bio,
-		FollowingCount:  countFollowing(u.ID),
-		FollowedCount:   countFollowed(u.ID),
+		FollowingCount:  CountFollowing(u.ID),
+		FollowedCount:   CountFollowed(u.ID),
 		IsFollowing:     isFollowing,
 		IsFollowed:      isFollowed,
 		CreatedAt:       u.CreatedAt,

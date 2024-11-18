@@ -18,10 +18,10 @@ func Follow(c echo.Context) error {
 	}
 
 	f := models.Follower{
-		FollowerID: userID,
-		FollowedID: followedID,
-		CreatedAt:  time.Now().UTC(),
-		UpdatedAt:  time.Now().UTC(),
+		FollowingID: userID,
+		FollowedID:  followedID,
+		CreatedAt:   time.Now().UTC(),
+		UpdatedAt:   time.Now().UTC(),
 	}
 
 	if err := db.DB.Create(&f).Error; err != nil {
