@@ -107,6 +107,8 @@ func ValidateToken(c echo.Context) error {
 		Email:           u.Email,
 		ProfileImageUrl: u.ProfileImageUrl,
 		Bio:             u.Bio,
+		FollowingCount:  CountFollowing(u.ID),
+		FollowedCount:   CountFollowed(u.ID),
 		CreatedAt:       u.CreatedAt,
 		UpdatedAt:       u.UpdatedAt,
 	}

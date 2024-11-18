@@ -18,10 +18,10 @@ func Follow(c echo.Context) error {
 	}
 
 	f := models.Follower{
-		FollowerID: userID,
-		FollowedID: followedID,
-		CreatedAt:  time.Now().UTC(),
-		UpdatedAt:  time.Now().UTC(),
+		FollowingID: userID,
+		FollowedID:  followedID,
+		CreatedAt:   time.Now().UTC(),
+		UpdatedAt:   time.Now().UTC(),
 	}
 
 	if err := db.DB.Create(&f).Error; err != nil {
@@ -41,7 +41,7 @@ func Unfollow(c echo.Context) error {
 		return c.JSON(http.StatusUnauthorized, map[string]string{"message": "Unauthorized"})
 	}
 
-	if db.DB.Where("follower_id = ? AND followed_id = ?", userID, followedID).Delete(&models.Follower{}).RowsAffected == 0 {
+	if db.DB.Where("following_id = ? AND followed_id = ?", userID, followedID).Delete(&models.Follower{}).RowsAffected == 0 {
 		return c.JSON(http.StatusNotFound, map[string]string{"message": "Follower not found"})
 	}
 

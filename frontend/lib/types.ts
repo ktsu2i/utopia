@@ -9,10 +9,11 @@ export interface User {
   bio: string
   followingCount: number
   followedCount: number
+  isFollowing: boolean
+  isFollowed: boolean
   createdAt: string
   updatedAt: string
 }
-
 
 export interface Emoji {
   id: number
