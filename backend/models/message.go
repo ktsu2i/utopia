@@ -3,7 +3,7 @@ package models
 import "time"
 
 // Request
-type MessageParams struct {
+type ChatMessageParams struct {
 	ReceiverID string `json:"receiverId"`
 	Content    string `json:"content"`
 }

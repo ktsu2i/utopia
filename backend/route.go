@@ -41,4 +41,6 @@ func route(e *echo.Echo) {
 	api.DELETE("/reactions/:id", handlers.DeleteReaction)
 	api.POST("/followers/:followedId", handlers.Follow)
 	api.DELETE("/followers/:followedId", handlers.Unfollow)
+	api.POST("/messages", handlers.CreateMessage)
+	api.DELETE("/messages/:id", handlers.DeleteMessage)
 }
