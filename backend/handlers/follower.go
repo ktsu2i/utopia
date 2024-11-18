@@ -50,7 +50,7 @@ func Unfollow(c echo.Context) error {
 	return c.JSON(http.StatusOK, nil)
 }
 
-func CountFollowings(c echo.Context) error {
+func CountFollowing(c echo.Context) error {
 	userID := c.Param("userId")
 
 	var count int64
