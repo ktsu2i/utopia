@@ -39,8 +39,6 @@ func route(e *echo.Echo) {
 	api.GET("/emojis", handlers.GetEmojis)
 	api.POST("/reactions", handlers.AddReaction)
 	api.DELETE("/reactions/:id", handlers.DeleteReaction)
-	api.GET("/following/:userId/count", handlers.CountFollowing)
-	api.GET("/followers/:userId/count", handlers.CountFollowers)
 	api.POST("/followers/:followedId", handlers.Follow)
 	api.DELETE("/followers/:followedId", handlers.Unfollow)
 }

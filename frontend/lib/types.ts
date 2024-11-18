@@ -7,6 +7,8 @@ export interface User {
   email: string
   profileImageUrl: string
   bio: string
+  followingCount: number
+  followedCount: number
   createdAt: string
   updatedAt: string
 }
