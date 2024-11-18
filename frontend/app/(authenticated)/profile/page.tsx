@@ -1,14 +1,15 @@
 "use client";
 
 import useAuthStore from "@/stores/authStore";
+import ProfileHeader from "./_components/Header";
 
 const Profile = () => {
-  const { isAuthenticated } = useAuthStore();
+  const { isAuthenticated, currentUser } = useAuthStore();
 
   return (
     <>
       {isAuthenticated && (
-        <div>Profile</div>
+        <ProfileHeader />
       )}
     </>
   );
