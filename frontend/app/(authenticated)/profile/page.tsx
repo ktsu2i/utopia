@@ -1,7 +1,7 @@
 "use client";
 
 import useAuthStore from "@/stores/authStore";
-import ProfileHeader from "./_components/Header";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 const Profile = () => {
   const { isAuthenticated, currentUser } = useAuthStore();
@@ -9,7 +9,19 @@ const Profile = () => {
   return (
     <>
       {isAuthenticated && (
-        <ProfileHeader />
+        <div>
+          <div className="text-2xl font-bold p-4">Profile</div>
+          
+          <div className="flex justify-center mt-10">
+            <Avatar className="h-28 w-28">
+              <AvatarFallback>
+                {currentUser?.accountName.substring(0, 1).toUpperCase()}
+              </AvatarFallback>
+            </Avatar>
+            <div>10 Followings</div>
+            <div>10 Followers</div>
+          </div>
+        </div>
       )}
     </>
   );
