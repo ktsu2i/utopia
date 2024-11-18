@@ -6,7 +6,6 @@ import { User } from "@/lib/types";
 import useAuthStore from "@/stores/authStore";
 import axios from "axios";
 import { ArrowLeft } from "lucide-react";
-import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
