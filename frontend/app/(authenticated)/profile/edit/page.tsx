@@ -86,15 +86,6 @@ export default function ProfileEditPage() {
               </Avatar>
             </div>
 
-            <div className="flex flex-col items-center">
-              <span className="text-xl font-bold">
-                {currentUser?.accountName}
-              </span>
-              <div className="text-gray-500">
-                {"@" + currentUser?.username}
-              </div>
-            </div>
-
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mx-10">
                 <div className="flex gap-x-2">
