@@ -19,6 +19,7 @@ type UserUpdateParams struct {
 	Username    string `json:"username"`
 	FirstName   string `json:"firstName"`
 	LastName    string `json:"lastName"`
+	Bio         string `json:"bio"`
 }
 
 // DB
@@ -46,6 +47,10 @@ type UserResult struct {
 	Email           string    `json:"email"`
 	ProfileImageUrl string    `json:"profileImageUrl"`
 	Bio             string    `json:"bio"`
+	FollowingCount  int64     `json:"followingCount"`
+	FollowedCount   int64     `json:"followedCount"`
+	IsFollowing     bool      `json:"isFollowing"`
+	IsFollowed      bool      `json:"isFollowed"`
 	CreatedAt       time.Time `json:"createdAt"`
 	UpdatedAt       time.Time `json:"updatedAt"`
 }

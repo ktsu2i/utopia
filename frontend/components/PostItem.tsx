@@ -143,7 +143,14 @@ const PostItem: React.FC<PostItemProps> = ({
 
         <div className="flex gap-x-2">
           <div className="h-full">
-            <Avatar>
+            <Avatar
+              className="cursor-pointer"
+              onClick={() =>
+                post.userId === currentUser?.id ? 
+                  router.push("/profile") : 
+                  router.push(`/profile/${post.userId}`)
+              }
+            >
               <AvatarFallback>
                 {post.user.accountName.substring(0, 1).toUpperCase()}
               </AvatarFallback>
@@ -151,7 +158,14 @@ const PostItem: React.FC<PostItemProps> = ({
           </div>
           <div className="w-full">
             <div className="flex justify-between">
-              <div className="flex flex-col pb-2">
+              <div 
+                className="flex flex-col cursor-pointer pb-2"
+                onClick={() =>
+                  post.userId === currentUser?.id ? 
+                    router.push("/profile") : 
+                    router.push(`/profile/${post.userId}`)
+                }
+              >
                 <span className="font-semibold">{post.user.accountName}</span>
                 <span className="text-sm text-gray-500">{"@" + post.user.username} &middot; {postedDate}</span>
               </div>

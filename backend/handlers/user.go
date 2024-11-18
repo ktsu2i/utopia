@@ -11,6 +11,28 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+func CountFollowing(userID string) int64 {
+	var count int64
+	if err := db.DB.Model(&models.Follower{}).
+		Where("following_id = ?", userID).
+		Count(&count).Error; err != nil {
+		return 0
+	}
+
+	return count
+}
+
+func CountFollowed(userID string) int64 {
+	var count int64
+	if err := db.DB.Model(&models.Follower{}).
+		Where("followed_id = ?", userID).
+		Count(&count).Error; err != nil {
+		return 0
+	}
+
+	return count
+}
+
 func GetUserID(c echo.Context) (string, error) {
 	cookie, err := c.Cookie("token")
 	if err != nil {
@@ -71,6 +93,8 @@ func GetCurrentUser(c echo.Context) error {
 		Email:           u.Email,
 		ProfileImageUrl: u.ProfileImageUrl,
 		Bio:             u.Bio,
+		FollowingCount:  CountFollowing(u.ID),
+		FollowedCount:   CountFollowed(u.ID),
 		CreatedAt:       u.CreatedAt,
 		UpdatedAt:       u.UpdatedAt,
 	}
@@ -95,6 +119,8 @@ func GetAllUsers(c echo.Context) error {
 			Email:           u.Email,
 			ProfileImageUrl: u.ProfileImageUrl,
 			Bio:             u.Bio,
+			FollowingCount:  CountFollowing(u.ID),
+			FollowedCount:   CountFollowed(u.ID),
 			CreatedAt:       u.CreatedAt,
 			UpdatedAt:       u.UpdatedAt,
 		}
@@ -104,10 +130,25 @@ func GetAllUsers(c echo.Context) error {
 }
 
 func GetUserById(c echo.Context) error {
+	currentUserID, err := GetUserID(c)
+	if err != nil {
+		return c.JSON(http.StatusUnauthorized, map[string]string{"message": "Unauthorized"})
+	}
+
 	id := c.Param("id")
 	u := models.User{}
 	if db.DB.Where("id = ?", id).First(&u).Error != nil {
 		return c.JSON(http.StatusNotFound, map[string]string{"message": "User not found"})
+	}
+
+	isFollowing := false
+	if err := db.DB.Model(&models.Follower{}).Where("following_id = ? AND followed_id = ?", currentUserID, id).First(&models.Follower{}).Error; err == nil {
+		isFollowing = true
+	}
+
+	isFollowed := false
+	if err := db.DB.Model(&models.Follower{}).Where("following_id = ? AND followed_id = ?", id, currentUserID).First(&models.Follower{}).Error; err == nil {
+		isFollowed = true
 	}
 
 	res := models.UserResult{
@@ -119,6 +160,10 @@ func GetUserById(c echo.Context) error {
 		Email:           u.Email,
 		ProfileImageUrl: u.ProfileImageUrl,
 		Bio:             u.Bio,
+		FollowingCount:  CountFollowing(u.ID),
+		FollowedCount:   CountFollowed(u.ID),
+		IsFollowing:     isFollowing,
+		IsFollowed:      isFollowed,
 		CreatedAt:       u.CreatedAt,
 		UpdatedAt:       u.UpdatedAt,
 	}
@@ -149,6 +194,9 @@ func UpdateUser(c echo.Context) error {
 	}
 	if req.LastName != "" {
 		u.LastName = req.LastName
+	}
+	if req.Bio != "" {
+		u.Bio = req.Bio
 	}
 
 	if err := db.DB.Save(&u).Error; err != nil {

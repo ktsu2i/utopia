@@ -7,10 +7,13 @@ export interface User {
   email: string
   profileImageUrl: string
   bio: string
+  followingCount: number
+  followedCount: number
+  isFollowing: boolean
+  isFollowed: boolean
   createdAt: string
   updatedAt: string
 }
-
 
 export interface Emoji {
   id: number
