@@ -9,7 +9,7 @@ const UserItem: React.FC<UserItemProps> = ({
   user,
 }) => {
   return (
-    <div>
+    <div className="w-full bg-slate-300 p-2">
       <div className="flex gap-x-2">
         <Avatar>
           <AvatarFallback>
