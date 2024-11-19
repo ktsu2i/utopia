@@ -16,7 +16,7 @@ const UserItem: React.FC<UserItemProps> = ({
   };
 
   return (
-    <div className="w-full bg-slate-300 p-2">
+    <div className="w-full border-b border-gray-300 p-4">
       <div onClick={onClick} className="flex gap-x-2 cursor-pointer">
         <Avatar>
           <AvatarFallback>
