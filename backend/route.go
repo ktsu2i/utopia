@@ -21,7 +21,7 @@ func route(e *echo.Echo) {
 	api.GET("/validate-token", handlers.ValidateToken)
 	api.POST("/validate-text", handlers.ValidateText)
 	api.GET("/me", handlers.GetCurrentUser)
-	api.GET("/users", handlers.GetAllUsers)
+	api.GET("/users", handlers.GetUsers)
 	api.GET("/users/:id", handlers.GetUserById)
 	api.PATCH("/users/:id", handlers.UpdateUser)
 	api.DELETE("/users/:id", handlers.DeleteUserById)
