@@ -4,6 +4,7 @@ import (
 	"backend/db"
 	"backend/models"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/google/uuid"
@@ -37,6 +38,37 @@ func CreateMessage(c echo.Context) error {
 	NotifyClients("send_message")
 
 	return c.JSON(http.StatusOK, m)
+}
+
+func GetMessages(c echo.Context) error {
+	senderID := c.QueryParam("senderId")
+	receiverID := c.QueryParam("receiverId")
+
+	// Default settings
+	page, err := strconv.Atoi(c.QueryParam("page"))
+	if err != nil || page < 1 {
+		page = 1
+	}
+
+	limit, err := strconv.Atoi(c.QueryParam("limit"))
+	if err != nil || limit < 1 || limit > 100 {
+		limit = 20
+	}
+
+	offset := (page - 1) * limit
+
+	var messages []models.ChatMessage
+	if err := db.DB.
+		Preload("User").
+		Where("sender_id = ? AND receiver_id = ?", senderID, receiverID).
+		Order("created_at desc").
+		Limit(limit).
+		Offset(offset).
+		Find(&messages).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
+	}
+
+	return c.JSON(http.StatusOK, messages)
 }
 
 func DeleteMessage(c echo.Context) error {
