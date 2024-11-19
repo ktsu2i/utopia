@@ -127,7 +127,8 @@ func GetUsers(c echo.Context) error {
 		Table("users").
 		Select("users.*").
 		Joins("JOIN followers f1 ON users.id = f1.followed_id AND f1.following_id = ?", userID).
-		Joins("JOIN followers f2 ON users.id = f2.following_id AND f2.followed = ?", userID).
+		Joins("JOIN followers f2 ON users.id = f2.following_id AND f2.followed_id = ?", userID).
+		Where("users.id != ?", userID).
 		Limit(limit).
 		Offset(offset).
 		Find(&us).Error != nil {
