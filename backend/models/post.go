@@ -16,6 +16,11 @@ type Post struct {
 	UpdatedAt time.Time `json:"updatedAt"`
 }
 
+type PostUpdateParams struct {
+	ID      string `json:"id"`
+	Content string `json:"content"`
+}
+
 // Response
 type PostResult struct {
 	ID        string     `json:"id"`

@@ -79,6 +79,31 @@ func GetPosts(c echo.Context) error {
 	return c.JSON(http.StatusOK, posts)
 }
 
+func UpdatePost(c echo.Context) error {
+	id := c.Param("id")
+
+	var req models.PostUpdateParams
+	if err := c.Bind(&req); err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{"message": err.Error()})
+	}
+
+	var post models.Post
+	if err := db.DB.Where("id = ?", id).First(&post).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"message": "User not found"})
+	}
+
+	if req.Content != "" {
+		post.Content = req.Content
+	}
+	post.UpdatedAt = time.Now().UTC()
+
+	if err := db.DB.Save(&post).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
+	}
+
+	return c.JSON(http.StatusOK, map[string]string{"message": "Post successfully updated"})
+}
+
 func DeletePost(c echo.Context) error {
 	id := c.Param("id")
 	if db.DB.Where("id = ?", id).Delete(&models.Post{}).RowsAffected == 0 {
