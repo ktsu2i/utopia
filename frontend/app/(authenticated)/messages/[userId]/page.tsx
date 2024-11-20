@@ -1,5 +1,7 @@
 "use client";
 
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { AlertDialog, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
@@ -8,6 +10,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { User } from "@/lib/types";
 import useAuthStore from "@/stores/authStore";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { AlertDialogCancel } from "@radix-ui/react-alert-dialog";
+import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import axios from "axios";
 import { Send } from "lucide-react";
 import { useParams } from "next/navigation";
@@ -27,6 +31,8 @@ export default function ChatPage() {
   const { userId } = useParams();
   const { isAuthenticated, currentUser } = useAuthStore();
   const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isAppropriate, setIsAppropriate] = useState(true);
 
   // fetch user
   useEffect(() => {
@@ -45,8 +51,25 @@ export default function ChatPage() {
     },
   });
 
-  const onSubmit = () => {
-    // todo
+  const onSubmit = async (data: z.infer<typeof MessageSchema>) => {
+    setIsLoading(true);
+
+    try {
+      const res = await axios.post<boolean>("http://localhost:8080/api/validate-text", data, { withCredentials: true });
+      const isMessageAppropriate = res.data;
+
+      if (isMessageAppropriate) {
+        await axios.post("http://localhost:8080/api/messages", data, { withCredentials: true });
+        setIsAppropriate(true);
+        form.reset();
+      } else {
+        setIsAppropriate(false);
+      }
+    } catch {
+      // error handling
+    } finally {
+      setIsLoading(false);
+    }
   };
   
   return (
@@ -98,6 +121,17 @@ export default function ChatPage() {
                     />
                   </form>
                 </Form>
+                {!isAppropriate && (
+                  <Alert variant="destructive">
+                    <ExclamationTriangleIcon className="h-4 w-4" />
+                    <AlertTitle className="font-semibold">Warning!</AlertTitle>
+                    <AlertDescription>
+                      You were about to reply with inappropriate contents. 
+                      <br />
+                      Be respectful to everyone!
+                    </AlertDescription>
+                  </Alert>
+                )}
               </div>
             </div>
           </div>
