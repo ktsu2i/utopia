@@ -26,7 +26,7 @@ const MessageItem: React.FC<MessageProps> = ({
         </Avatar>
       )}
       
-      <div className={`p-2 rounded-lg whitespace-pre-wrap ${
+      <div className={`max-w-xs p-2 rounded-lg whitespace-pre-wrap ${
         isMe ? "bg-blue-500 text-white self-end" : "bg-gray-200 text-black self-start"
       }`}>
         {message.content}
