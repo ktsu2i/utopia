@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 const SignUpSchema = z.object({
   accountName: z
     .string()
+    .trim()
     .min(1, { message: "Please enter your account name" }),
   username: z
     .string()

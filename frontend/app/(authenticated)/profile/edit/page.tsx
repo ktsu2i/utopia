@@ -15,8 +15,23 @@ import toast from "react-hot-toast";
 import { z } from "zod";
 
 const ProfileSchema = z.object({
-  accountName: z.string(),
-  username: z.string(),
+  accountName: z
+    .string()
+    .trim()
+    .min(1, { message: "Please enter your account name" }),
+  username: z
+    .string()
+    .trim()
+    .min(5, {  message: "Username must be at least 5 characters." })
+    .regex(/^[a-z0-9_-]+$/, { message: "Username can only contain a-z, 0-9, _, and -." })
+    .refine(async (username) => {
+      try {
+        await axios.post("http://localhost:8080/api/check-username-exists", { username });
+        return true;
+      } catch {
+        return false;
+      }
+    }, { message: "Username already exists." }),
   firstName: z
     .string()
     .trim()
@@ -166,7 +181,7 @@ export default function ProfileEditPage() {
                 />
                 <div className="flex justify-center gap-x-2">
                   <Button variant="outline" type="button" onClick={() => router.push("/profile")}>Cancel</Button>
-                  <Button variant="utopia" type="submit">Update</Button>
+                  <Button disabled={isLoading} variant="utopia" type="submit">Update</Button>
                 </div>
               </form>
             </Form>
