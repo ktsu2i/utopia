@@ -44,6 +44,31 @@ export default function ChatPage() {
     fetchUser();
   }, [userId]);
 
+  const getKey = (pageIndex: number, previousPageData: [][]) => {
+    if (previousPageData && !previousPageData.length) return null; // reaches the end
+    return `http://localhost:8080/api/parent-replies?postId=${postId}&page=${pageIndex + 1}&limit=10`;
+  };
+
+  const fetcher = useCallback(
+    async (url: string) => (await axios.get<Reply[]>(url, { withCredentials: true })).data,
+    [],
+  );
+
+  const { data, size, setSize, isValidating, mutate } = useSWRInfinite(
+    getKey,
+    fetcher,
+    {
+      revalidateOnReconnect: false,
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateFirstPage: true,
+    }
+  );
+
+  const limit = 10;
+  const isEmpty = data?.[0].length === 0;
+  const isReachingEnd = isEmpty || (data && data?.[data?.length - 1]?.length < limit);
+
   const form = useForm<z.infer<typeof MessageSchema>>({
     resolver: zodResolver(MessageSchema),
     defaultValues: {

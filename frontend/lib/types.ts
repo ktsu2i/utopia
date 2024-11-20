@@ -58,3 +58,14 @@ export interface Reply {
   updatedAt: string
   reactions: Reaction[]
 }
+
+export interface Message {
+  id: string
+  senderId: string
+  sender: User
+  receiverId: string
+  receiver: User
+  content: string
+  createdAt: string
+  updatedAt: string
+}
