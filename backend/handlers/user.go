@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"strconv"
 
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/labstack/echo/v4"
@@ -102,9 +103,35 @@ func GetCurrentUser(c echo.Context) error {
 	return c.JSON(http.StatusOK, res)
 }
 
-func GetAllUsers(c echo.Context) error {
+func GetUsers(c echo.Context) error {
+	userID, err := GetUserID(c)
+	if err != nil {
+		return c.JSON(http.StatusUnauthorized, map[string]string{"message": "Unauthorized"})
+	}
+
+	// Default settings
+	page, err := strconv.Atoi(c.QueryParam("page"))
+	if err != nil || page < 1 {
+		page = 1
+	}
+
+	limit, err := strconv.Atoi(c.QueryParam("limit"))
+	if err != nil || limit < 1 || limit > 100 {
+		limit = 10
+	}
+
+	offset := (page - 1) * limit
+
 	us := []models.User{}
-	if db.DB.Find(&us).Error != nil {
+	if db.DB.
+		Table("users").
+		Select("users.*").
+		Joins("JOIN followers f1 ON users.id = f1.followed_id AND f1.following_id = ?", userID).
+		Joins("JOIN followers f2 ON users.id = f2.following_id AND f2.followed_id = ?", userID).
+		Where("users.id != ?", userID).
+		Limit(limit).
+		Offset(offset).
+		Find(&us).Error != nil {
 		return c.JSON(http.StatusNotFound, map[string]string{"message": "Users not found"})
 	}
 

@@ -15,13 +15,14 @@ func route(e *echo.Echo) {
 	api.POST("/check-username-exists", handlers.CheckUsernameExists)
 	api.POST("/check-email-exists", handlers.CheckEmailExists)
 	api.GET("/ws", handlers.HandleWebSocket)
+	api.GET("/ws/chat", handlers.HandleChatWebSocket)
 
 	// JWT auth required
 	api.POST("/logout", handlers.Logout)
 	api.GET("/validate-token", handlers.ValidateToken)
 	api.POST("/validate-text", handlers.ValidateText)
 	api.GET("/me", handlers.GetCurrentUser)
-	api.GET("/users", handlers.GetAllUsers)
+	api.GET("/users", handlers.GetUsers)
 	api.GET("/users/:id", handlers.GetUserById)
 	api.PATCH("/users/:id", handlers.UpdateUser)
 	api.DELETE("/users/:id", handlers.DeleteUserById)
@@ -40,6 +41,10 @@ func route(e *echo.Echo) {
 	api.GET("/emojis", handlers.GetEmojis)
 	api.POST("/reactions", handlers.AddReaction)
 	api.DELETE("/reactions/:id", handlers.DeleteReaction)
+	api.GET("/followers", handlers.GetFollowers)
 	api.POST("/followers/:followedId", handlers.Follow)
 	api.DELETE("/followers/:followedId", handlers.Unfollow)
+	api.GET("/messages", handlers.GetMessages)
+	api.POST("/messages", handlers.CreateMessage)
+	api.DELETE("/messages/:id", handlers.DeleteMessage)
 }
