@@ -127,6 +127,7 @@ export default function ChatPage() {
     <>
       {isAuthenticated && (
         <div className="relative h-screen flex flex-col">
+          {/* Header */}
           <div className="flex items-center gap-5 p-4 mb-2 border-b border-gray-300">
             <Link href="/messages" className="p-1 rounded-full hover:bg-utopia_light hover:text-utopia">
               <ArrowLeft />
@@ -136,6 +137,7 @@ export default function ChatPage() {
             </div>
           </div>
 
+          {/* Conversations */}
           <div className="flex-grow overflow-auto">
             {data && data.flat().map((message: Message, i: number) => (
               <MessageItem key={i} message={message} />
