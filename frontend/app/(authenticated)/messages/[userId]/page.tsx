@@ -17,6 +17,7 @@ import { useForm } from "react-hook-form";
 import { useInView } from "react-intersection-observer";
 import useSWRInfinite from "swr/infinite";
 import { z } from "zod";
+import MessageItem from "../_components/MessageItem";
 
 const MessageSchema = z.object({
   content: z
@@ -131,7 +132,7 @@ export default function ChatPage() {
 
           <div className="flex-grow overflow-auto">
             {data && data.flat().map((message: Message, i: number) => (
-              <div key={i}>{message.content}</div>
+              <MessageItem key={i} message={message} />
             ))}
           </div>
 
