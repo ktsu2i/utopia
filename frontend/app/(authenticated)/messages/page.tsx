@@ -70,7 +70,7 @@ export default function Messages() {
     <>
       {isAuthenticated && (
         <div className="relative h-screen flex flex-col">
-          <div className="text-2xl font-bold border-b border-gray-300 p-4">Messages</div>
+          <div className="text-2xl font-bold border-b border-gray-300 p-6">Messages</div>
           
           {/* Input area */}
           {/* <div className="sticky bottom-0 w-full bg-slate-300">
