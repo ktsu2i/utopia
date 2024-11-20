@@ -38,19 +38,19 @@ func ValidateText(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, map[string]string{"message": err.Error()})
 	}
 
-	prompt := models.Message{
+	prompt := models.GroqMessage{
 		Role:    "system",
 		Content: PROMPT,
 	}
 
-	msg := models.Message{
+	msg := models.GroqMessage{
 		Role:    "user",
 		Content: request.Content,
 	}
 
 	payload := models.Payload{
-		Messages: []models.Message{prompt, msg},
-		Model:    "llama3-groq-70b-8192-tool-use-preview",
+		GroqMessages: []models.GroqMessage{prompt, msg},
+		Model:        "llama3-groq-70b-8192-tool-use-preview",
 	}
 
 	data, err := json.Marshal(payload)
@@ -85,7 +85,7 @@ func ValidateText(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
 	}
 
-	fmt.Printf("res from golang = %s", res.Choices[0].Message.Content)
+	fmt.Printf("res from golang = %s", res.Choices[0].GroqMessage.Content)
 
-	return c.JSON(http.StatusOK, res.Choices[0].Message.Content == "Appropriate")
+	return c.JSON(http.StatusOK, res.Choices[0].GroqMessage.Content == "Appropriate")
 }

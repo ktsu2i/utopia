@@ -3,13 +3,13 @@ package models
 import "time"
 
 // Request
-type ChatMessageParams struct {
+type MessageParams struct {
 	ReceiverID string `json:"receiverId"`
 	Content    string `json:"content"`
 }
 
 // DB
-type ChatMessage struct {
+type Message struct {
 	ID         string    `json:"id"`
 	SenderID   string    `json:"senderId"`
 	ReceiverID string    `json:"receiverId"`
@@ -19,7 +19,7 @@ type ChatMessage struct {
 }
 
 // Response
-type ChatMessageResult struct {
+type MessageResult struct {
 	ID         string     `json:"id"`
 	SenderID   string     `json:"senderId"`
 	Sender     UserResult `gorm:"foreignKey:SenderID;references:ID" json:"sender"`
@@ -30,6 +30,6 @@ type ChatMessageResult struct {
 	UpdatedAt  time.Time  `json:"updatedAt"`
 }
 
-type ChatMessagesResult struct {
-	ChatMessages []ChatMessage `json:"chatMessages"`
+func (MessageResult) TableName() string {
+	return "messages"
 }

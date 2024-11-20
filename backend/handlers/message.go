@@ -17,12 +17,12 @@ func CreateMessage(c echo.Context) error {
 		return c.JSON(http.StatusUnauthorized, map[string]string{"message": "Unauthorized"})
 	}
 
-	var req models.ChatMessageParams
+	var req models.MessageParams
 	if err := c.Bind(&req); err != nil {
 		return c.JSON(http.StatusBadRequest, map[string]string{"message": err.Error()})
 	}
 
-	m := models.ChatMessage{
+	m := models.Message{
 		ID:         uuid.NewString(),
 		SenderID:   userID,
 		ReceiverID: req.ReceiverID,
@@ -57,7 +57,7 @@ func GetMessages(c echo.Context) error {
 
 	offset := (page - 1) * limit
 
-	var messages []models.ChatMessage
+	var messages []models.Message
 	if err := db.DB.
 		Preload("User").
 		Where("sender_id = ? AND receiver_id = ?", senderID, receiverID).
@@ -73,7 +73,7 @@ func GetMessages(c echo.Context) error {
 
 func DeleteMessage(c echo.Context) error {
 	id := c.Param("id")
-	if db.DB.Where("id = ?", id).Delete(&models.ChatMessage{}).RowsAffected == 0 {
+	if db.DB.Where("id = ?", id).Delete(&models.Message{}).RowsAffected == 0 {
 		return c.JSON(http.StatusNotFound, map[string]string{"message": "Message not found"})
 	}
 

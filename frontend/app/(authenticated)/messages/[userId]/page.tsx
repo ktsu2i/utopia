@@ -1,22 +1,21 @@
 "use client";
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { AlertDialog, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { User } from "@/lib/types";
+import { Message, User } from "@/lib/types";
 import useAuthStore from "@/stores/authStore";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AlertDialogCancel } from "@radix-ui/react-alert-dialog";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import axios from "axios";
 import { Send } from "lucide-react";
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useInView } from "react-intersection-observer";
+import useSWRInfinite from "swr/infinite";
 import { z } from "zod";
 
 const MessageSchema = z.object({
@@ -44,13 +43,13 @@ export default function ChatPage() {
     fetchUser();
   }, [userId]);
 
-  const getKey = (pageIndex: number, previousPageData: [][]) => {
+  const getKey = (pageIndex: number, previousPageData: Message[][]) => {
     if (previousPageData && !previousPageData.length) return null; // reaches the end
-    return `http://localhost:8080/api/parent-replies?postId=${postId}&page=${pageIndex + 1}&limit=10`;
+    return `http://localhost:8080/api/messages?senderId=${currentUser?.id}&receiverId=${userId}&page=${pageIndex + 1}&limit=20`;
   };
 
   const fetcher = useCallback(
-    async (url: string) => (await axios.get<Reply[]>(url, { withCredentials: true })).data,
+    async (url: string) => (await axios.get<Message[]>(url, { withCredentials: true })).data,
     [],
   );
 
@@ -69,6 +68,28 @@ export default function ChatPage() {
   const isEmpty = data?.[0].length === 0;
   const isReachingEnd = isEmpty || (data && data?.[data?.length - 1]?.length < limit);
 
+  const { ref, inView: isScrollEnd } = useInView();
+
+  useEffect(() => {
+    if (isScrollEnd && !isValidating && !isReachingEnd) {
+      setSize(size + 1);
+    }
+  }, [isScrollEnd, isValidating, isReachingEnd, setSize, size]);
+
+  useEffect(() => {
+    const socket = new WebSocket("ws://localhost:8080/api/ws");
+
+    socket.onmessage = (event) => {
+      if (event.data === "send" || event.data === "unsend") {
+        mutate();
+      }
+    };
+
+    return () => {
+      socket.close();
+    };
+  }, [mutate]);
+
   const form = useForm<z.infer<typeof MessageSchema>>({
     resolver: zodResolver(MessageSchema),
     defaultValues: {
@@ -84,7 +105,10 @@ export default function ChatPage() {
       const isMessageAppropriate = res.data;
 
       if (isMessageAppropriate) {
-        await axios.post("http://localhost:8080/api/messages", data, { withCredentials: true });
+        await axios.post("http://localhost:8080/api/messages", {
+          receiverId: userId,
+          content: data.content,
+        }, { withCredentials: true });
         setIsAppropriate(true);
         form.reset();
       } else {
@@ -105,7 +129,11 @@ export default function ChatPage() {
             {user?.accountName}
           </div>
 
-          <div className="flex-grow overflow-auto">something</div>
+          <div className="flex-grow overflow-auto">
+            {data && data.flat().map((message: Message, i: number) => (
+              <div key={i}>{message.content}</div>
+            ))}
+          </div>
 
           {/* Input area */}
           <div className="sticky bottom-0 z-10 bg-white justify-center border-t border-gray-300">
