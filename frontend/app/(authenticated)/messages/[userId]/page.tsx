@@ -66,7 +66,7 @@ export default function ChatPage() {
     }
   );
 
-  const limit = 10;
+  const limit = 20;
   const isEmpty = data?.[0].length === 0;
   const isReachingEnd = isEmpty || (data && data?.[data?.length - 1]?.length < limit);
 
