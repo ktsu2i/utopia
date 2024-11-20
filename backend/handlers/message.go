@@ -57,9 +57,10 @@ func GetMessages(c echo.Context) error {
 
 	offset := (page - 1) * limit
 
-	var messages []models.Message
+	var messages []models.MessageResult
 	if err := db.DB.
-		Preload("User").
+		Preload("Sender").
+		Preload("Receiver").
 		Where("sender_id = ? AND receiver_id = ?", senderID, receiverID).
 		Order("created_at desc").
 		Limit(limit).
