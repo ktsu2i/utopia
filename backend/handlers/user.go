@@ -243,3 +243,34 @@ func DeleteUserById(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, map[string]string{"message": "User deleted successfully"})
 }
+
+func GetUserPosts(c echo.Context) error {
+	id := c.Param("id")
+
+	// Default settings
+	page, err := strconv.Atoi(c.QueryParam("page"))
+	if err != nil || page < 1 {
+		page = 1
+	}
+
+	limit, err := strconv.Atoi(c.QueryParam("limit"))
+	if err != nil || limit < 1 || limit > 100 {
+		limit = 10
+	}
+
+	offset := (page - 1) * limit
+
+	var posts []models.PostResult
+	if err := db.DB.
+		Preload("User").
+		Preload("Reactions.Emoji").
+		Where("user_id = ?", id).
+		Order("created_at desc").
+		Limit(limit).
+		Offset(offset).
+		Find(&posts).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
+	}
+
+	return c.JSON(http.StatusOK, posts)
+}
