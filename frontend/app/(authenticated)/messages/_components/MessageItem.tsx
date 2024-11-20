@@ -15,7 +15,7 @@ const MessageItem: React.FC<MessageProps> = ({
   const isMe = currentUser?.id === message.senderId;
 
   return (
-    <div className={`flex items-center gap-2 p-2 ${
+    <div className={`flex items-start gap-2 p-2 ${
       isMe ? "justify-end" : "justify-start"
     }`}>
       {!isMe && (
@@ -26,7 +26,7 @@ const MessageItem: React.FC<MessageProps> = ({
         </Avatar>
       )}
       
-      <div className={`p-2 rounded-lg ${
+      <div className={`p-2 rounded-lg whitespace-pre-wrap ${
         isMe ? "bg-blue-500 text-white self-end" : "bg-gray-200 text-black self-start"
       }`}>
         {message.content}
