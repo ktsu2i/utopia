@@ -133,6 +133,32 @@ func CheckUsernameExists(c echo.Context) error {
 	return c.JSON(http.StatusConflict, map[string]string{"message": "Username already exists"})
 }
 
+func CheckUsernameExistsForUpdate(c echo.Context) error {
+	userID, err := GetUserID(c)
+	if err != nil {
+		userID = ""
+	}
+
+	var req models.UsernameParams
+	if err := c.Bind(&req); err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{"message": err.Error()})
+	}
+
+	u := models.User{}
+	if err := db.DB.Where("username = ?", req.Username).First(&u).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return c.JSON(http.StatusOK, nil)
+		}
+		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
+	}
+
+	if userID != "" && u.ID == userID {
+		return c.JSON(http.StatusOK, nil)
+	}
+
+	return c.JSON(http.StatusConflict, map[string]string{"message": "Username already exists"})
+}
+
 func CheckEmailExists(c echo.Context) error {
 	var req models.EmailParams
 	if err := c.Bind(&req); err != nil {

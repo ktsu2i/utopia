@@ -19,6 +19,7 @@ func route(e *echo.Echo) {
 
 	// JWT auth required
 	api.POST("/logout", handlers.Logout)
+	api.POST("/check-username-exists-for-update", handlers.CheckUsernameExistsForUpdate)
 	api.GET("/validate-token", handlers.ValidateToken)
 	api.POST("/validate-text", handlers.ValidateText)
 	api.GET("/me", handlers.GetCurrentUser)
