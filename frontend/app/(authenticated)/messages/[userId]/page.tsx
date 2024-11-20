@@ -78,7 +78,7 @@ export default function ChatPage() {
   }, [isScrollEnd, isValidating, isReachingEnd, setSize, size]);
 
   useEffect(() => {
-    const socket = new WebSocket("ws://localhost:8080/api/ws");
+    const socket = new WebSocket(`ws://localhost:8080/api/ws/chat?userId=${userId}`);
 
     socket.onmessage = (event) => {
       if (event.data === "send_message" || event.data === "unsend_message") {

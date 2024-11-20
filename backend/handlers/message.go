@@ -35,7 +35,7 @@ func CreateMessage(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
 	}
 
-	NotifyClients("send_message")
+	NotifyChatClients(userID, req.ReceiverID, "send_message")
 
 	return c.JSON(http.StatusOK, m)
 }
@@ -74,12 +74,17 @@ func GetMessages(c echo.Context) error {
 }
 
 func DeleteMessage(c echo.Context) error {
+	userID, err := GetUserID(c)
+	if err != nil {
+		return c.JSON(http.StatusUnauthorized, map[string]string{"message": "Unauthorized"})
+	}
+
 	id := c.Param("id")
 	if db.DB.Where("id = ?", id).Delete(&models.Message{}).RowsAffected == 0 {
 		return c.JSON(http.StatusNotFound, map[string]string{"message": "Message not found"})
 	}
 
-	NotifyClients("unsend_message")
+	NotifyChatClients(userID, id, "send_message")
 
 	return c.JSON(http.StatusOK, map[string]string{"message": "Message unsent successfully"})
 }
