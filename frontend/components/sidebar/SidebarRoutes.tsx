@@ -13,7 +13,7 @@ const SidebarRoutes = () => {
       icon: Home,
       label: "Home",
       href: "/home",
-      active: pathname === "/home",
+      active: pathname.startsWith("/home"),
     },
     {
       icon: Search,
@@ -31,19 +31,19 @@ const SidebarRoutes = () => {
       icon: Mail,
       label: "Messages",
       href: "/messages",
-      active: pathname === "/messages",
+      active: pathname.startsWith("/messages"),
     },
     {
       icon: User,
       label: "Profile",
       href: "/profile",
-      active: pathname === "/profile",
+      active: pathname.startsWith("/profile"),
     },
     {
       icon: Settings,
       label: "Settings",
       href: "/settings",
-      active: pathname === "/settings",
+      active: pathname.startsWith("/settings"),
     },
   ];
 
