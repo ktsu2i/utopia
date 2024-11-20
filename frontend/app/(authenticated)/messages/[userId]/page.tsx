@@ -12,7 +12,7 @@ import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import axios from "axios";
 import { ArrowLeft, Send } from "lucide-react";
 import { useParams } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useInView } from "react-intersection-observer";
 import useSWRInfinite from "swr/infinite";
@@ -34,6 +34,7 @@ export default function ChatPage() {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isAppropriate, setIsAppropriate] = useState(true);
+  const chatRef = useRef<HTMLDivElement | null>(null);
 
   // fetch user
   useEffect(() => {
@@ -68,15 +69,15 @@ export default function ChatPage() {
 
   const limit = 20;
   const isEmpty = data?.[0].length === 0;
-  const isReachingEnd = isEmpty || (data && data?.[data?.length - 1]?.length < limit);
+  const isReachingStart = isEmpty || (data && data?.[data?.length - 1]?.length < limit);
 
   const { ref, inView: isScrollEnd } = useInView();
 
   useEffect(() => {
-    if (isScrollEnd && !isValidating && !isReachingEnd) {
+    if (isScrollEnd && !isValidating && !isReachingStart) {
       setSize(size + 1);
     }
-  }, [isScrollEnd, isValidating, isReachingEnd, setSize, size]);
+  }, [isScrollEnd, isValidating, isReachingStart, setSize, size]);
 
   useEffect(() => {
     const socket = new WebSocket(`ws://localhost:8080/api/ws/chat?userId=${userId}`);
@@ -98,6 +99,12 @@ export default function ChatPage() {
       content: "",
     },
   });
+
+  useEffect(() => {
+    if (data && chatRef.current) {
+      chatRef.current.scrollTop = chatRef.current.scrollHeight;
+    }
+  }, [data]);
 
   const onSubmit = async (data: z.infer<typeof MessageSchema>) => {
     setIsLoading(true);
@@ -138,7 +145,8 @@ export default function ChatPage() {
           </div>
 
           {/* Conversations */}
-          <div className="flex-grow overflow-auto">
+          <div ref={chatRef} className="flex-grow overflow-auto">
+            <div ref={ref} />
             {data && data.flat().map((message: Message, i: number) => (
               <MessageItem key={i} message={message} />
             ))}
