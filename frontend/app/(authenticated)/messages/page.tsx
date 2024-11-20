@@ -49,7 +49,6 @@ export default function UserListPage() {
       {isAuthenticated && (
         <div className="relative h-screen flex flex-col">
           <div className="text-2xl font-bold border-b border-gray-300 p-6">Messages</div>
-          
           {data && data.flat().map((user: User, i: number) => (
             <UserItem key={i} user={user} />
           ))}
