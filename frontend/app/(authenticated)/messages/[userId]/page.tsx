@@ -80,7 +80,7 @@ export default function ChatPage() {
     const socket = new WebSocket("ws://localhost:8080/api/ws");
 
     socket.onmessage = (event) => {
-      if (event.data === "send" || event.data === "unsend") {
+      if (event.data === "send_message" || event.data === "unsend_message") {
         mutate();
       }
     };
