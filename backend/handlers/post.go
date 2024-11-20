@@ -95,7 +95,7 @@ func UpdatePost(c echo.Context) error {
 	if req.Content != "" {
 		post.Content = req.Content
 	}
-	post.UpdatedAt = req.UpdatedAt
+	post.UpdatedAt = time.Now().UTC()
 
 	if err := db.DB.Save(&post).Error; err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})

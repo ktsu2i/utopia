@@ -17,9 +17,8 @@ type Post struct {
 }
 
 type PostUpdateParams struct {
-	ID        string    `json:"id"`
-	Content   string    `json:"content"`
-	UpdatedAt time.Time `json:"updatedAt"`
+	ID      string `json:"id"`
+	Content string `json:"content"`
 }
 
 // Response
