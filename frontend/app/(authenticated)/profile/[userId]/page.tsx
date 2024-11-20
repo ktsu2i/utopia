@@ -57,7 +57,11 @@ export default function UserProfilePage() {
     } finally {
       setIsLoading(false);
     }
-  }
+  };
+
+  const onClick = () => {
+    router.push(`/messages/${userId}`);
+  };
 
   return (
     <>
@@ -104,7 +108,7 @@ export default function UserProfilePage() {
               ) : (
                 <Button variant="utopia" onClick={handleFollow}>Follow</Button>
               )}
-              <Button variant="outline">Message</Button>
+              <Button variant="outline" onClick={onClick}>Message</Button>
             </div>
           </div>
         </div>
