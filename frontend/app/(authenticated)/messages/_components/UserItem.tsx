@@ -17,7 +17,7 @@ const UserItem: React.FC<UserItemProps> = ({
 
   return (
     <div className="w-full border-b border-gray-300 p-4">
-      <div onClick={onClick} className="flex gap-x-2 cursor-pointer">
+      <div onClick={onClick} className="flex items-center gap-x-4 cursor-pointer">
         <Avatar>
           <AvatarFallback>
             {user.accountName.substring(0, 1).toUpperCase()}
