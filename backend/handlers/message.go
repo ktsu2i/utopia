@@ -63,7 +63,7 @@ func GetMessages(c echo.Context) error {
 		Preload("Receiver").
 		Where("(sender_id = ? AND receiver_id = ?) OR (sender_id = ? AND receiver_id = ?)",
 			senderID, receiverID, receiverID, senderID).
-		Order("created_at asc").
+		Order("created_at desc").
 		Limit(limit).
 		Offset(offset).
 		Find(&messages).Error; err != nil {

@@ -149,7 +149,7 @@ export default function ChatPage() {
           </div>
 
           {/* Conversations */}
-          <div ref={chatRef} className="flex-grow overflow-auto">
+          <div ref={chatRef} className="flex-grow flex flex-col-reverse overflow-auto">
             <div ref={ref} />
             {data && data.flat().map((message: Message, i: number) => (
               <MessageItem key={i} message={message} />
