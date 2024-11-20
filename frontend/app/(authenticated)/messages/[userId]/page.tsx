@@ -10,7 +10,7 @@ import useAuthStore from "@/stores/authStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import axios from "axios";
-import { Send } from "lucide-react";
+import { ArrowLeft, Send } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -18,6 +18,7 @@ import { useInView } from "react-intersection-observer";
 import useSWRInfinite from "swr/infinite";
 import { z } from "zod";
 import MessageItem from "../_components/MessageItem";
+import Link from "next/link";
 
 const MessageSchema = z.object({
   content: z
@@ -126,8 +127,14 @@ export default function ChatPage() {
     <>
       {isAuthenticated && (
         <div className="relative h-screen flex flex-col">
-          <div className="text-2xl font-bold border-b border-gray-300 p-6">
-            {user?.accountName}
+          <div className="flex items-center gap-5 p-4 mb-2 border-b border-gray-300">
+            <Link href="/home" className="p-1 rounded-full hover:bg-utopia_light hover:text-utopia">
+              <ArrowLeft />
+            </Link>
+            {/* <div className="font-bold text-xl">Post</div> */}
+            <div className="text-xl font-bold">
+              {user?.accountName}
+            </div>
           </div>
 
           <div className="flex-grow overflow-auto">
