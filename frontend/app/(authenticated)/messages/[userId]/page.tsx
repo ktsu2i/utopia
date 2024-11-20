@@ -100,6 +100,7 @@ export default function ChatPage() {
     },
   });
 
+  // auto scroll
   useEffect(() => {
     if (data && chatRef.current) {
       chatRef.current.scrollTop = chatRef.current.scrollHeight;
