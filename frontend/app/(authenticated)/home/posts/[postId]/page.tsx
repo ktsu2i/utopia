@@ -34,7 +34,6 @@ export default function PostDetails() {
   const { postId } = useParams();
   const { currentUser } = useAuthStore();
   const [post, setPost] = useState<Post | null>(null);
-  const [reply, setReply] = useState<Reply | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isAppropriate, setIsAppropriate] = useState(true);
 
@@ -136,7 +135,6 @@ export default function PostDetails() {
           withCredentials: true
         });
         setIsAppropriate(true);
-        setReply(res.data);
         toast.success("Posted it!");
         form.reset();
       } else {
