@@ -48,8 +48,8 @@ const SidebarRoutes = () => {
   ];
 
   return (
-    <div className="flex flex-col justify-between h-full pt-10 mr-6">
-      <div className="flex flex-col items-end gap-4">
+    <div className="flex flex-col justify-between h-full pt-10 lg:mr-6">
+      <div className="flex flex-col items-center gap-4 lg:items-end">
         {routes.map((route) => (
           <SidebarItem
             key={route.href}
@@ -60,7 +60,7 @@ const SidebarRoutes = () => {
           />
         ))}
       </div>
-      <div className="flex flex-col items-end">
+      <div className="flex flex-col items-center lg:items-end">
         <UserInfo />
       </div>
     </div>

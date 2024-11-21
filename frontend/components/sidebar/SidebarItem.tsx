@@ -25,10 +25,10 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
     <Button
       onClick={onClick}
       variant="ghost"
-      className="flex justify-start gap-4 py-6 w-[250px]"
+      className="flex justify-start gap-4 py-6 lg:w-[250px]"
     >
       <Icon size={24} strokeWidth={active ? 2.5 : 2} />
-      <span className={`text-lg ${active ? "font-semibold" : ""}`}>{label}</span>
+      <span className={`text-lg hidden lg:block ${active ? "font-semibold" : ""}`}>{label}</span>
     </Button>
   )
 }
