@@ -10,7 +10,9 @@ export default function Layout({
     <>
       <Sidebar />
       <RightSidebar />
-      <main className="px-[33.3333%] h-full">{children}</main>
+      <main className="h-full px-[12.5%] lg:px-[33.3333%]">
+        {children}
+      </main>
     </>
   )
 }

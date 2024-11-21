@@ -30,12 +30,14 @@ const UserInfo = () => {
       <PopoverTrigger asChild>
         <Button
           variant="ghost"
-          className="flex justify-start gap-4 py-3 mb-3 w-[250px] h-full"
+          className="flex flex-col items-center h-full mb-3 lg:w-[250px] lg:flex-row lg:items-start lg:justify-start lg:gap-4 lg:py-3"
         >
           <Avatar>
-            <AvatarFallback>{currentUser?.accountName?.substring(0, 1).toUpperCase()}</AvatarFallback>
+            <AvatarFallback>
+              {currentUser?.accountName?.substring(0, 1).toUpperCase()}
+            </AvatarFallback>
           </Avatar>
-          <div className="flex flex-col">
+          <div className="hidden lg:flex lg:flex-col">
             <div className="text-left text-base font-semibold">{currentUser?.accountName}</div>
             <div className="text-left text-sm text-gray-500">{"@" + currentUser?.username}</div>
           </div>
