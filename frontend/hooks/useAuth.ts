@@ -14,9 +14,11 @@ export default function useAuth() {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const res = await axios.get<User>("http://localhost:8080/api/validate-token", { withCredentials: true });
-        setIsAuthenticated(true);
-        setCurrentUser(res.data);
+        await axios.get<User>("http://localhost:8080/api/validate-token", { withCredentials: true })
+          .then((res) => {
+            setIsAuthenticated(true);
+            setCurrentUser(res.data);
+          });
       } catch {
         setIsAuthenticated(false);
         setCurrentUser(null);
