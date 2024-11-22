@@ -79,6 +79,22 @@ export default function ChatPage() {
     }
   }, [isScrollEnd, isValidating, isReachingStart, setSize, size]);
 
+  // fetch all messages current user hasn't seen yet when accessing this page
+  useEffect(() => {
+    const fetchInitialMessages = async () => {
+      try {
+        const res = await axios.get<Message[]>(`http://localhost:8080/api/messages?senderId=${currentUser?.id}&receiverId=${userId}&page=1&limit=20`, { withCredentials: true });
+
+        // clear SWR cache
+        mutate((data) => [[...res.data], ...(data || [])], false);
+      } catch {
+        // error handling
+      }
+    }
+
+    fetchInitialMessages();
+  }, [userId, currentUser?.id, mutate]);
+
   useEffect(() => {
     const socket = new WebSocket(`ws://localhost:8080/api/ws/chat?userId=${userId}`);
 
