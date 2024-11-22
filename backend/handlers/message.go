@@ -11,6 +11,26 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+func MarkAsSeen(c echo.Context) error {
+	userID, err := GetUserID(c)
+	if err != nil {
+		return c.JSON(http.StatusUnauthorized, map[string]string{"message": "Unauthorized"})
+	}
+
+	senderID := c.QueryParam("senderId")
+	if senderID == "" {
+		return c.JSON(http.StatusBadRequest, map[string]string{"message": "Bad request"})
+	}
+
+	if err := db.DB.Model(&models.Message{}).
+		Where("receiver_id = ? AND sender_id = ? AND is_seen = ?", userID, senderID, false).
+		Update("is_seen", true).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
+	}
+
+	return c.JSON(http.StatusOK, map[string]string{"message": "Marked as seen"})
+}
+
 func CreateMessage(c echo.Context) error {
 	userID, err := GetUserID(c)
 	if err != nil {

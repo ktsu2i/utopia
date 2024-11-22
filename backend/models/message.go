@@ -14,6 +14,7 @@ type Message struct {
 	SenderID   string    `json:"senderId"`
 	ReceiverID string    `json:"receiverId"`
 	Content    string    `json:"content"`
+	IsSeen     bool      `json:"isSeen"`
 	CreatedAt  time.Time `json:"createdAt"`
 	UpdatedAt  time.Time `json:"updatedAt"`
 }
@@ -26,6 +27,7 @@ type MessageResult struct {
 	ReceiverID string     `json:"receiverId"`
 	Receiver   UserResult `gorm:"foreignKey:ReceiverID;references:ID" json:"receiver"`
 	Content    string     `json:"content"`
+	IsSeen     bool       `json:"isSeen"`
 	CreatedAt  time.Time  `json:"createdAt"`
 	UpdatedAt  time.Time  `json:"updatedAt"`
 }
