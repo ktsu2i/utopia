@@ -15,30 +15,34 @@ const MessageItem: React.FC<MessageProps> = ({
   const isMe = currentUser?.id === message.senderId;
 
   return (
-    <div className={`flex items-start gap-2 p-2 ${
-      isMe ? "justify-end" : "justify-start"
-    }`}>
-      {!isMe && (
-        <Avatar>
-          <AvatarFallback>
-            {message.sender?.accountName.substring(0, 1).toUpperCase()}
-          </AvatarFallback>
-        </Avatar>
-      )}
-      
-      <div className={`max-w-xs p-2 rounded-lg whitespace-pre-wrap ${
-        isMe ? "bg-blue-500 text-white self-end" : "bg-gray-200 text-black self-start"
+    <div>
+      <div className={`flex items-start gap-2 p-2 ${
+        isMe ? "justify-end" : "justify-start"
       }`}>
-        {message.content}
-      </div>
+        {!isMe && (
+          <Avatar>
+            <AvatarFallback>
+              {message.sender?.accountName.substring(0, 1).toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
+        )}
+        
+        <div className={`max-w-xs p-2 rounded-lg whitespace-pre-wrap ${
+          isMe ? "bg-blue-500 text-white self-end" : "bg-gray-200 text-black self-start"
+        }`}>
+          {message.content}
+        </div>
 
-      {isMe && (
-        <Avatar>
-          <AvatarFallback>
-            {message.sender?.accountName.substring(0, 1).toUpperCase()}
-          </AvatarFallback>
-        </Avatar>
-      )}
+        <div>{message.isSeen ? "seen" : "sent"}</div>
+
+        {isMe && (
+          <Avatar>
+            <AvatarFallback>
+              {message.sender?.accountName.substring(0, 1).toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
+        )}
+      </div>
     </div>
   );
 };

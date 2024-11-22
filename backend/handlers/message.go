@@ -17,7 +17,7 @@ func MarkAsSeen(c echo.Context) error {
 		return c.JSON(http.StatusUnauthorized, map[string]string{"message": "Unauthorized"})
 	}
 
-	senderID := c.QueryParam("senderId")
+	senderID := c.Param("senderId")
 	if senderID == "" {
 		return c.JSON(http.StatusBadRequest, map[string]string{"message": "Bad request"})
 	}

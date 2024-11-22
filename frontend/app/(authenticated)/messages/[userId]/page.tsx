@@ -19,6 +19,7 @@ import useSWRInfinite from "swr/infinite";
 import { z } from "zod";
 import MessageItem from "../_components/MessageItem";
 import Link from "next/link";
+import { parseJSON } from "date-fns";
 
 const MessageSchema = z.object({
   content: z
@@ -34,6 +35,7 @@ export default function ChatPage() {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isAppropriate, setIsAppropriate] = useState(true);
+  const [lastUnseenIndex, setLastUnseenIndex] = useState<number | null>(null);
   const chatRef = useRef<HTMLDivElement | null>(null);
 
   // fetch user
@@ -95,6 +97,16 @@ export default function ChatPage() {
     fetchInitialMessages();
   }, [userId, currentUser?.id, mutate]);
 
+  // update is_seen when page loaded
+  useEffect(() => {
+    const markAsSeen = async () => {
+      await axios.patch(`http://localhost:8080/api/messages/${userId}/seen`, null, { withCredentials: true });
+      mutate();
+    }
+
+    markAsSeen();
+  }, [userId, mutate]);
+
   useEffect(() => {
     const socket = new WebSocket(`ws://localhost:8080/api/ws/chat?userId=${userId}`);
 
@@ -109,13 +121,6 @@ export default function ChatPage() {
     };
   }, [mutate]);
 
-  const form = useForm<z.infer<typeof MessageSchema>>({
-    resolver: zodResolver(MessageSchema),
-    defaultValues: {
-      content: "",
-    },
-  });
-
   // auto scroll
   useEffect(() => {
     if (data && chatRef.current) {
@@ -125,6 +130,13 @@ export default function ChatPage() {
       });
     }
   }, [data]);
+
+  const form = useForm<z.infer<typeof MessageSchema>>({
+    resolver: zodResolver(MessageSchema),
+    defaultValues: {
+      content: "",
+    },
+  });
 
   const onSubmit = async (data: z.infer<typeof MessageSchema>) => {
     setIsLoading(true);
@@ -167,8 +179,8 @@ export default function ChatPage() {
           {/* Conversations */}
           <div ref={chatRef} className="flex-grow flex flex-col-reverse overflow-auto">
             <div ref={ref} />
-            {data && data.flat().map((message: Message, i: number) => (
-              <MessageItem key={i} message={message} />
+            {data && data.flat().map((message: Message) => (
+              <MessageItem key={message.id} message={message} />
             ))}
           </div>
 

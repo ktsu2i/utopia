@@ -66,6 +66,7 @@ export interface Message {
   receiverId: string
   receiver: User
   content: string
+  isSeen: boolean
   createdAt: string
   updatedAt: string
 }

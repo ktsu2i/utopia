@@ -47,6 +47,6 @@ func route(e *echo.Echo) {
 	api.DELETE("/followers/:followedId", handlers.Unfollow)
 	api.GET("/messages", handlers.GetMessages)
 	api.POST("/messages", handlers.CreateMessage)
-	api.POST("/messages/seen", handlers.MarkAsSeen)
+	api.PATCH("/messages/:senderId/seen", handlers.MarkAsSeen)
 	api.DELETE("/messages/:id", handlers.DeleteMessage)
 }
