@@ -4,6 +4,7 @@ import PostItem from "@/components/PostItem";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Post } from "@/lib/types";
 import useAuthStore from "@/stores/authStore";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -77,31 +78,42 @@ export default function Search() {
           {/* Search input */}
           <div className="flex gap-x-2">
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="w-full m-4">
                 <FormField
                   control={form.control}
                   name="content"
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Input
-                          {...field}
-                        />
+                        <div className="relative flex items-center">
+                          <span className="absolute left-3 text-gray-500">
+                            <SearchIcon className="h-4 w-4" />
+                          </span>
+                          <Input placeholder="Search" className="pl-8" {...field} />
+                        </div>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                <Button>
-                  <SearchIcon />
-                </Button>
               </form>
             </Form>
           </div>
 
-          {postData && postData.flat().map((post: Post) => (
-            <PostItem key={post.id} post={post} isSelected={false} />
-          ))}
+          <Tabs defaultValue="posts">
+            <TabsList className="grid w-[80%] grid-cols-2 mx-auto">
+              <TabsTrigger value="posts">Posts</TabsTrigger>
+              <TabsTrigger value="users">Users</TabsTrigger>
+            </TabsList>
+            <TabsContent value="posts">
+              {postData && postData.flat().map((post: Post) => (
+                <PostItem key={post.id} post={post} isSelected={false} />
+              ))}
+            </TabsContent>
+            <TabsContent value="users">
+              <div>users</div>
+            </TabsContent>
+          </Tabs>
         </div>
       )}
     </>
