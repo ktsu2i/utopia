@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Post } from "@/lib/types";
+import { Post, User } from "@/lib/types";
 import useAuthStore from "@/stores/authStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
@@ -30,16 +30,34 @@ export default function Search() {
   const getPostKey = (pageIndex: number, previousPageData: Post[][]) => {
     if (previousPageData && !previousPageData.length) return null; // reaches the end
     return `http://localhost:8080/api/posts/search?query=${query}&page=${pageIndex + 1}&limit=10`;
-  }
+  };
+  const getUserKey = (pageIndex: number, previousPageData: User[][]) => {
+    if (previousPageData && !previousPageData.length) return null; // reaches the end
+    return `http://localhost:8080/api/users/search?query=${query}&page=${pageIndex + 1}&limit=20`;
+  };
 
   const postFetcher = useCallback(
     async (url: string) => (await axios.get<Post[]>(url, { withCredentials: true })).data,
+    [],
+  );
+  const userFetcher = useCallback(
+    async (url: string) => (await axios.get<User[]>(url, { withCredentials: true })).data,
     [],
   );
 
   const { data: postData, size: postSize, setSize: setPostSize } = useSWRInfinite(
     getPostKey, 
     postFetcher, 
+    {
+      revalidateOnReconnect: false,
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateFirstPage: true,
+    }
+  );
+  const { data: userData, size: userSize, setSize: setUserSize } = useSWRInfinite(
+    getUserKey, 
+    userFetcher, 
     {
       revalidateOnReconnect: false,
       revalidateIfStale: false,
@@ -101,17 +119,29 @@ export default function Search() {
           </div>
 
           <Tabs defaultValue="posts">
-            <TabsList className="grid w-[80%] grid-cols-2 mx-auto">
-              <TabsTrigger value="posts">Posts</TabsTrigger>
-              <TabsTrigger value="users">Users</TabsTrigger>
-            </TabsList>
+            <div className="mx-4">
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="posts">Posts</TabsTrigger>
+                <TabsTrigger value="users">Users</TabsTrigger>
+              </TabsList>
+            </div>
             <TabsContent value="posts">
-              {postData && postData.flat().map((post: Post) => (
-                <PostItem key={post.id} post={post} isSelected={false} />
-              ))}
+              {postData && postData.flat().length > 0 ? (
+                postData.flat().map((post: Post) => (
+                  <PostItem key={post.id} post={post} isSelected={false} />
+                ))
+              ) : (
+                <div className="text-center text-gray-500 mt-4">No post found.</div>
+              )}
             </TabsContent>
             <TabsContent value="users">
-              <div>users</div>
+              {userData && userData.flat().length > 0 ? (
+                userData.flat().map((user: User) => (
+                  <div>{user.accountName} @{user.username}</div>
+                ))
+              ) : (
+                <div className="text-center text-gray-500 mt-4">No user found.</div>
+              )}
             </TabsContent>
           </Tabs>
         </div>
