@@ -93,9 +93,9 @@ export default function Search() {
   return (
     <>
       {isAuthenticated && (
-        <div>
+        <div className="relative">
           {/* Search input */}
-          <div className="flex gap-x-2">
+          <div className="sticky top-0 z-10 bg-white flex gap-x-2">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="w-full m-6">
                 <FormField
@@ -119,8 +119,8 @@ export default function Search() {
             </Form>
           </div>
 
-          <Tabs defaultValue="posts">
-            <div className="mx-6">
+          <Tabs defaultValue="posts" className="bg-white">
+            <div className="sticky top-20 z-10 bg-white px-6">
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="posts">Posts</TabsTrigger>
                 <TabsTrigger value="users">Users</TabsTrigger>
