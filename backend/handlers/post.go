@@ -114,3 +114,37 @@ func DeletePost(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, map[string]string{"message": "Post deleted successfully"})
 }
+
+func SearchPosts(c echo.Context) error {
+	q := c.QueryParam("query")
+	if q == "" {
+		return c.JSON(http.StatusBadRequest, map[string]string{"message": "Query is required"})
+	}
+
+	// Default settings
+	page, err := strconv.Atoi(c.QueryParam("page"))
+	if err != nil || page < 1 {
+		page = 1
+	}
+
+	limit, err := strconv.Atoi(c.QueryParam("limit"))
+	if err != nil || limit < 1 || limit > 100 {
+		limit = 10
+	}
+
+	offset := (page - 1) * limit
+
+	var posts []models.PostResult
+	if err := db.DB.
+		Preload("User").
+		Preload("Reactions.Emoji").
+		Where("content LIKE ?", "%"+q+"%").
+		Order("created_at desc").
+		Limit(limit).
+		Offset(offset).
+		Find(&posts).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
+	}
+
+	return c.JSON(http.StatusOK, posts)
+}

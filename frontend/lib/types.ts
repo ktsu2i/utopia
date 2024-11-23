@@ -69,8 +69,3 @@ export interface Message {
   createdAt: string
   updatedAt: string
 }
-
-export interface SearchResult {
-  posts: Post[]
-  users: User[]
-}
