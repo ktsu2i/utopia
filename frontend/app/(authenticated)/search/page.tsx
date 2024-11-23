@@ -14,6 +14,7 @@ import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import useSWRInfinite from "swr/infinite";
 import { z } from "zod";
+import UserItem from "./_components/UserItem";
 
 const SearchSchema = z.object({
   content: z
@@ -137,7 +138,7 @@ export default function Search() {
             <TabsContent value="users">
               {userData && userData.flat().length > 0 ? (
                 userData.flat().map((user: User) => (
-                  <div>{user.accountName} @{user.username}</div>
+                  <UserItem user={user} />
                 ))
               ) : (
                 <div className="text-center text-gray-500 mt-4">No user found.</div>
