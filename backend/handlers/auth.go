@@ -228,6 +228,8 @@ func SignUp(c echo.Context) error {
 	}
 	c.SetCookie(cookie)
 
+	NotifyClients("create_user")
+
 	return c.JSON(http.StatusOK, map[string]string{"message": "successfully registered"})
 }
 

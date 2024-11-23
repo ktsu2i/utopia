@@ -10,7 +10,7 @@ import useAuthStore from "@/stores/authStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { SearchIcon } from "lucide-react";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import useSWRInfinite from "swr/infinite";
 import { z } from "zod";
@@ -46,7 +46,7 @@ export default function Search() {
     [],
   );
 
-  const { data: postData, size: postSize, setSize: setPostSize } = useSWRInfinite(
+  const { data: postData, size: postSize, setSize: setPostSize, mutate: mutatePosts } = useSWRInfinite(
     getPostKey, 
     postFetcher, 
     {
@@ -56,7 +56,7 @@ export default function Search() {
       revalidateFirstPage: true,
     }
   );
-  const { data: userData, size: userSize, setSize: setUserSize } = useSWRInfinite(
+  const { data: userData, size: userSize, setSize: setUserSize, mutate: mutateUsers } = useSWRInfinite(
     getUserKey, 
     userFetcher, 
     {
@@ -89,6 +89,23 @@ export default function Search() {
       // error handling
     }
   };
+
+  const eventTypes = useMemo(() => ["create_post", "delete_post", "create_user", "delete_user", "add_reaction", "delete_reaction"], []);
+
+  useEffect(() => {
+    const socket = new WebSocket("ws://localhost:8080/api/ws");
+
+    socket.onmessage = (event) => {
+      if (eventTypes.includes(event.data)) {
+        mutatePosts();
+        mutateUsers();
+      }
+    }
+
+    return () => {
+      socket.close();
+    };
+  }, [mutatePosts, mutateUsers]);
 
   return (
     <>
