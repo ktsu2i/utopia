@@ -97,7 +97,7 @@ export default function Search() {
           {/* Search input */}
           <div className="flex gap-x-2">
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="w-full m-4">
+              <form onSubmit={form.handleSubmit(onSubmit)} className="w-full m-6">
                 <FormField
                   control={form.control}
                   name="content"
@@ -120,7 +120,7 @@ export default function Search() {
           </div>
 
           <Tabs defaultValue="posts">
-            <div className="mx-4">
+            <div className="mx-6">
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="posts">Posts</TabsTrigger>
                 <TabsTrigger value="users">Users</TabsTrigger>
