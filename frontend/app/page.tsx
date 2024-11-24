@@ -1,5 +1,6 @@
 "use client";
 
+import Header from "@/components/lp/Header";
 import useAuthStore from "@/stores/authStore";
 import { useRouter } from "next/navigation";
 
@@ -12,6 +13,8 @@ export default function Root() {
   }
 
   return (
-    <div>LP</div>
+    <div>
+      <Header />
+    </div>
   );
 }
