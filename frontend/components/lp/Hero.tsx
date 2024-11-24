@@ -5,6 +5,8 @@ import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useState } from "react";
+import { Skeleton } from "../ui/skeleton";
+import { TailSpin } from "react-loader-spinner";
 
 const Hero = () => {
   const router = useRouter();
@@ -30,8 +32,8 @@ const Hero = () => {
 
         <div className="relative flex justify-center items-center w-full h-[300px] md:h-[500px]">
           {isLoading && (
-            <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
-              <div className="animate-pulse bg-gray-200 w-4/5 h-full rounded-md"></div>
+            <div className="absolute flex justify-center items-center w-full h-full">
+              <TailSpin color="#FF9933" />
             </div>
           )}
           <Image
