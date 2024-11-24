@@ -20,8 +20,8 @@ const Hero = () => {
             Kinder Social Network
           </span>
         </div>
-        
-        <p className="max-w-3xl my-6 px-4 md:px-0 md:text-xl text-gray-600">
+
+        <p className="max-w-3xl mx-auto my-6 px-4 md:px-0 md:text-xl text-gray-600">
           Join a community where positivity thrives, everyone cares for one another, and every interaction makes the world a little brighter.
         </p>
 
