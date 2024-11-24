@@ -1,7 +1,16 @@
+"use client";
+
 import { ArrowRight } from "lucide-react";
 import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
 
 const Hero = () => {
+  const router = useRouter();
+
+  const onClick = () => {
+    router.push("/sign-up");
+  };
+
   return (
     <div className="relative min-h-screen flex justify-center items-center">
       <div className="flex flex-col items-center">
@@ -13,7 +22,7 @@ const Hero = () => {
           Join a community where positivity thrives, everyone cares for one another, and every interaction makes the world a little brighter.
         </p>
 
-        <Button variant="utopia" size="lg" className="rounded-full">
+        <Button variant="utopia" size="lg" className="rounded-full" onClick={onClick}>
           Get Started
           <ArrowRight className="ml-2 h-4 w-4" />
         </Button>
