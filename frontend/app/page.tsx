@@ -1,6 +1,7 @@
 "use client";
 
 import Features from "@/components/lp/Features";
+import Footer from "@/components/lp/Footer";
 import Header from "@/components/lp/Header";
 import Hero from "@/components/lp/Hero";
 import useAuthStore from "@/stores/authStore";
@@ -21,6 +22,7 @@ export default function Root() {
       </div>
       <Hero />
       <Features />
+      <Footer />
     </div>
   );
 }
