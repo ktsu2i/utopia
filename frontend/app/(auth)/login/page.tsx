@@ -53,7 +53,7 @@ export default function Login() {
           setIsAuthenticated(true);
           setCurrentUser(res.data);
           toast.success("You're successfully logged in!");
-          router.push("/");
+          router.push("/home");
         });
     } catch {
       toast.error("Something went wrong");

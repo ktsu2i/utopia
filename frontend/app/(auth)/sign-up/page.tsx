@@ -71,9 +71,8 @@ export default function SignUp() {
 
   const onSubmit = async (data: z.infer<typeof SignUpSchema>) => {
     try {
-      // eslint-disable-next-line
-      const res = await axios.post("http://localhost:8080/api/sign-up", data, { withCredentials: true });
-      router.push("/");
+      await axios.post("http://localhost:8080/api/sign-up", data, { withCredentials: true });
+      router.push("/home");
       toast.success("Welcome to Utopia!");
     } catch {
       toast.error("Something went wrong.");
