@@ -1,6 +1,7 @@
 "use client";
 
 import Header from "@/components/lp/Header";
+import Hero from "@/components/lp/Hero";
 import useAuthStore from "@/stores/authStore";
 import { useRouter } from "next/navigation";
 
@@ -15,6 +16,7 @@ export default function Root() {
   return (
     <div>
       <Header />
+      <Hero />
     </div>
   );
 }
