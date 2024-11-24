@@ -13,12 +13,15 @@ const Hero = () => {
 
   return (
     <div className="relative min-h-screen flex justify-center items-center">
-      <div className="flex flex-col items-center">
-        <h1 className="max-w-7xl text-6xl font-bold tracking-tight text-gray-900">
-          Welcome to a <span className="bg-gradient-to-r from-utopia to-purple-600 bg-clip-text text-transparent">Kinder Social Network</span>
-        </h1>
+      <div className="text-center">
+        <div className="max-w-7xl text-4xl px-2 md:text-6xl font-bold tracking-tight text-gray-900">
+          <span className="block lg:inline">Welcome to a</span>{" "} 
+          <span className="bg-gradient-to-r from-utopia to-purple-600 bg-clip-text text-transparent">
+            Kinder Social Network
+          </span>
+        </div>
         
-        <p className="max-w-3xl my-6 text-xl text-gray-600">
+        <p className="max-w-3xl my-6 px-4 md:px-0 md:text-xl text-gray-600">
           Join a community where positivity thrives, everyone cares for one another, and every interaction makes the world a little brighter.
         </p>
 

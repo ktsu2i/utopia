@@ -46,7 +46,7 @@ const Features = () => {
         <p className="mt-4 text-xl text-center text-gray-900">
           Experience social media as it should be - positive, supportive, and meaningful.
         </p>
-        <div className="grid grid-cols-2 gap-8 mt-20 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-8 mt-20 md:grid-cols-2 lg:grid-cols-3">
           {features.map((feature, i) => (
             <FeatureCard key={i} icon={feature.icon} title={feature.title} description={feature.description} />
           ))}
