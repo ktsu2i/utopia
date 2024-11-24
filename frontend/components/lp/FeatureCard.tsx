@@ -14,7 +14,7 @@ const FeatureCard: React.FC<FeatureCardProps> = ({
   description,
 }) => {
   return (
-    <div>
+    <div className="relative group bg-white shadow-md rounded-xl p-10">
       <Icon className="h-8 w-8 text-utopia" />
       <h3 className="mt-4 text-xl font-semibold text-gray-900">{title}</h3>
       <p className="mt-2 text-gray-600">{description}</p>
