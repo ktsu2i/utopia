@@ -14,8 +14,10 @@ export default function Root() {
   }
 
   return (
-    <div>
-      <Header />
+    <div className="relative">
+      <div className="sticky top-0 z-10">
+        <Header />
+      </div>
       <Hero />
     </div>
   );
