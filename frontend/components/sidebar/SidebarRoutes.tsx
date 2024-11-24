@@ -11,6 +11,12 @@ const SidebarRoutes = () => {
   const routes = [
     {
       icon: Home,
+      label: "Logo",
+      href: "/",
+      active: pathname === "/",
+    },
+    {
+      icon: Home,
       label: "Home",
       href: "/home",
       active: pathname.startsWith("/home"),
@@ -48,7 +54,7 @@ const SidebarRoutes = () => {
   ];
 
   return (
-    <div className="flex flex-col justify-between h-full pt-10 lg:mr-6">
+    <div className="flex flex-col justify-between h-full lg:mr-6">
       <div className="flex flex-col items-center gap-4 lg:items-end">
         {routes.map((route) => (
           <SidebarItem
