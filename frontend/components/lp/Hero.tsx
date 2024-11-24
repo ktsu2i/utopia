@@ -3,6 +3,7 @@
 import { ArrowRight } from "lucide-react";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const Hero = () => {
   const router = useRouter();
@@ -25,7 +26,9 @@ const Hero = () => {
           Join a community where positivity thrives, everyone cares for one another, and every interaction makes the world a little brighter.
         </p>
 
-        <Button variant="utopia" size="lg" className="rounded-full" onClick={onClick}>
+        <Image src="/images/mockup.svg" height={500} width={1000} alt="Mockup" />
+
+        <Button variant="utopia" size="lg" className="rounded-full mt-10" onClick={onClick}>
           Get Started
           <ArrowRight className="ml-2 h-4 w-4" />
         </Button>
