@@ -22,9 +22,7 @@ export default function useAuth() {
       } catch {
         setIsAuthenticated(false);
         setCurrentUser(null);
-        if (pathname !== "/test/home") {
-          router.push("/login");
-        }
+        router.push("/login");
       }
     }
 
@@ -51,10 +49,7 @@ export default function useAuth() {
 
       setIsAuthenticated(false);
       setCurrentUser(null);
-
-      if (pathname !== "/test/home") {
-        router.push("/login");
-      }
+      router.push("/login");
     } catch (error) {
       console.log(error);
     }
