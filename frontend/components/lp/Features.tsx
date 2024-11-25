@@ -43,7 +43,7 @@ const Features = () => {
         <h2 className="text-3xl font-bold text-center text-gray-900 sm:text-4xl">
           A Better Way to Connect
         </h2>
-        <p className="mt-4 text-xl text-center text-gray-900">
+        <p className="mt-4 text-xl text-center text-gray-600">
           Experience social media as it should be - positive, supportive, and meaningful.
         </p>
         <div className="grid grid-cols-1 gap-8 mt-20 md:grid-cols-2 lg:grid-cols-3">
