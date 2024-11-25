@@ -267,7 +267,7 @@ const PostItem: React.FC<PostItemProps> = ({
               </PopoverContent>
             </Popover>
           </div>
-          <div className="flex items-center gap-x-1 text-gray-500 pr-2">
+          <div onClick={onClick} className="flex items-center gap-x-1 text-gray-500 px-2 py-1 hover:text-utopia hover:bg-utopia_light rounded-2xl cursor-pointer">
 						<MessageCircle className="h-5 w-5" />
 						<span>{replyCount}</span>
 					</div>
