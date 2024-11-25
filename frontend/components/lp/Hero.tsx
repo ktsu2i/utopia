@@ -5,7 +5,6 @@ import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useState } from "react";
-import { Skeleton } from "../ui/skeleton";
 import { TailSpin } from "react-loader-spinner";
 
 const Hero = () => {
