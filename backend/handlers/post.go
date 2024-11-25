@@ -101,6 +101,8 @@ func UpdatePost(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
 	}
 
+	NotifyClients("update_post")
+
 	return c.JSON(http.StatusOK, map[string]string{"message": "Post successfully updated"})
 }
 

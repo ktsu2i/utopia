@@ -15,6 +15,15 @@ import { useEmojis } from "@/hooks/useEmojis";
 import { parseEmoji } from "@/lib/utils";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "./ui/form";
+import { Textarea } from "./ui/textarea";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
+import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/tooltip";
 
 interface PostItemProps {
   post: Post;
@@ -26,14 +35,26 @@ interface GroupedReaction extends Reaction {
   userIds: string[];
 }
 
+const PostUpdateSchema = z.object({
+  content: z
+    .string()
+    .trim()
+    .min(1, { message: "Post must be at least 1 character." })
+    .max(150, { message: "Post must be less than 151 characters." }),
+});
+
 const PostItem: React.FC<PostItemProps> = ({
   post,
   isSelected,
 }) => {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isAppropriate, setIsAppropriate] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
   const [isEmojisOpen, setIsEmojisOpen] = useState(false);
   const [replyCount, setReplyCount] = useState(0);
+  const [shortcutKey, setShortcutKey] = useState("");
   const { currentUser } = useAuthStore();
   const { emojis } = useEmojis();
 
@@ -96,11 +117,63 @@ const PostItem: React.FC<PostItemProps> = ({
     }
   };
 
+  const form = useForm<z.infer<typeof PostUpdateSchema>>({
+    resolver: zodResolver(PostUpdateSchema),
+    defaultValues: {
+      content: post.content,
+    },
+  });
+
+  const onSubmit = async (data: z.infer<typeof PostUpdateSchema>) => {
+    setIsLoading(true);
+
+    try {
+      const res = await axios.post<boolean>("http://localhost:8080/api/validate-text", data, { withCredentials: true });
+      const isPostAppropriate = res.data;
+
+      if (isPostAppropriate) {
+        await axios.patch<Post>(`http://localhost:8080/api/posts/${post.id}`, data, {
+          withCredentials: true
+        });
+        setIsAppropriate(true);
+        toast.success("Updated post!");
+        setIsOpen(false);
+      } else {
+        setIsAppropriate(false);
+      }
+    } catch {
+      toast.error("Something went wrong");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (isLoading) return;
+    
+    if ((event.metaKey || event.ctrlKey) && event.key === "Enter") {
+      event.preventDefault();
+      form.handleSubmit(onSubmit)();
+    }
+  };
+
   const onClick = () => {
     if (!isSelected) {
       router.push(`/home/posts/${post.id}`);
     }
   };
+
+  useEffect(() => {
+    const userAgent = navigator.userAgent;
+
+    if (userAgent.includes("Win") || userAgent.includes("Linux")) {
+      setShortcutKey("Ctrl + Enter");
+    } else if (userAgent.includes("Mac")) {
+      setShortcutKey("⌘ + Return");
+    } else {
+      setShortcutKey("");
+    }
+  }, []);
 
   // count replies
 	useEffect(() => {
@@ -178,7 +251,82 @@ const PostItem: React.FC<PostItemProps> = ({
                 <PopoverContent className="flex flex-col p-2 w-24">
                   {currentUser?.id === post.userId ? (
                     <>
-                      <Button variant="ghost" className="justify-start">Edit</Button>
+                      <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
+                        <DialogTrigger asChild>
+                          <Button variant="ghost" className="justify-start">Edit</Button>
+                        </DialogTrigger>
+                        <DialogContent>
+                          <DialogHeader>
+                            <DialogTitle>Edit</DialogTitle>
+                          </DialogHeader>
+                          <DialogDescription>
+                            <div className="flex gap-x-2">
+                              <div className="h-full">
+                                <Avatar>
+                                  <AvatarFallback>
+                                    {post.user.accountName.substring(0, 1).toUpperCase()}
+                                  </AvatarFallback>
+                                </Avatar>
+                              </div>
+                              <div className="w-full">
+                                <Form {...form}>
+                                  <form>
+                                    <FormField
+                                      control={form.control}
+                                      name="content"
+                                      render={({ field }) => (
+                                        <FormItem>
+                                          <FormControl>
+                                            <Textarea
+                                              onKeyDown={handleKeyDown}
+                                              placeholder="How are you doing?"
+                                              className="h-32 resize-none text-black"
+                                              {...field}
+                                            />
+                                          </FormControl>
+                                          <FormMessage />
+                                        </FormItem>
+                                      )}
+                                    />
+                                  </form>
+                                </Form>
+                                {!isAppropriate && (
+                                  <Alert variant="destructive" className="mt-4">
+                                    <ExclamationTriangleIcon className="h-4 w-4" />
+                                    <AlertTitle className="font-semibold">Warning!</AlertTitle>
+                                    <AlertDescription>
+                                      You were about to post inappropriate contents. 
+                                      <br />
+                                      Be respectful to everyone!
+                                    </AlertDescription>
+                                  </Alert>
+                                )}
+                              </div>
+                            </div>
+                          </DialogDescription>
+                          <DialogFooter>
+                            <DialogClose asChild>
+                              <Button type="button" variant="ghost">
+                                Cancel
+                              </Button>
+                            </DialogClose>
+                            <TooltipProvider delayDuration={200}>
+                              <Tooltip>
+                                <TooltipTrigger>
+                                  <Button
+                                    disabled={isLoading}
+                                    onClick={form.handleSubmit(onSubmit)}
+                                    variant="utopia"
+                                  >
+                                    {isLoading ? "Checking..." : "Save"}
+                                  </Button>
+                                </TooltipTrigger>
+                                <TooltipContent>{shortcutKey}</TooltipContent>
+                              </Tooltip>
+                            </TooltipProvider>
+                          </DialogFooter>
+                        </DialogContent>
+                      </Dialog>
                       <AlertDialog>
                         <AlertDialogTrigger asChild>
                           <Button
