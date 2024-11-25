@@ -37,7 +37,7 @@ export default function Home() {
   const limit = 10;
   const isEmpty = data?.[0]?.length === 0;
   const isReachingEnd = isEmpty || (data && data?.[data?.length - 1]?.length < limit);
-  const eventTypes = useMemo(() => ["create_post", "delete_post", "delete_user", "add_reaction", "delete_reaction"], []);
+  const eventTypes = useMemo(() => ["create_post", "update_post", "delete_post", "delete_user", "add_reaction", "delete_reaction"], []);
 
   const { ref, inView: isScrollEnd } = useInView();
 
