@@ -10,6 +10,9 @@ export default function Settings() {
       {isAuthenticated && (
         <div>
           <div className="text-2xl font-bold p-6">Settings</div>
+          <div className="mt-[50%] flex justify-center items-center text-gray-500">
+            Coming soon...
+          </div>
         </div>
       )}
     </>
