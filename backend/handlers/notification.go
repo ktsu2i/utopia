@@ -39,12 +39,20 @@ func removeSSEClient(userID string) {
 }
 
 func NotifySSEClient(senderID string, receiverID string, notificationType string) {
+	var content string
+	if notificationType == "follow" {
+		content = "followed you"
+	}
+	if notificationType == "message" {
+		content = "sent you a message"
+	}
+
 	notification := models.Notification{
 		ID:         uuid.NewString(),
 		SenderID:   senderID,
 		ReceiverID: receiverID,
 		Type:       notificationType,
-		Content:    "followed you",
+		Content:    content,
 		IsSeen:     false,
 		CreatedAt:  time.Now().UTC(),
 	}

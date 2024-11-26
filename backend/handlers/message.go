@@ -36,6 +36,7 @@ func CreateMessage(c echo.Context) error {
 	}
 
 	NotifyChatClients(userID, req.ReceiverID, "send_message")
+	NotifySSEClient(userID, req.ReceiverID, "message")
 
 	return c.JSON(http.StatusOK, m)
 }
