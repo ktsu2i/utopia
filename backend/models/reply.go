@@ -6,6 +6,7 @@ import "time"
 type ReplyParams struct {
 	PostID        string  `json:"postId"`
 	ParentReplyID *string `json:"parentReplyId"`
+	ReceiverID    string  `json:"receiverId"`
 	Content       string  `json:"content"`
 }
 

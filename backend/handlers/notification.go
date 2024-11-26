@@ -38,20 +38,29 @@ func removeSSEClient(userID string) {
 	}
 }
 
-func NotifySSEClient(senderID string, receiverID string, notificationType string) {
+type SSEParams struct {
+	senderID         string
+	receiverID       string
+	notificationType string
+}
+
+func NotifySSEClient(p SSEParams) {
 	var content string
-	if notificationType == "follow" {
+	if p.notificationType == "follow" {
 		content = "followed you"
 	}
-	if notificationType == "message" {
+	if p.notificationType == "message" {
 		content = "sent you a message"
+	}
+	if p.notificationType == "reply" {
+		content = "replied to your post"
 	}
 
 	notification := models.Notification{
 		ID:         uuid.NewString(),
-		SenderID:   senderID,
-		ReceiverID: receiverID,
-		Type:       notificationType,
+		SenderID:   p.senderID,
+		ReceiverID: p.receiverID,
+		Type:       p.notificationType,
 		Content:    content,
 		IsSeen:     false,
 		CreatedAt:  time.Now().UTC(),
@@ -64,9 +73,9 @@ func NotifySSEClient(senderID string, receiverID string, notificationType string
 	sseClients.mu.Lock()
 	defer sseClients.mu.Unlock()
 
-	if ch, ok := sseClients.clients[receiverID]; ok {
+	if ch, ok := sseClients.clients[p.receiverID]; ok {
 		select {
-		case ch <- notificationType:
+		case ch <- p.notificationType:
 			// successfully send a notification
 		default:
 			// skip when client is running

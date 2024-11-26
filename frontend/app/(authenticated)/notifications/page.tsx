@@ -45,6 +45,7 @@ export default function Notifications() {
     }
   }, [isScrollEnd, isValidating, isReachingEnd, setSize, size]);
 
+  // fetch the latest notifications when users access this page
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
