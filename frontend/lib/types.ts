@@ -69,3 +69,15 @@ export interface Message {
   createdAt: string
   updatedAt: string
 }
+
+export interface Notification {
+  id: string
+  senderId: string
+  sender: User
+  receiverId: string
+  receiver: User
+  type: string
+  content: string
+  isSeen: boolean
+  createdAt: string
+}

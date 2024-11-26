@@ -50,4 +50,6 @@ func route(e *echo.Echo) {
 	api.GET("/messages", handlers.GetMessages)
 	api.POST("/messages", handlers.CreateMessage)
 	api.DELETE("/messages/:id", handlers.DeleteMessage)
+	api.GET("/notifications/stream", handlers.NotificationStream)
+	api.GET("/notifications", handlers.GetNotifications)
 }
