@@ -82,8 +82,8 @@ export default function Notifications() {
   return (
     <>
       {isAuthenticated && (
-        <div>
-          <div className="text-2xl font-bold p-6">Notifications</div>
+        <div className="relative">
+          <div className="sticky top-0 z-10 bg-white text-2xl font-bold p-6">Notifications</div>
 
           <div className="flex flex-col justify-center">
             {data && data.flat().map((notification: Notification) => (
