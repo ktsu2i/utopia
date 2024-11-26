@@ -16,7 +16,7 @@ const UserItem: React.FC<UserItemProps> = ({
   };
 
   return (
-    <div className="w-full border-b border-gray-300 p-4 hover:bg-gray-50 cursor-pointer rounded">
+    <div className="w-full border-b border-gray-300 p-4 hover:bg-gray-50 cursor-pointer">
       <div onClick={onClick} className="flex items-center gap-x-4">
         <Avatar>
           <AvatarFallback>
