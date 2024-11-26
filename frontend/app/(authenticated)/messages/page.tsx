@@ -47,7 +47,7 @@ export default function UserListPage() {
   return (
     <>
       {isAuthenticated && (
-        <div className="relative h-screen flex flex-col">
+        <div className="relative h-screen flex flex-col ">
           <div className="text-2xl font-bold p-6">Messages</div>
           
           {data && data.flat().map((user: User, i: number) => (
