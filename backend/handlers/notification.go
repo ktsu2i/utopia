@@ -55,6 +55,9 @@ func NotifySSEClient(p SSEParams) {
 	if p.notificationType == "reply" {
 		content = "replied to your post"
 	}
+	if p.notificationType == "reaction" {
+		content = "reacted to your post"
+	}
 
 	notification := models.Notification{
 		ID:         uuid.NewString(),

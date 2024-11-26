@@ -2,7 +2,7 @@
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Notification } from "@/lib/types";
-import { Mail, Send, User } from "lucide-react";
+import { Mail, Send, Smile, User } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 interface NotificationItemProps {
@@ -29,6 +29,7 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
       {notification.type === "follow" && <User className="text-utopia h-7 w-7" strokeWidth={2} />}
       {notification.type === "message" && <Mail className="text-green-500 h-6 w-6" strokeWidth={2} />}
       {notification.type === "reply" && <Send className="text-blue-500 h-6 w-6" strokeWidth={2} />}
+      {notification.type === "reaction" && <Smile className="text-pink-600 h-6 w-6" strokeWidth={2} />}
 
       <div className="space-y-2">
         <Avatar>
