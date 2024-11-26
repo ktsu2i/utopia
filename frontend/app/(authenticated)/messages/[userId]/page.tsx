@@ -86,11 +86,11 @@ export default function ChatPage() {
         const res = await axios.get<Message[]>(`http://localhost:8080/api/messages?senderId=${currentUser?.id}&receiverId=${userId}&page=1&limit=20`, { withCredentials: true });
 
         // clear SWR cache
-        mutate((data) => [[...res.data], ...(data || [])], false);
+        mutate(() => [[...res.data]], false);
       } catch {
         // error handling
       }
-    }
+    };
 
     fetchInitialMessages();
   }, [userId, currentUser?.id, mutate]);

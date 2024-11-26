@@ -34,6 +34,7 @@ func CreateReply(c echo.Context) error {
 	}
 
 	NotifyClients("create_reply")
+	NotifySSEClient(SSEParams{senderID: userID, receiverID: req.ReceiverID, notificationType: "reply"})
 
 	return c.JSON(http.StatusOK, r)
 }

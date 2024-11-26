@@ -132,6 +132,7 @@ export default function ReplyDetails() {
           postId: postId,
           reply: reply,
           parentReplyId: replyId,
+          receiverId: reply?.userId,
           content: data.content
         }, {
           withCredentials: true

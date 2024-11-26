@@ -79,6 +79,7 @@ const PostItem: React.FC<PostItemProps> = ({
       await axios.post<Reaction>("http://localhost:8080/api/reactions", {
         postId: post.id,
         emojiId: emojiId,
+				receiverId: post.userId,
       }, { withCredentials: true });
       
       setIsEmojisOpen(false);

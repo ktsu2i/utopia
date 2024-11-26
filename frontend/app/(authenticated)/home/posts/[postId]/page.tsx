@@ -130,6 +130,7 @@ export default function PostDetails() {
         const res = await axios.post<Reply>("http://localhost:8080/api/replies", {
           postId: post?.id,
           parentReplyId: null,
+          receiverId: post?.userId,
           content: data.content
         }, {
           withCredentials: true
