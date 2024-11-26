@@ -6,6 +6,7 @@ import axios from "axios";
 import { useCallback, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import useSWRInfinite from "swr/infinite";
+import NotificationItem from "./_components/NotificationItem";
 
 export default function Notifications() {
   const { isAuthenticated } = useAuthStore();
@@ -63,12 +64,11 @@ export default function Notifications() {
     <>
       {isAuthenticated && (
         <div>
-          <div>Notifications</div>
+          <div className="text-2xl font-bold p-6">Notifications</div>
+
           <div className="flex flex-col justify-center">
             {data && data.flat().map((notification: Notification) => (
-              <div key={notification.id}>
-                {notification.sender.accountName + " " + notification.content}
-              </div>
+              <NotificationItem key={notification.id} notification={notification} />
             ))}
           </div>
         </div>
