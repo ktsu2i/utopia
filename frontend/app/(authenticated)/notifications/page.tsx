@@ -45,9 +45,10 @@ export default function Notifications() {
 
   // fetch notifications
   useEffect(() => {
-    const eventSource = new EventSource("http://localhost:8080/api/notifications/stream");
-
+    const eventSource = new EventSource("http://localhost:8080/api/notifications/stream", { withCredentials: true });
+    console.log("Calling API...");
     eventSource.onmessage = (event) => {
+      console.log(event.data);
       if (event.data === "new_notification") {
         mutate();
       }

@@ -83,7 +83,7 @@ func NotificationStream(c echo.Context) error {
 	for {
 		select {
 		case <-notifyChan:
-			_, err := c.Response().Write([]byte("new_notification\n\n"))
+			_, err := c.Response().Write([]byte("data: new_notification\n\n"))
 			if err != nil {
 				return err
 			}
