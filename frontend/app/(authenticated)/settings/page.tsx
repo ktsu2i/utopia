@@ -1,21 +1,20 @@
 "use client";
 
-import { useEmojis } from "@/hooks/useEmojis";
 import useAuthStore from "@/stores/authStore";
 
 export default function Settings() {
   const { isAuthenticated } = useAuthStore();
 
-  const { emojis } = useEmojis();
-
   return (
     <>
       {isAuthenticated && (
-        <div>Messages</div>
+        <div>
+          <div className="text-2xl font-bold p-6">Settings</div>
+          <div className="mt-[50%] flex justify-center items-center text-gray-500">
+            Coming soon...
+          </div>
+        </div>
       )}
-      <div>
-        {emojis.map((emoji) => (<div key={emoji.id} className="text-xl">{String.fromCodePoint(parseInt(emoji.unicode, 16))}</div>))}
-      </div>
     </>
   );
 }
