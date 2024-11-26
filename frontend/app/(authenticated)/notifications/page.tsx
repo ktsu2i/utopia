@@ -3,13 +3,14 @@
 import { Notification } from "@/lib/types";
 import useAuthStore from "@/stores/authStore";
 import axios from "axios";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import useSWRInfinite from "swr/infinite";
 import NotificationItem from "./_components/NotificationItem";
 
 export default function Notifications() {
   const { isAuthenticated } = useAuthStore();
+  const [notifications, setNotifications] = useState<Notification[]>([]);
 
   const getKey = (pageIndex: number, previousPageData: Notification[][]) => {
     if (previousPageData && !previousPageData.length) return null; // reaches the end
@@ -43,6 +44,23 @@ export default function Notifications() {
       setSize(size + 1);
     }
   }, [isScrollEnd, isValidating, isReachingEnd, setSize, size]);
+
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const res = await axios.get<Notification[]>(`http://localhost:8080/api/notifications?page=1&limit=20`, {
+          withCredentials: true
+        });
+        
+        // clear SWR cache
+        mutate(() => [[...res.data]], false);
+      } catch {
+        // error handling
+      }
+    }
+
+    fetchNotifications();
+  }, [mutate]);
 
   // fetch notifications
   useEffect(() => {

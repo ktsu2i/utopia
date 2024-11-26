@@ -90,7 +90,7 @@ export default function ChatPage() {
       } catch {
         // error handling
       }
-    }
+    };
 
     fetchInitialMessages();
   }, [userId, currentUser?.id, mutate]);
