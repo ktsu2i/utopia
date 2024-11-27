@@ -406,7 +406,7 @@ const PostItem: React.FC<PostItemProps> = ({
                     <Button
                       key={emoji.name}
                       variant="ghost"
-                      className="text-2xl p-2"
+                      className="text-2xl p-2 hover:bg-utopia_light"
                       onClick={() => addReaction(emoji.id)}
                     >
                       {parseEmoji(emoji.unicode)}
