@@ -30,7 +30,7 @@ const UserInfo = () => {
       <PopoverTrigger asChild>
         <Button
           variant="ghost"
-          className="flex flex-col items-center h-full mb-3 lg:w-[250px] lg:flex-row lg:items-start lg:justify-start lg:gap-4 lg:py-3"
+          className="flex flex-col items-center h-full mb-3 lg:w-[250px] lg:flex-row lg:items-start lg:justify-start lg:gap-4 lg:py-3 rounded-full"
         >
           <Avatar>
             <AvatarFallback>
