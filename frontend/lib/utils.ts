@@ -7,5 +7,9 @@ export function cn(...inputs: ClassValue[]) {
 
 // Convert unicode to emoji
 export function parseEmoji(unicode: string) {
+  // exception for red heart
+  if (unicode === "2764") {
+    return String.fromCodePoint(parseInt(unicode, 16)) + String.fromCodePoint(0xFE0F);
+  }
   return String.fromCodePoint(parseInt(unicode, 16))
 }

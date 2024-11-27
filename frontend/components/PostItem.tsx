@@ -409,7 +409,7 @@ const PostItem: React.FC<PostItemProps> = ({
                       className="text-2xl p-2"
                       onClick={() => addReaction(emoji.id)}
                     >
-                      {String.fromCodePoint(parseInt(emoji.unicode, 16))}
+                      {parseEmoji(emoji.unicode)}
                     </Button>
                   ))}
                 </div>
