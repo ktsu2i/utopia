@@ -148,6 +148,15 @@ export default function PostDetails() {
     }
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (isLoading) return;
+
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      form.handleSubmit(onSubmit)();
+    }
+  };
+
   if (!post) {
     return (
       <div className="h-full flex items-center justify-center">
@@ -177,6 +186,7 @@ export default function PostDetails() {
                       <div className="w-full flex items-center gap-x-2">
                         <FormControl>
                           <Textarea
+                            onKeyDown={handleKeyDown}
                             placeholder="Encourage others!"
                             className="resize-none"
                             {...field}
