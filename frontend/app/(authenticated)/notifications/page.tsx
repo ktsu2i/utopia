@@ -7,10 +7,17 @@ import { useCallback, useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import useSWRInfinite from "swr/infinite";
 import NotificationItem from "./_components/NotificationItem";
+import useNotificationStore from "@/stores/notificationStore";
 
 export default function Notifications() {
   const { isAuthenticated } = useAuthStore();
-  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const { hasNewNotification, setHasNewNotification } = useNotificationStore();
+
+  useEffect(() => {
+    if (hasNewNotification) {
+      setHasNewNotification(false);
+    }
+  }, [hasNewNotification, setHasNewNotification]);
 
   const getKey = (pageIndex: number, previousPageData: Notification[][]) => {
     if (previousPageData && !previousPageData.length) return null; // reaches the end
@@ -63,21 +70,20 @@ export default function Notifications() {
     fetchNotifications();
   }, [mutate]);
 
-  // fetch notifications
+  // notifications
   useEffect(() => {
-    const eventSource = new EventSource("http://localhost:8080/api/notifications/stream", { withCredentials: true });
-    console.log("Calling API...");
-    eventSource.onmessage = (event) => {
-      console.log(event.data);
+    const socket = new WebSocket("ws://localhost:8080/api/ws/notifications");
+
+    socket.onmessage = (event) => {
       if (event.data === "new_notification") {
-        mutate();
+        setHasNewNotification(true);
       }
     };
 
     return () => {
-      eventSource.close();
+      socket.close();
     };
-  }, [mutate]);
+  }, [setHasNewNotification]);
 
   return (
     <>

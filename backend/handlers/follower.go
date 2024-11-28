@@ -30,7 +30,7 @@ func Follow(c echo.Context) error {
 	}
 
 	NotifyClients("follow")
-	NotifySSEClient(SSEParams{senderID: userID, receiverID: followedID, notificationType: "follow"})
+	NotifyNotificationClients(followedID, "new_notification")
 
 	return c.JSON(http.StatusOK, nil)
 }
