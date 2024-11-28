@@ -25,7 +25,6 @@ const PostSchema = z.object({
 });
 
 const PostCard = () => {
-  const [post, setPost] = useState<Post | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isAppropriate, setIsAppropriate] = useState(true);
   const [shortcutKey, setShortcutKey] = useState("");
@@ -59,11 +58,10 @@ const PostCard = () => {
       const isPostAppropriate = res.data;
 
       if (isPostAppropriate) {
-        const res = await axios.post<Post>("http://localhost:8080/api/posts", data, {
+        await axios.post("http://localhost:8080/api/posts", data, {
           withCredentials: true
         });
         setIsAppropriate(true);
-        setPost(res.data);
         toast.success("Posted it!");
         form.reset();
       } else {
