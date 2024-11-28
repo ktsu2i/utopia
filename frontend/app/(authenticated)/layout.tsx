@@ -1,5 +1,6 @@
 "use client";
 
+import MobileNavbar from "@/components/MobileNavbar";
 import RightSidebar from "@/components/right-sidebar/RightSidebar";
 import Sidebar from "@/components/sidebar/Sidebar";
 import useNotificationStore from "@/stores/notificationStore";
@@ -31,8 +32,9 @@ export default function Layout({
   return (
     <>
       <Sidebar />
+      <MobileNavbar />
       <RightSidebar />
-      <main className="h-full px-[12.5%] lg:px-[33.3333%]">
+      <main className="h-full md:px-[12.5%] lg:px-[33.3333%]">
         {children}
       </main>
     </>
