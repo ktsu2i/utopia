@@ -34,7 +34,7 @@ export default function Layout({
       <Sidebar />
       <MobileNavbar />
       <RightSidebar />
-      <main className="h-full px-[12.5%] lg:px-[33.3333%]">
+      <main className="h-full md:px-[12.5%] lg:px-[33.3333%]">
         {children}
       </main>
     </>

@@ -7,7 +7,7 @@ const Sidebar = () => {
   const { isAuthenticated } = useAuthStore();
 
   return (
-    <div className={`fixed h-full w-[12.5%] border-r border-gray-300 lg:w-1/3 ${!isAuthenticated && "hidden"}`}>
+    <div className={`fixed h-full w-[12.5%] border-r border-gray-300 lg:w-1/3 hidden md:block ${!isAuthenticated && "hidden"}`}>
       <SidebarRoutes />
     </div>
   )
