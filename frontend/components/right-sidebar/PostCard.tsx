@@ -10,12 +10,11 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
 import { Post } from "@/lib/types";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "../ui/form";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormMessage } from "../ui/form";
 import { Button } from "../ui/button";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import useAuthStore from "@/stores/authStore";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
 
 const PostSchema = z.object({
   content: z
@@ -26,7 +25,6 @@ const PostSchema = z.object({
 });
 
 const PostCard = () => {
-  const [post, setPost] = useState<Post | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isAppropriate, setIsAppropriate] = useState(true);
   const [shortcutKey, setShortcutKey] = useState("");
@@ -37,9 +35,9 @@ const PostCard = () => {
     const userAgent = navigator.userAgent;
 
     if (userAgent.includes("Win") || userAgent.includes("Linux")) {
-      setShortcutKey("Ctrl + Enter");
+      setShortcutKey("Shift + Enter");
     } else if (userAgent.includes("Mac")) {
-      setShortcutKey("⌘ + Return");
+      setShortcutKey("Shift + Return");
     } else {
       setShortcutKey("");
     }
@@ -60,11 +58,10 @@ const PostCard = () => {
       const isPostAppropriate = res.data;
 
       if (isPostAppropriate) {
-        const res = await axios.post<Post>("http://localhost:8080/api/posts", data, {
+        await axios.post("http://localhost:8080/api/posts", data, {
           withCredentials: true
         });
         setIsAppropriate(true);
-        setPost(res.data);
         toast.success("Posted it!");
         form.reset();
       } else {
@@ -79,8 +76,8 @@ const PostCard = () => {
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
     if (isLoading) return;
-    
-    if ((event.metaKey || event.ctrlKey) && event.key === "Enter") {
+
+    if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault();
       form.handleSubmit(onSubmit)();
     }
@@ -115,25 +112,21 @@ const PostCard = () => {
                             {...field}
                           />
                         </FormControl>
+                        <FormDescription>
+                          {shortcutKey + " to add a new line"}
+                        </FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
-                  <TooltipProvider delayDuration={200}>
-                    <Tooltip>
-                      <TooltipTrigger className="my-4 w-full">
-                        <Button
-                          disabled={isLoading}
-                          variant="utopia"
-                          size="lg"
-                          className="w-full"
-                        >
-                          {isLoading ? "Checking..." : "Post"}
-                        </Button>
-                      </TooltipTrigger>
-                      <TooltipContent>{shortcutKey}</TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
+                  <Button
+                    disabled={isLoading}
+                    variant="utopia"
+                    size="lg"
+                    className="w-full mt-4"
+                  >
+                    {isLoading ? "Checking..." : "Post"}
+                  </Button>
                 </form>
               </Form>
               {!isAppropriate && (

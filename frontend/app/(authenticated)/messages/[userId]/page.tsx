@@ -149,6 +149,15 @@ export default function ChatPage() {
       setIsLoading(false);
     }
   };
+
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (isLoading) return;
+
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      form.handleSubmit(onSubmit)();
+    }
+  };
   
   return (
     <>
@@ -191,6 +200,7 @@ export default function ChatPage() {
                           <div className="w-full flex items-center gap-x-2">
                             <FormControl>
                               <Textarea
+                                onKeyDown={handleKeyDown}
                                 className="resize-none"
                                 {...field}
                               />
