@@ -39,7 +39,7 @@ const Profile = () => {
                 <span className="font-bold">{currentUser?.followedCount}</span> followers
               </div>
             </div>
-            <div className="justify-center mx-20 my-4 whitespace-pre-wrap">
+            <div className="justify-center mx-12 xl:mx-20 my-4 whitespace-pre-wrap border border-gray-300 p-6 rounded-xl shadow-md">
               {currentUser?.bio ? currentUser?.bio : "Add your bio!"}
             </div>
             <div className="flex justify-center">
