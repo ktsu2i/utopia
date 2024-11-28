@@ -113,7 +113,7 @@ const PostCard = () => {
                           />
                         </FormControl>
                         <FormDescription>
-                          {shortcutKey + " to start a new line"}
+                          {shortcutKey + " to add a new line"}
                         </FormDescription>
                         <FormMessage />
                       </FormItem>
