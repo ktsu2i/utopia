@@ -1,6 +1,6 @@
 import { Plus } from "lucide-react";
 import { Button } from "./ui/button";
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTrigger } from "./ui/dialog";
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "./ui/form";
 import { Textarea } from "./ui/textarea";
@@ -77,7 +77,9 @@ const MobilePostButton = () => {
         </div>
       </DialogTrigger>
       <DialogContent className="max-w-[90%] rounded-xl">
-        <DialogHeader>Post</DialogHeader>
+        <DialogHeader>
+          <DialogTitle>Post</DialogTitle>
+        </DialogHeader>
         <DialogDescription>
           <div className="flex gap-x-2">
             <div className="h-full">
