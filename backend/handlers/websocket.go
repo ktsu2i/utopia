@@ -18,6 +18,11 @@ type ChatWebSocketServer struct {
 	mu      sync.Mutex
 }
 
+type NotificationWebSocketServer struct {
+	clients map[string]map[*websocket.Conn]bool
+	mu      sync.Mutex
+}
+
 var upgrader = websocket.Upgrader{
 	CheckOrigin: func(r *http.Request) bool {
 		return true
@@ -29,6 +34,10 @@ var wsServer = WebSocketServer{
 }
 
 var chatServer = ChatWebSocketServer{
+	clients: make(map[string]map[*websocket.Conn]bool),
+}
+
+var notificationServer = NotificationWebSocketServer{
 	clients: make(map[string]map[*websocket.Conn]bool),
 }
 
@@ -90,6 +99,42 @@ func HandleChatWebSocket(c echo.Context) error {
 			break
 		}
 	}
+
+	return nil
+}
+
+func HandleNotificationWebSocket(c echo.Context) error {
+	userID := c.QueryParam("userId")
+
+	ws, err := upgrader.Upgrade(c.Response(), c.Request(), nil)
+	if err != nil {
+		return err
+	}
+	defer ws.Close()
+
+	notificationServer.mu.Lock()
+	if notificationServer.clients[userID] == nil {
+		notificationServer.clients[userID] = make(map[*websocket.Conn]bool)
+	}
+	notificationServer.clients[userID][ws] = true
+	notificationServer.mu.Unlock()
+
+	defer func() {
+		notificationServer.mu.Lock()
+		delete(notificationServer.clients[userID], ws)
+		if len(notificationServer.clients[userID]) == 0 {
+			delete(notificationServer.clients, userID)
+		}
+		notificationServer.mu.Unlock()
+	}()
+
+	for {
+		_, _, err := ws.ReadMessage()
+		if err != nil {
+			break
+		}
+	}
+
 	return nil
 }
 
@@ -123,4 +168,19 @@ func NotifyChatClients(senderID, receiverID, message string) {
 
 	notify(senderID)
 	notify(receiverID)
+}
+
+func NotifyNotificationClients(userID, message string) {
+	notificationServer.mu.Lock()
+	defer notificationServer.mu.Unlock()
+
+	if clients, ok := notificationServer.clients[userID]; ok {
+		for conn := range clients {
+			err := conn.WriteMessage(websocket.TextMessage, []byte(message))
+			if err != nil {
+				conn.Close()
+				delete(clients, conn)
+			}
+		}
+	}
 }
