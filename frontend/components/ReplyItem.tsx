@@ -2,7 +2,6 @@
 
 import { Reaction, Reply } from "@/lib/types";
 import { ArrowLeft, Ellipsis, MessageCircle, SmilePlus } from "lucide-react";
-import Link from "next/link";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import { formatDistanceToNowStrict, parseISO } from "date-fns";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
