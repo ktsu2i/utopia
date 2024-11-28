@@ -49,7 +49,7 @@ func AddReaction(c echo.Context) error {
 	}
 
 	NotifyClients("add_reaction")
-	NotifySSEClient(SSEParams{senderID: userID, receiverID: req.ReceiverID, notificationType: "reaction"})
+	NotifyNotificationClients(req.ReceiverID, "new_notification")
 
 	return c.JSON(http.StatusOK, r)
 }
