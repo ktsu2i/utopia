@@ -23,7 +23,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/tooltip";
 
 interface PostItemProps {
   post: Post;
@@ -54,7 +53,6 @@ const PostItem: React.FC<PostItemProps> = ({
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isEmojisOpen, setIsEmojisOpen] = useState(false);
   const [replyCount, setReplyCount] = useState(0);
-  const [shortcutKey, setShortcutKey] = useState("");
   const { currentUser } = useAuthStore();
   const { emojis } = useEmojis();
 
@@ -149,32 +147,11 @@ const PostItem: React.FC<PostItemProps> = ({
     }
   };
 
-  const handleKeyDown = (event: React.KeyboardEvent) => {
-    if (isLoading) return;
-    
-    if ((event.metaKey || event.ctrlKey) && event.key === "Enter") {
-      event.preventDefault();
-      form.handleSubmit(onSubmit)();
-    }
-  };
-
   const onClick = () => {
     if (!isSelected) {
       router.push(`/home/posts/${post.id}`);
     }
   };
-
-  useEffect(() => {
-    const userAgent = navigator.userAgent;
-
-    if (userAgent.includes("Win") || userAgent.includes("Linux")) {
-      setShortcutKey("Ctrl + Enter");
-    } else if (userAgent.includes("Mac")) {
-      setShortcutKey("⌘ + Return");
-    } else {
-      setShortcutKey("");
-    }
-  }, []);
 
   // count replies
 	useEffect(() => {
@@ -201,6 +178,15 @@ const PostItem: React.FC<PostItemProps> = ({
       socket.close();
     }
 	}, [post]);
+
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (isLoading) return;
+
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      form.handleSubmit(onSubmit)();
+    }
+  };
 
   return (
     <div className="border-b border-gray-300 last:border-b-0 p-4">
@@ -256,7 +242,7 @@ const PostItem: React.FC<PostItemProps> = ({
                         <DialogTrigger asChild>
                           <Button variant="ghost" className="justify-start">Edit</Button>
                         </DialogTrigger>
-                        <DialogContent>
+                        <DialogContent className="max-w-[90%] md:max-w-xl rounded-xl">
                           <DialogHeader>
                             <DialogTitle>Edit</DialogTitle>
                           </DialogHeader>
@@ -306,25 +292,20 @@ const PostItem: React.FC<PostItemProps> = ({
                             </div>
                           </DialogDescription>
                           <DialogFooter>
-                            <DialogClose asChild>
-                              <Button type="button" variant="ghost">
-                                Cancel
+                            <div className="flex justify-end gap-x-2">
+                              <DialogClose asChild>
+                                <Button type="button" variant="ghost">
+                                  Cancel
+                                </Button>
+                              </DialogClose>
+                              <Button
+                                disabled={isLoading}
+                                onClick={form.handleSubmit(onSubmit)}
+                                variant="utopia"
+                              >
+                                {isLoading ? "Checking..." : "Save"}
                               </Button>
-                            </DialogClose>
-                            <TooltipProvider delayDuration={200}>
-                              <Tooltip>
-                                <TooltipTrigger>
-                                  <Button
-                                    disabled={isLoading}
-                                    onClick={form.handleSubmit(onSubmit)}
-                                    variant="utopia"
-                                  >
-                                    {isLoading ? "Checking..." : "Save"}
-                                  </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>{shortcutKey}</TooltipContent>
-                              </Tooltip>
-                            </TooltipProvider>
+                            </div>
                           </DialogFooter>
                         </DialogContent>
                       </Dialog>
