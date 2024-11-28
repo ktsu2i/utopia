@@ -4,10 +4,12 @@ import useAuthStore from "@/stores/authStore";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import useAuth from "@/hooks/useAuth";
 
 const Profile = () => {
   const router = useRouter();
   const { isAuthenticated, currentUser } = useAuthStore();
+  const { logout } = useAuth();
 
   return (
     <>
@@ -42,9 +44,9 @@ const Profile = () => {
             <div className="justify-center mx-12 xl:mx-20 my-4 whitespace-pre-wrap border border-gray-300 p-6 rounded-xl shadow-md">
               {currentUser?.bio ? currentUser?.bio : "Add your bio!"}
             </div>
-            <div className="flex justify-center">
+            <div className="flex justify-center gap-x-2">
               <Button variant="outline" onClick={() => router.push("/profile/edit")}>Edit profile</Button>
-              {/* <Button variant="outline">??</Button> */}
+              <Button variant="destructive" onClick={logout}>Logout</Button>
             </div>
           </div>
         </div>
