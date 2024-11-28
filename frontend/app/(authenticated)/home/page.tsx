@@ -9,6 +9,7 @@ import { TailSpin } from "react-loader-spinner";
 import { Post } from "@/lib/types";
 import PostItem from "@/components/PostItem";
 import useAuthStore from "@/stores/authStore";
+import MobileHeader from "@/components/MobileHeader";
 
 export default function Home() {
   const { isAuthenticated } = useAuthStore();
@@ -64,10 +65,13 @@ export default function Home() {
   return (
     <>
       {isAuthenticated && data && (
-        <div className="flex flex-col justify-center">
-          {data.flat().map((post: Post, i: number) => (
-            <PostItem key={i} post={post} isSelected={false} />
-          ))}
+        <div className="pt-16 md:pt-0">
+          <MobileHeader />
+          <div className="flex flex-col justify-center">
+            {data.flat().map((post: Post, i: number) => (
+              <PostItem key={i} post={post} isSelected={false} />
+            ))}
+          </div>
         </div>
       )}
       {!isValidating && (<div ref={ref} aria-hidden="true" />)}
