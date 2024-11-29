@@ -15,18 +15,16 @@ export default function Layout({
   const setHasNewNotification = useNotificationStore((state) => state.setHasNewNotification);
 
   useEffect(() => {
-    const eventSource = new EventSource("http://localhost:8080/api/notifications/stream", {
-      withCredentials: true,
-    });
+    const socket = new WebSocket("ws://localhost:8080/api/ws/notifications");
 
-    eventSource.onmessage = (event) => {
+    socket.onmessage = (event) => {
       if (event.data === "new_notification") {
         setHasNewNotification(true);
       }
     };
 
     return () => {
-      eventSource.close();
+      socket.close();
     };
   }, [setHasNewNotification]);
 

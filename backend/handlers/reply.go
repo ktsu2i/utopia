@@ -34,6 +34,7 @@ func CreateReply(c echo.Context) error {
 	}
 
 	NotifyClients("create_reply")
+	CreateNotification(userID, req.ReceiverID, "reply")
 	NotifyNotificationClients(req.ReceiverID, "new_notification")
 
 	return c.JSON(http.StatusOK, r)

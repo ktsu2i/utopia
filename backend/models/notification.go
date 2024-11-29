@@ -10,7 +10,6 @@ type Notification struct {
 	Type       string    `json:"type"`
 	Content    string    `json:"content"`
 	CreatedAt  time.Time `json:"createdAt"`
-	UpdatedAt  time.Time `json:"updatedAt"`
 }
 
 // Response
@@ -23,7 +22,6 @@ type NotificationResult struct {
 	Type       string     `json:"type"`
 	Content    string     `json:"content"`
 	CreatedAt  time.Time  `json:"createdAt"`
-	UpdatedAt  time.Time  `json:"updatedAt"`
 }
 
 func (NotificationResult) TableName() string {

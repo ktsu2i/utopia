@@ -30,6 +30,7 @@ func Follow(c echo.Context) error {
 	}
 
 	NotifyClients("follow")
+	CreateNotification(userID, followedID, "follow")
 	NotifyNotificationClients(followedID, "new_notification")
 
 	return c.JSON(http.StatusOK, nil)

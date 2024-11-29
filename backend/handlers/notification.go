@@ -3,6 +3,7 @@ package handlers
 import (
 	"backend/db"
 	"backend/models"
+	"fmt"
 	"net/http"
 	"strconv"
 	"time"
@@ -12,16 +13,31 @@ import (
 )
 
 func CreateNotification(senderID string, receiverID string, notificationType string) {
+	var content string
+	switch notificationType {
+	case "follow":
+		content = "followed you"
+	case "message":
+		content = "sent you a message"
+	case "reply":
+		content = "replied to your post"
+	case "reaction":
+		content = "reacted to your post"
+	}
+
 	n := models.Notification{
 		ID:         uuid.NewString(),
 		SenderID:   senderID,
 		ReceiverID: receiverID,
 		Type:       notificationType,
-		Content:    "followed you",
+		Content:    content,
 		CreatedAt:  time.Now().UTC(),
 	}
 
-	db.DB.Create(&n)
+	if err := db.DB.Create(&n).Error; err != nil {
+		fmt.Printf("Failed to create notification: %v", err) // ログを追加
+		return
+	}
 }
 
 func GetNotifications(c echo.Context) error {

@@ -49,6 +49,7 @@ func AddReaction(c echo.Context) error {
 	}
 
 	NotifyClients("add_reaction")
+	CreateNotification(userID, req.ReceiverID, "reaction")
 	NotifyNotificationClients(req.ReceiverID, "new_notification")
 
 	return c.JSON(http.StatusOK, r)
