@@ -6,6 +6,7 @@ import RightSidebar from "@/components/right-sidebar/RightSidebar";
 import Sidebar from "@/components/sidebar/Sidebar";
 import useAuthStore from "@/stores/authStore";
 import useNotificationStore from "@/stores/notificationStore";
+import axios from "axios";
 import { useEffect } from "react";
 
 export default function Layout({
@@ -16,6 +17,25 @@ export default function Layout({
   const { currentUser } = useAuthStore();
   const { setHasNewNotification } = useNotificationStore();
 
+  // Check new notifications when user logs in
+  useEffect(() => {
+    const fetchCountUnseenNotifications = async () => {
+      try {
+        const res = await axios.get<number>("http://localhost:8080/api/notifications/unseen/count", {
+          withCredentials: true,
+        });
+        if (res.data > 0) {
+          setHasNewNotification(true);
+        }
+      } catch {
+        // error handling
+      }
+    };
+
+    fetchCountUnseenNotifications();
+  }, [setHasNewNotification]);
+
+  // Check new notifications realtime with websocket
   useEffect(() => {
     if (!currentUser?.id) return;
 
