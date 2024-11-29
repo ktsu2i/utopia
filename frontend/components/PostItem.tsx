@@ -358,7 +358,7 @@ const PostItem: React.FC<PostItemProps> = ({
 
         {/* Footer */}
         <div className="w-full flex items-center gap-2 justify-between">
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             {Object.values(groupedReactions).map((groupedReaction) => (
               <Button
                 key={groupedReaction.emojiId}
