@@ -4,6 +4,7 @@ import MobileNavbar from "@/components/MobileNavbar";
 import MobilePostButton from "@/components/MobilePostButton";
 import RightSidebar from "@/components/right-sidebar/RightSidebar";
 import Sidebar from "@/components/sidebar/Sidebar";
+import useAuthStore from "@/stores/authStore";
 import useNotificationStore from "@/stores/notificationStore";
 import { useEffect } from "react";
 
@@ -12,10 +13,13 @@ export default function Layout({
 }: {
   children: React.ReactNode
 }) {
-  const setHasNewNotification = useNotificationStore((state) => state.setHasNewNotification);
+  const { currentUser } = useAuthStore();
+  const { setHasNewNotification } = useNotificationStore();
 
   useEffect(() => {
-    const socket = new WebSocket("ws://localhost:8080/api/ws/notifications");
+    if (!currentUser?.id) return;
+
+    const socket = new WebSocket(`ws://localhost:8080/api/ws/notifications?userId=${currentUser.id}`);
 
     socket.onmessage = (event) => {
       if (event.data === "new_notification") {
@@ -26,7 +30,7 @@ export default function Layout({
     return () => {
       socket.close();
     };
-  }, [setHasNewNotification]);
+  }, [currentUser?.id]);
 
   return (
     <>

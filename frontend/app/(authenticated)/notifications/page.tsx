@@ -10,7 +10,7 @@ import NotificationItem from "./_components/NotificationItem";
 import useNotificationStore from "@/stores/notificationStore";
 
 export default function Notifications() {
-  const { isAuthenticated } = useAuthStore();
+  const { isAuthenticated, currentUser } = useAuthStore();
   const { hasNewNotification, setHasNewNotification } = useNotificationStore();
 
   useEffect(() => {
@@ -72,18 +72,19 @@ export default function Notifications() {
 
   // notifications
   useEffect(() => {
-    const socket = new WebSocket("ws://localhost:8080/api/ws/notifications");
+    const socket = new WebSocket(`ws://localhost:8080/api/ws/notifications?userId=${currentUser?.id}`);
 
     socket.onmessage = (event) => {
       if (event.data === "new_notification") {
         setHasNewNotification(true);
+        mutate();
       }
     };
 
     return () => {
       socket.close();
     };
-  }, [setHasNewNotification]);
+  }, [setHasNewNotification, mutate]);
 
   return (
     <>

@@ -5,7 +5,6 @@ import { useCallback, useEffect, useMemo } from "react";
 import useSWRInfinite from "swr/infinite";
 import { useInView } from "react-intersection-observer";
 import { TailSpin } from "react-loader-spinner";
-
 import { Post } from "@/lib/types";
 import PostItem from "@/components/PostItem";
 import useAuthStore from "@/stores/authStore";
