@@ -5,9 +5,24 @@ import (
 	"backend/models"
 	"net/http"
 	"strconv"
+	"time"
 
+	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 )
+
+func CreateNotification(senderID string, receiverID string, notificationType string) {
+	n := models.Notification{
+		ID:         uuid.NewString(),
+		SenderID:   senderID,
+		ReceiverID: receiverID,
+		Type:       notificationType,
+		Content:    "followed you",
+		CreatedAt:  time.Now().UTC(),
+	}
+
+	db.DB.Create(&n)
+}
 
 func GetNotifications(c echo.Context) error {
 	userID, err := GetUserID(c)
