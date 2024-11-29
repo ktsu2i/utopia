@@ -21,6 +21,7 @@ type NotificationResult struct {
 	Receiver   UserResult `gorm:"foreignKey:ReceiverID;references:ID" json:"receiver"`
 	Type       string     `json:"type"`
 	Content    string     `json:"content"`
+	IsSeen     bool       `json:"isSeen"`
 	CreatedAt  time.Time  `json:"createdAt"`
 }
 
