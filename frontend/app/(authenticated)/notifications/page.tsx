@@ -10,14 +10,24 @@ import NotificationItem from "./_components/NotificationItem";
 import useNotificationStore from "@/stores/notificationStore";
 
 export default function Notifications() {
-  const { isAuthenticated } = useAuthStore();
-  const { hasNewNotification, setHasNewNotification } = useNotificationStore();
+  const { isAuthenticated, currentUser } = useAuthStore();
+  const { setHasNewNotification } = useNotificationStore();
 
+  // Mark notifications as seen
   useEffect(() => {
-    if (hasNewNotification) {
-      setHasNewNotification(false);
-    }
-  }, [hasNewNotification, setHasNewNotification]);
+    const markAsSeen = async () => {
+      try {
+        await axios.patch("http://localhost:8080/api/notifications/mark-as-seen", null, {
+          withCredentials: true,
+        });
+        setHasNewNotification(false);
+      } catch {
+        // error handling
+      }
+    };
+
+    markAsSeen();
+  }, [setHasNewNotification]);
 
   const getKey = (pageIndex: number, previousPageData: Notification[][]) => {
     if (previousPageData && !previousPageData.length) return null; // reaches the end
@@ -72,18 +82,19 @@ export default function Notifications() {
 
   // notifications
   useEffect(() => {
-    const socket = new WebSocket("ws://localhost:8080/api/ws/notifications");
+    const socket = new WebSocket(`ws://localhost:8080/api/ws/notifications?userId=${currentUser?.id}`);
 
     socket.onmessage = (event) => {
       if (event.data === "new_notification") {
         setHasNewNotification(true);
+        mutate();
       }
     };
 
     return () => {
       socket.close();
     };
-  }, [setHasNewNotification]);
+  }, [setHasNewNotification, mutate]);
 
   return (
     <>

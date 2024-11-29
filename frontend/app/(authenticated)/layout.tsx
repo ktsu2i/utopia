@@ -4,7 +4,9 @@ import MobileNavbar from "@/components/MobileNavbar";
 import MobilePostButton from "@/components/MobilePostButton";
 import RightSidebar from "@/components/right-sidebar/RightSidebar";
 import Sidebar from "@/components/sidebar/Sidebar";
+import useAuthStore from "@/stores/authStore";
 import useNotificationStore from "@/stores/notificationStore";
+import axios from "axios";
 import { useEffect } from "react";
 
 export default function Layout({
@@ -12,23 +14,43 @@ export default function Layout({
 }: {
   children: React.ReactNode
 }) {
-  const setHasNewNotification = useNotificationStore((state) => state.setHasNewNotification);
+  const { currentUser } = useAuthStore();
+  const { setHasNewNotification } = useNotificationStore();
 
+  // Check new notifications when user logs in
   useEffect(() => {
-    const eventSource = new EventSource("http://localhost:8080/api/notifications/stream", {
-      withCredentials: true,
-    });
+    const fetchCountUnseenNotifications = async () => {
+      try {
+        const res = await axios.get<number>("http://localhost:8080/api/notifications/unseen/count", {
+          withCredentials: true,
+        });
+        if (res.data > 0) {
+          setHasNewNotification(true);
+        }
+      } catch {
+        // error handling
+      }
+    };
 
-    eventSource.onmessage = (event) => {
+    fetchCountUnseenNotifications();
+  }, [setHasNewNotification]);
+
+  // Check new notifications realtime with websocket
+  useEffect(() => {
+    if (!currentUser?.id) return;
+
+    const socket = new WebSocket(`ws://localhost:8080/api/ws/notifications?userId=${currentUser.id}`);
+
+    socket.onmessage = (event) => {
       if (event.data === "new_notification") {
         setHasNewNotification(true);
       }
     };
 
     return () => {
-      eventSource.close();
+      socket.close();
     };
-  }, [setHasNewNotification]);
+  }, [currentUser?.id]);
 
   return (
     <>
