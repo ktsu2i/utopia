@@ -53,4 +53,5 @@ func route(e *echo.Echo) {
 	api.DELETE("/messages/:id", handlers.DeleteMessage)
 	api.GET("/notifications", handlers.GetNotifications)
 	api.GET("/notifications/unseen/count", handlers.CountUnseenNotifications)
+	api.PATCH("/notifications/mark-as-seen", handlers.MarkAsSeen)
 }
