@@ -52,4 +52,5 @@ func route(e *echo.Echo) {
 	api.POST("/messages", handlers.CreateMessage)
 	api.DELETE("/messages/:id", handlers.DeleteMessage)
 	api.GET("/notifications", handlers.GetNotifications)
+	api.GET("/notifications/unseen/count", handlers.CountUnseenNotifications)
 }

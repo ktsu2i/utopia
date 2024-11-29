@@ -73,3 +73,19 @@ func GetNotifications(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, notifications)
 }
+
+func CountUnseenNotifications(c echo.Context) error {
+	userID, err := GetUserID(c)
+	if err != nil {
+		return c.JSON(http.StatusUnauthorized, map[string]string{"message": "Unauthorized"})
+	}
+
+	var count int64
+	if err := db.DB.Model(&models.Notification{}).
+		Where("receiver_id = ? AND is_seen = ?", userID, false).
+		Count(&count).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
+	}
+
+	return c.JSON(http.StatusOK, count)
+}
