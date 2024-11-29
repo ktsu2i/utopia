@@ -4,6 +4,7 @@ import { Bell, Home, Mail, Search, Settings, User } from "lucide-react";
 import { usePathname } from "next/navigation"
 import SidebarItem from "./SidebarItem";
 import UserInfo from "./UserInfo";
+import MobilePostButton from "../MobilePostButton";
 
 const SidebarRoutes = () => {
   const pathname = usePathname();
@@ -65,6 +66,7 @@ const SidebarRoutes = () => {
             active={route.active}
           />
         ))}
+        <MobilePostButton />
       </div>
       <div className="flex flex-col items-center lg:items-end">
         <UserInfo />

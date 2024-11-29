@@ -72,7 +72,7 @@ const MobilePostButton = () => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <div className="fixed bottom-16 right-4 w-14 h-14 p-0 rounded-full shadow-lg z-10 bg-utopia flex justify-center items-center md:hidden">
+        <div className="w-14 h-14 p-0 rounded-full shadow-lg z-10 bg-utopia flex justify-center items-center cursor-pointer lg:hidden">
           <Plus className="w-6 h-6 text-white" />
         </div>
       </DialogTrigger>
