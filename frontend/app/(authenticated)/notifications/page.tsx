@@ -11,13 +11,23 @@ import useNotificationStore from "@/stores/notificationStore";
 
 export default function Notifications() {
   const { isAuthenticated, currentUser } = useAuthStore();
-  const { hasNewNotification, setHasNewNotification } = useNotificationStore();
+  const { setHasNewNotification } = useNotificationStore();
 
+  // Mark notifications as seen
   useEffect(() => {
-    if (hasNewNotification) {
-      setHasNewNotification(false);
-    }
-  }, [hasNewNotification, setHasNewNotification]);
+    const markAsSeen = async () => {
+      try {
+        await axios.patch("http://localhost:8080/api/notifications/mark-as-seen", null, {
+          withCredentials: true,
+        });
+        setHasNewNotification(false);
+      } catch {
+        // error handling
+      }
+    };
+
+    markAsSeen();
+  }, [setHasNewNotification]);
 
   const getKey = (pageIndex: number, previousPageData: Notification[][]) => {
     if (previousPageData && !previousPageData.length) return null; // reaches the end
