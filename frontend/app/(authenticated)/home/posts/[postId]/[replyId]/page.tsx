@@ -1,13 +1,12 @@
 "use client";
 
-import PostItem from "@/components/PostItem";
 import ReplyItem from "@/components/ReplyItem";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
-import { Post, Reply } from "@/lib/types";
+import { Reply } from "@/lib/types";
 import useAuthStore from "@/stores/authStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";

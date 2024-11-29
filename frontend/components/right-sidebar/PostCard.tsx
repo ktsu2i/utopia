@@ -130,7 +130,7 @@ const PostCard = () => {
                 </form>
               </Form>
               {!isAppropriate && (
-                <Alert variant="destructive">
+                <Alert variant="destructive" className="mt-4">
                   <ExclamationTriangleIcon className="h-4 w-4" />
                   <AlertTitle className="font-semibold">Warning!</AlertTitle>
                   <AlertDescription>
