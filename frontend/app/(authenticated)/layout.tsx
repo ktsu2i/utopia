@@ -55,7 +55,9 @@ export default function Layout({
   return (
     <>
       <Sidebar />
-      <MobilePostButton />
+      <div className="fixed bottom-16 right-4 sm:hidden">
+        <MobilePostButton />
+      </div>
       <MobileNavbar />
       <RightSidebar />
       <main className="h-full md:px-[12.5%] lg:px-[33.3333%]">
