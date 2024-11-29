@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 interface NotificationStore {
   hasNewNotification: boolean;
-	setHasNewNotification: (hasNewNotification: boolean) => void;
+  setHasNewNotification: (hasNewNotification: boolean) => void;
 }
 
 const useNotificationStore = create<NotificationStore>((set) => ({
