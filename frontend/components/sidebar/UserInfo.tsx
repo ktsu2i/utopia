@@ -25,6 +25,10 @@ const UserInfo = () => {
     logout();
   };
 
+  if (!currentUser) {
+    return;
+  }
+
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
@@ -34,7 +38,7 @@ const UserInfo = () => {
         >
           <Avatar>
             <AvatarFallback>
-              {currentUser?.accountName?.substring(0, 1).toUpperCase()}
+              {currentUser.accountName.substring(0, 1).toUpperCase()}
             </AvatarFallback>
           </Avatar>
           <div className="hidden lg:flex lg:flex-col">
