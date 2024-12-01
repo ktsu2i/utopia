@@ -111,7 +111,7 @@ You can see your own profile and update your information here.
   <img width="500" alt="edit-profile" src="https://github.com/user-attachments/assets/14899bf9-19fd-4aab-95b5-9f0339d89b44">
 </p>
 
-Also, you can visit other user's profile.
+Also, you can visit other user's profile. You can follow or unfollow users here.
 
 <img width="500" alt="user-profile" src="https://github.com/user-attachments/assets/44cfab8e-cad4-45f6-bed4-32dac30474bb">
 
