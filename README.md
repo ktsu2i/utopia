@@ -209,7 +209,7 @@ Copy `.env.example` and add secret keys.
 cp .env.example .env
 ```
 
-If you are NOT using Apple Silicon, comment out this line.
+**If you are NOT using Apple Silicon, comment out this line.**
 
 ```yaml:compose.yaml
   db:
@@ -218,6 +218,8 @@ If you are NOT using Apple Silicon, comment out this line.
 ```
 
 ### 3. Build & run the app
+
+Depending on version of Docker Compose, you might want to use `docker-compose` instead of `docker compose`.
 
 ```
 docker compose up --build
@@ -254,14 +256,7 @@ Then, you will be able to use `utopia_dev` database and run any queries you want
 docker compose stop
 ```
 
-Run the following command to delete all the containers.
-But you will be required to build if you want to run the app again.
-
-```
-docker compose down
-```
-
-If you want to delete everything including volumes and start over, run these commands.
+If you want to start over, run these commands. But keep in mind that all the data in database will be reset.
 
 ```
 docker compose down -v
