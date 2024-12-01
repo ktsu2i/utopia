@@ -36,6 +36,129 @@ In today's society, many people use social media daily, often leading to negativ
 
 # For developers
 
+## File structures
+
+### Overview
+
+```
+.
+├── frontend
+├── backend
+├── .env.example
+├── .gitignore
+├── compose.yaml
+└── README.md
+```
+
+### Frontend
+
+```
+└── frontend
+     ├── app
+     │   ├── (auth)
+     │   │   ├── login
+     │   │   │   └── page.tsx
+     │   │   └── sign-up
+     │   │       └── page.tsx
+     │   ├── (authenticated)
+     │   │   ├── home
+     │   │   │   ├── page.tsx
+     │   │   │   └── posts
+     │   │   │       └── [postId]
+     │   │   │           ├── [replyId]
+     │   │   │           │   └── page.tsx
+     │   │   │           └── page.tsx
+     │   │   ├── layout.tsx
+     │   │   ├── messages
+     │   │   │   ├── [userId]
+     │   │   │   │   └── page.tsx
+     │   │   │   ├── _components
+     │   │   │   └── page.tsx
+     │   │   ├── notifications
+     │   │   │   ├── _components
+     │   │   │   └── page.tsx
+     │   │   ├── profile
+     │   │   │   ├── [userId]
+     │   │   │   │   └── page.tsx
+     │   │   │   ├── edit
+     │   │   │   │   └── page.tsx
+     │   │   │   └── page.tsx
+     │   │   ├── search
+     │   │   │   ├── _components
+     │   │   │   └── page.tsx
+     │   │   └── settings
+     │   │       └── page.tsx
+     │   ├── fonts
+     │   ├── globals.css
+     │   ├── layout.tsx
+     │   ├── loading.tsx
+     │   └── page.tsx
+     ├── components
+     │   ├── MobileHeader.tsx
+     │   ├── MobileNavbar.tsx
+     │   ├── MobilePostButton.tsx
+     │   ├── PostItem.tsx
+     │   ├── ReplyItem.tsx
+     │   ├── lp
+     │   ├── right-sidebar
+     │   ├── sidebar
+     │   └── ui                     // shadcn/ui
+     ├── components.json
+     ├── hooks
+     │   ├── useAuth.ts
+     │   └── useEmojis.ts
+     ├── lib
+     │   ├── types.ts
+     │   ├── utils.ts
+     │   └── validations.ts
+     ├── public
+     │   └── images
+     ├── stores                     // zustand
+     │   ├── authStore.ts
+     │   └── notificationStore.ts
+     └── Dockerfile
+```
+
+### Backend
+
+```
+└── backend
+     ├── db
+     │   └── db.go
+     ├── handlers              // All the handler functions 
+     │   ├── auth.go
+     │   ├── emoji.go
+     │   ├── follower.go
+     │   ├── groq.go
+     │   ├── message.go
+     │   ├── notification.go
+     │   ├── post.go
+     │   ├── reaction.go
+     │   ├── reply.go
+     │   ├── user.go
+     │   └── websocket.go
+     ├── migrations             // All SQL migration files
+     ├── models                 // All the defined structures
+     │   ├── auth.go
+     │   ├── emoji.go
+     │   ├── follower.go
+     │   ├── groq.go
+     │   ├── message.go
+     │   ├── notification.go
+     │   ├── post.go
+     │   ├── reaction.go
+     │   ├── reply.go
+     │   └── user.go
+     ├── .air.toml
+     ├── .gitignore
+     ├── dbconfig.yml
+     ├── Dockerfile
+     ├── go.mod
+     ├── go.sum
+     ├── main.go
+     └── route.go
+```
+
 ## Prerequisites
 
 To run this program, you need to have Docker and Docker Compose installed on your machine.
@@ -106,13 +229,6 @@ Once you build the app, you can run the app without `--build` option unless you 
 docker compose up
 ```
 
-You might want to need to run these commands to run with no cache after you start over everything.
-
-```
-docker compose build --no-cache
-docker compose up
-```
-
 ### Optional: How to go inside the container
 
 You may want to run some commands for MySQL CLI. Run this following command to go inside the MySQL container.
@@ -145,10 +261,12 @@ But you will be required to build if you want to run the app again.
 docker compose down
 ```
 
-If you want to delete everything including volumes, add `-v` option.
+If you want to delete everything including volumes and start over, run these commands.
 
 ```
 docker compose down -v
+docker compose build --no-cache
+docker compose up
 ```
 
 ## SQL migration
