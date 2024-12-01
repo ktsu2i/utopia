@@ -40,63 +40,49 @@ In today's society, many people use social media daily, often leading to negativ
 
 This landing page is for those who are new to Utopia. You can see brief explanation about Utopia.
 
-<p>
-  <img width="500" alt="lp1" src="https://github.com/user-attachments/assets/5f956fe7-13e4-4cf5-8c6e-1ca499cc70ff">
-  <img width="500" alt="lp2" src="https://github.com/user-attachments/assets/1e0848b0-d36c-4a0a-87bb-b5b51e126fb5">
-</p>
+<img width="800" alt="lp1" src="https://github.com/user-attachments/assets/5f956fe7-13e4-4cf5-8c6e-1ca499cc70ff">
+<img width="800" alt="lp2" src="https://github.com/user-attachments/assets/1e0848b0-d36c-4a0a-87bb-b5b51e126fb5">
 
 ### Sign up & Login
 
-<p>
-  <img width="500" alt="sign-up" src="https://github.com/user-attachments/assets/159bc203-1b36-4365-b839-0169c0f01ae4">
-  <img width="500" alt="login" src="https://github.com/user-attachments/assets/972b8e5e-db6e-4a43-8637-408fcbd33df2">
-</p>
+<img width="800" alt="sign-up" src="https://github.com/user-attachments/assets/159bc203-1b36-4365-b839-0169c0f01ae4">
+<img width="800" alt="login" src="https://github.com/user-attachments/assets/972b8e5e-db6e-4a43-8637-408fcbd33df2">
 
 ### Post, Reply, and Reactions
 
 You can post and reply like other social media. You can react to every post and reply.
 
-<p>
-  <img width="500" alt="post" src="https://github.com/user-attachments/assets/c918550f-bb81-433b-9fc1-b8d6ce35a7dc">
-  <img width="500" alt="reply" src="https://github.com/user-attachments/assets/a342a922-e342-46f7-9481-f3e55b352acc">
-</p>
+<img width="800" alt="post" src="https://github.com/user-attachments/assets/c918550f-bb81-433b-9fc1-b8d6ce35a7dc">
+<img width="800" alt="reply" src="https://github.com/user-attachments/assets/a342a922-e342-46f7-9481-f3e55b352acc">
 
 #### Utopia detects inappropriate content and does NOT allow users to post it.
 
 Utopia detects not only f-words but also offensive, sexual, and any inappropriate content.
 We ensure to provide the most peaceful place on the Internet.
 
-<p>
-  <img width="446" alt="bad-post" src="https://github.com/user-attachments/assets/6df92c9c-64ef-41ef-bbf7-b5c3d8776226">
-  <img width="598" alt="bad-reply" src="https://github.com/user-attachments/assets/7e6b765d-216a-453b-9086-47010d004ddb">
-</p>
+<img width="446" alt="bad-post" src="https://github.com/user-attachments/assets/6df92c9c-64ef-41ef-bbf7-b5c3d8776226">
+<img width="598" alt="bad-reply" src="https://github.com/user-attachments/assets/7e6b765d-216a-453b-9086-47010d004ddb">
 
 ### Search for Posts and Users
 
 You can search posts and users.
 
-<p>
-  <img width="500" alt="search-post" src="https://github.com/user-attachments/assets/f50b44cb-2679-4bf1-bd16-4bdd86e0ac08">
-  <img width="500" alt="search-user" src="https://github.com/user-attachments/assets/55bf8c0b-dc9c-422d-9dac-1e8caf0a2dd5">
-</p>
+<img width="800" alt="search-post" src="https://github.com/user-attachments/assets/f50b44cb-2679-4bf1-bd16-4bdd86e0ac08">
+<img width="800" alt="search-user" src="https://github.com/user-attachments/assets/55bf8c0b-dc9c-422d-9dac-1e8caf0a2dd5">
 
 ### Notifications
 
 When users do some actions such as follow, react, reply, or send a message, it sends a notification and displays a notification badge until you check the notifications.
 
-<p>
-  <img width="500" alt="notifications" src="https://github.com/user-attachments/assets/7d2d674f-95c7-4b7f-bd9a-45099de9ac59">
-  <img width="289" alt="notification-badge" src="https://github.com/user-attachments/assets/5ed1ee9b-fd66-4a7c-87b6-118eeffec646">
-</p>
+<img width="800" alt="notifications" src="https://github.com/user-attachments/assets/7d2d674f-95c7-4b7f-bd9a-45099de9ac59">
+<img width="289" alt="notification-badge" src="https://github.com/user-attachments/assets/5ed1ee9b-fd66-4a7c-87b6-118eeffec646">
 
 ### Direct Messages
 
 You can send messages directly to other users realtime.
 
-<p>
-  <img width="500" alt="dm" src="https://github.com/user-attachments/assets/2e0a5d6b-bda6-425f-8cf7-eedf1dc6906f">
-  <img width="500" alt="chat" src="https://github.com/user-attachments/assets/a15432af-8417-4993-b36b-4733457b64b0">
-</p>
+<img width="800" alt="dm" src="https://github.com/user-attachments/assets/2e0a5d6b-bda6-425f-8cf7-eedf1dc6906f">
+<img width="800" alt="chat" src="https://github.com/user-attachments/assets/a15432af-8417-4993-b36b-4733457b64b0">
 
 Of course, Utopia detects inappropriate content in DMs. 
 
@@ -106,14 +92,12 @@ Of course, Utopia detects inappropriate content in DMs.
 
 You can see your own profile and update your information here.
 
-<p>
-  <img width="500" alt="profile" src="https://github.com/user-attachments/assets/99d75d1b-c7b0-45b5-9c6b-67f94b8e9ff1">
-  <img width="500" alt="edit-profile" src="https://github.com/user-attachments/assets/14899bf9-19fd-4aab-95b5-9f0339d89b44">
-</p>
+<img width="800" alt="profile" src="https://github.com/user-attachments/assets/99d75d1b-c7b0-45b5-9c6b-67f94b8e9ff1">
+<img width="800" alt="edit-profile" src="https://github.com/user-attachments/assets/14899bf9-19fd-4aab-95b5-9f0339d89b44">
 
 Also, you can visit other user's profile. You can follow or unfollow users here.
 
-<img width="500" alt="user-profile" src="https://github.com/user-attachments/assets/44cfab8e-cad4-45f6-bed4-32dac30474bb">
+<img width="800" alt="user-profile" src="https://github.com/user-attachments/assets/44cfab8e-cad4-45f6-bed4-32dac30474bb">
 
 Again, you are not allowed to add any inappropriate content in Utopia.
 
@@ -123,16 +107,19 @@ Again, you are not allowed to add any inappropriate content in Utopia.
 
 Settings feature is coming soon...
 
-<img width="500" alt="settings" src="https://github.com/user-attachments/assets/f0c134a8-95ca-45bd-bb64-b13833b5866e">
+<img width="800" alt="settings" src="https://github.com/user-attachments/assets/f0c134a8-95ca-45bd-bb64-b13833b5866e">
 
 ### Responsive Design
 
 Utopia provides you responsive design for multiple devices such as tablets and smartphones.
 
-<p>
-  <img width="600" alt="tablet" src="https://github.com/user-attachments/assets/a1cbb172-2b91-4747-80a0-2e20a4eb3049">
-  <img width="400" alt="phone" src="https://github.com/user-attachments/assets/60f17246-eccc-436b-98ed-51adf8017f8d">
-</p>
+#### Tablets
+
+<img width="600" alt="tablet" src="https://github.com/user-attachments/assets/a1cbb172-2b91-4747-80a0-2e20a4eb3049">
+
+#### Smartphones
+
+<img width="400" alt="phone" src="https://github.com/user-attachments/assets/60f17246-eccc-436b-98ed-51adf8017f8d">
 
 # For developers
 
