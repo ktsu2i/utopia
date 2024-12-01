@@ -61,7 +61,7 @@ You can post and reply like other social media. You can react to every post and 
   <img width="500" alt="reply" src="https://github.com/user-attachments/assets/a342a922-e342-46f7-9481-f3e55b352acc">
 </p>
 
-#### Utopia detects inappropriate content like these and does NOT allow users to post it.
+#### Utopia detects inappropriate content and does NOT allow users to post it.
 
 Utopia detects not only f-words but also offensive, sexual, and any inappropriate content.
 We ensure to provide the most peaceful place on the Internet.
