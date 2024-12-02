@@ -34,6 +34,11 @@ In today's society, many people use social media daily, often leading to negativ
   - Docker
   - Docker Compose
 
+### Attribution
+
+- **shadcn/ui**: https://ui.shadcn.com/
+- **Groq**: https://groq.com/
+
 ## Features
 
 ### LP
@@ -139,6 +144,13 @@ Utopia provides you responsive design for multiple devices such as tablets and s
 
 ### Frontend
 
+Under `/app` directory, all the directories are routes. However, it ignores directories with parenthesis. For example, if you visit `/frontend/app/login/page.tsx`, the route would be `https://example.com/login` or `http://localhost:3000/login` in development.
+
+> Next.js (app router) uses a file-system based router where folders are used to define routes.
+> Each folder represents a route segment that maps to a URL segment. To create a nested route, you can nest folders inside each other.
+> 
+> Source: https://nextjs.org/docs/app/building-your-application/routing/defining-routes
+
 ```
 └── frontend
      ├── app
@@ -207,6 +219,8 @@ Utopia provides you responsive design for multiple devices such as tablets and s
 ```
 
 ### Backend
+
+`route.go` is the place where all APIs are defined.
 
 ```
 └── backend
@@ -286,6 +300,7 @@ docker compose version
 
 ```
 git clone https://github.com/ktsu2i/utopia.git
+cd utopia
 ```
 
 ### 2. Setup
@@ -296,7 +311,8 @@ Copy `.env.example` and add secret keys.
 cp .env.example .env
 ```
 
-**If you are NOT using Apple Silicon, comment out this line.**
+> [!WARNING]
+> If you are NOT using Apple Silicon, comment out this line.
 
 ```yaml:compose.yaml
   db:
@@ -318,12 +334,14 @@ Once you build the app, you can run the app without `--build` option unless you 
 docker compose up
 ```
 
+Once the container is up, you can go to `http://localhost:3000` and either sign up or login with your account.
+
 ### Optional: How to go inside the container
 
 You may want to run some commands for MySQL CLI. Run this following command to go inside the MySQL container.
 
 ```
-docker exec -it utopia_db mysql -u <username> -p
+docker exec -it utopia_db mysql -u root -p
 ```
 
 After you type the password, you will get to the inside the container and run any commands you want.
@@ -335,7 +353,7 @@ use utopia_dev;
 
 Then, you will be able to use `utopia_dev` database and run any queries you want.
 
-<img width="937" alt="mysql query" src="https://github.com/user-attachments/assets/74301e20-d163-4f9f-aa82-1d1df1452061">
+<img width="1112" alt="mysql query" src="https://github.com/user-attachments/assets/98240961-3d83-41d5-87e2-bdbae9932046">
 
 ### 3. Stop the containers
 
