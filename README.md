@@ -353,7 +353,7 @@ use utopia_dev;
 
 Then, you will be able to use `utopia_dev` database and run any queries you want.
 
-<img width="937" alt="mysql query" src="https://github.com/user-attachments/assets/74301e20-d163-4f9f-aa82-1d1df1452061">
+<img width="1112" alt="mysql query" src="https://github.com/user-attachments/assets/98240961-3d83-41d5-87e2-bdbae9932046">
 
 ### 3. Stop the containers
 
