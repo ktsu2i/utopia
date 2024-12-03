@@ -15,6 +15,7 @@ import { Button } from "../ui/button";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import useAuthStore from "@/stores/authStore";
+import { useShortcutKey } from "@/hooks/useShortcutKey";
 
 const PostSchema = z.object({
   content: z
@@ -27,21 +28,9 @@ const PostSchema = z.object({
 const PostCard = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isAppropriate, setIsAppropriate] = useState(true);
-  const [shortcutKey, setShortcutKey] = useState("");
 
   const { currentUser } = useAuthStore();
-
-  useEffect(() => {
-    const userAgent = navigator.userAgent;
-
-    if (userAgent.includes("Win") || userAgent.includes("Linux")) {
-      setShortcutKey("Shift + Enter");
-    } else if (userAgent.includes("Mac")) {
-      setShortcutKey("Shift + Return");
-    } else {
-      setShortcutKey("");
-    }
-  }, []);
+  const { shortcutKey } = useShortcutKey();
 
   const form = useForm<z.infer<typeof PostSchema>>({
     resolver: zodResolver(PostSchema),
