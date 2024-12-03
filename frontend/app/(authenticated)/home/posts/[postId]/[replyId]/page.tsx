@@ -4,8 +4,9 @@ import ReplyItem from "@/components/ReplyItem";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
+import { useShortcutKey } from "@/hooks/useShortcutKey";
 import { Reply } from "@/lib/types";
 import useAuthStore from "@/stores/authStore";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -32,6 +33,7 @@ const ReplySchema = z.object({
 export default function ReplyDetails() {
   const { postId, replyId } = useParams();
   const { currentUser } = useAuthStore();
+  const { shortcutKey } = useShortcutKey();
   const [parentReply, setParentReply] = useState<Reply | null>(null);
   const [reply, setReply] = useState<Reply | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -189,11 +191,14 @@ export default function ReplyDetails() {
                           variant="ghost"
                           size="sm"
                           className="rounded-full w-8 h-8 p-1 hover:text-utopia hover:bg-utopia_light"
-                        >
+                          >
                           <Send className="h-5 w-5" />
                           <span className="sr-only">Reply</span>
                         </Button>
                       </div>
+                      <FormDescription>
+                        {shortcutKey + " to add a new line"}
+                      </FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
