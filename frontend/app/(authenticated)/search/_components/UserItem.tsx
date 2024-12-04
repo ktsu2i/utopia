@@ -4,10 +4,8 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { User } from "@/lib/types";
 import useAuthStore from "@/stores/authStore";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import toast from "react-hot-toast";
 
 interface UserItemProps {
   user: User;
