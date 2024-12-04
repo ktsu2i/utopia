@@ -1,6 +1,6 @@
 "use client";
 
-import { Bot, Heart, Lock, MessageCircle, Shield, Sparkles, User, Users } from "lucide-react";
+import { Bot, Heart, Shield, Sparkles, User, Users } from "lucide-react";
 import FeatureCard from "./FeatureCard";
 
 const features = [

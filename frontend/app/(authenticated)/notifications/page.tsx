@@ -3,7 +3,7 @@
 import { Notification } from "@/lib/types";
 import useAuthStore from "@/stores/authStore";
 import axios from "axios";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import useSWRInfinite from "swr/infinite";
 import NotificationItem from "./_components/NotificationItem";
